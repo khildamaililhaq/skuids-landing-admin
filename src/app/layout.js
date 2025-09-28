@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata = {
   title: "Happy Jasmine - Teh Tarik Premium & Teh Bahagia | Teh Tarik Berasa",
   description: "Temukan Teh Tarik Indonesia asal Bekasi, Teh Tarik Malaysia asli, Teh Bahagia premium, dan berbagai Minuman Greentea Kemasan, Minuman Rasa Kemasan di Happy Jasmine. Rasakan perpaduan sempurna antara tradisi dan cita rasa dengan Teh Tarik Berasa signature kami.",
-  keywords: "happytea, happy jasmine, teh tarik, teh tarik berasa, teh malaysia, teh premium, teh tarik asli, Teh Tarik Indonesia, Tah Tarik Cup, teh Tarik, Minuman Greentea Kemasan, Minuman Rasa Kemasan, Minuman Thattea Kemasan, Minuman Coklat Kemasan, happyjasmine, happy tea",
+  keywords: "happytea, happy jasmine, teh tarik, teh tarik berasa, teh malaysia, teh premium, teh tarik asli, Teh Tarik Indonesia, Tah Tarik Cup, teh Tarik, Minuman Greentea Kemasan, Minuman Rasa Kemasan, Minuman Thattea Kemasan, Minuman Coklat Kemasan, happyjasmine, happy tea, happy tea jasmine, happyteajasmine",
   authors: [{ name: "Happy Jasmine" }],
   creator: "Happy Jasmine",
   publisher: "Happy Jasmine",
