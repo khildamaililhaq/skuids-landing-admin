@@ -53,6 +53,11 @@ const getDefaultContent = () => ({
     secondButtonUrl: '/locations',
     backgroundImage: '/hero-bg.jpg',
     backgroundVideo: '',
+    heroImages: [
+      '/campaigns/slider2.png',
+      '/campaigns/slider1.jpeg',
+      '/window.svg'
+    ],
     campaigns: [
       { id: 1, image: '/campaigns/slider2.png', title: 'Welcome Campaign', subtitle: 'Transform your business with our innovative solutions', buttonText: 'Learn More', buttonUrl: '' },
     ],
@@ -411,13 +416,67 @@ export const getVisitCount = async (pageType = 'landing') => {
 };
 
 export const incrementVisitCount = async (pageType = 'landing') => {
- try {
-   const { data, error } = await supabase.rpc('increment_visit_count', { page_type_param: pageType });
-   if (error) return { success: false, error: error.message };
-   return { success: true, count: data };
- } catch (err) {
-   return { success: false, error: err.message };
- }
+  try {
+    const { data, error } = await supabase.rpc('increment_visit_count', { page_type_param: pageType });
+    if (error) return { success: false, error: error.message };
+    return { success: true, count: data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+// Partners CRUD operations
+export const getPartners = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('partners')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) return { success: false, error: error.message };
+    return { success: true, data: data || [] };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getPartnerById = async (id) => {
+  try {
+    const { data, error } = await supabase.from('partners').select('*').eq('id', id).single();
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const createPartner = async (partner) => {
+  try {
+    const { data, error } = await supabase.from('partners').insert(partner).select().single();
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const updatePartner = async (id, updates) => {
+  try {
+    const { data, error } = await supabase.from('partners').update(updates).eq('id', id).select().single();
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const deletePartner = async (id) => {
+  try {
+    const { error } = await supabase.from('partners').delete().eq('id', id);
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
 };
 
 export default supabase;

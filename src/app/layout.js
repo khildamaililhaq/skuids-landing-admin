@@ -1,20 +1,21 @@
 import ClientThemeProvider from '../components/ThemeProvider';
 import PageTransition from '../components/PageTransition';
+import { LanguageProvider } from '../utils/i18n';
 import "./globals.css";
 
 export const metadata = {
-  title: "Happy Jasmine - Teh Tarik Premium & Teh Bahagia | Teh Tarik Berasa",
-  description: "Temukan Teh Tarik Indonesia asal Bekasi, Teh Tarik Malaysia asli, Teh Bahagia premium, dan berbagai Minuman Greentea Kemasan, Minuman Rasa Kemasan di Happy Jasmine. Rasakan perpaduan sempurna antara tradisi dan cita rasa dengan Teh Tarik Berasa signature kami.",
-  keywords: "happytea, happy jasmine, teh tarik, teh tarik berasa, teh malaysia, teh premium, teh tarik asli, Teh Tarik Indonesia, Tah Tarik Cup, teh Tarik, Minuman Greentea Kemasan, Minuman Rasa Kemasan, Minuman Thattea Kemasan, Minuman Coklat Kemasan, happyjasmine, happy tea, happy tea jasmine, happyteajasmine",
-  authors: [{ name: "Happy Jasmine" }],
-  creator: "Happy Jasmine",
-  publisher: "Happy Jasmine",
+  title: "Skuids - Live Streaming Host Recruitment Agency",
+  description: "Skuids recruits professional live streaming hosts for official partners Chamet and Poppo. Join our network of talented hosts and elevate your streaming career.",
+  keywords: "live streaming hosts, host recruitment, Chamet hosts, Poppo hosts, streaming talent, live broadcast hosts, professional hosts",
+  authors: [{ name: "Skuids" }],
+  creator: "Skuids",
+  publisher: "Skuids",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://happyjasmine.co'),
+  metadataBase: new URL('https://skuids.live'),
   alternates: {
     canonical: '/',
   },
@@ -24,16 +25,16 @@ export const metadata = {
     apple: '/favicon.ico',
   },
   openGraph: {
-    title: "Happy Jasmine - Teh Tarik Premium & Teh Bahagia",
-    description: "Rasakan Teh Tarik Indonesia asal Bekasi, Teh Tarik Malaysia asli, Teh Bahagia premium, dan berbagai Minuman Greentea Kemasan di Happy Jasmine. Perpaduan sempurna antara tradisi dan cita rasa.",
-    url: "https://happyjasmine.co",
-    siteName: "Happy Jasmine",
+    title: "Skuids - Live Streaming Host Recruitment Agency",
+    description: "Skuids recruits professional live streaming hosts for official partners Chamet and Poppo. Join our network of talented hosts and elevate your streaming career.",
+    url: "https://skuids.live",
+    siteName: "Skuids",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Happy Jasmine - Teh Tarik Premium & Teh Bahagia",
+        alt: "Skuids - Live Streaming Host Recruitment Agency",
       },
     ],
     locale: "id_ID",
@@ -41,8 +42,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Happy Jasmine - Teh Tarik Premium & Teh Bahagia",
-    description: "Rasakan Teh Tarik Indonesia asal Bekasi, Teh Tarik Malaysia asli, Teh Bahagia premium, dan berbagai Minuman Greentea Kemasan di Happy Jasmine.",
+    title: "Skuids - Live Streaming Host Recruitment Agency",
+    description: "Skuids recruits professional live streaming hosts for official partners Chamet and Poppo. Join our network of talented hosts and elevate your streaming career.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -69,43 +70,43 @@ export default function RootLayout({ children }) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Happy Jasmine",
-    "description": "Produsen Teh Tarik Indonesia asal Bekasi, Teh Tarik premium, Teh Bahagia, dan berbagai Minuman Greentea Kemasan, Minuman Rasa Kemasan",
-    "url": "https://happyjasmine.co",
-    "logo": "https://happyjasmine.co/logo.svg",
-    "image": "https://happyjasmine.co/og-image.jpg",
+    "name": "Skuids",
+    "description": "Live streaming host recruitment agency partnering with Chamet and Poppo to provide professional hosting services for online platforms.",
+    "url": "https://skuids.live",
+    "logo": "https://skuids.live/logo.svg",
+    "image": "https://skuids.live/og-image.jpg",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Bekasi",
+      "addressLocality": "Jakarta",
       "addressCountry": "Indonesia"
     },
     "sameAs": [
-      "https://www.facebook.com/happyjasmine",
-      "https://www.instagram.com/happyjasmine"
+      "https://www.facebook.com/skuids",
+      "https://www.instagram.com/skuids"
     ],
     "makesOffer": [
       {
         "@type": "Offer",
         "itemOffered": {
-          "@type": "Product",
-          "name": "Teh Tarik Indonesia",
-          "description": "Teh Tarik asli dengan cita rasa Indonesia"
+          "@type": "Service",
+          "name": "Host Recruitment",
+          "description": "Recruiting professional live streaming hosts for Chamet and Poppo"
         }
       },
       {
         "@type": "Offer",
         "itemOffered": {
-          "@type": "Product",
-          "name": "Minuman Greentea Kemasan",
-          "description": "Minuman greentea kemasan premium"
+          "@type": "Service",
+          "name": "Streaming Talent Management",
+          "description": "Managing and training live streaming talent"
         }
       },
       {
         "@type": "Offer",
         "itemOffered": {
-          "@type": "Product",
-          "name": "Minuman Coklat Kemasan",
-          "description": "Minuman coklat kemasan berkualitas"
+          "@type": "Service",
+          "name": "Partner Host Services",
+          "description": "Providing hosts for official partners Chamet and Poppo"
         }
       }
     ]
@@ -125,11 +126,13 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body suppressHydrationWarning={true}>
-        <ClientThemeProvider>
-          <PageTransition>
-            {children}
-          </PageTransition>
-        </ClientThemeProvider>
+        <LanguageProvider>
+          <ClientThemeProvider>
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </ClientThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -1,89 +1,74 @@
 {
   "hero": {
-    "title": "Happy Jasmine - Teh Tarik Premium & Teh Bahagia",
-    "subtitle": "Rasakan Teh Tarik Berasa Malaysia asli dan Teh Bahagia premium di Happy Jasmine. Temukan perpaduan sempurna antara tradisi dan rasa.",
-    "buttonText": "Pesan Sekarang",
+    "title": "Digital Marketing Agency - Transform Your Business Online",
+    "subtitle": "We help businesses grow through strategic digital marketing solutions. From SEO to social media, we deliver results that drive revenue and build brand authority.",
+    "buttonText": "Get Started",
     "backgroundImage": "/hero-bg.jpg",
-    "imageSlider": [
-      {
-        "id": 1,
-        "image": "/campaigns/slider2.png",
-        "title": "Teh Tarik Asli",
-        "subtitle": "Rasakan Teh Tarik Berasa yang sempurna dengan teknik penyajian Malaysia tradisional kami"
-      },
-      {
-        "id": 2,
-        "image": "/campaigns/slider1.jpeg",
-        "title": "Koleksi Teh Bahagia",
-        "subtitle": "Temukan jajaran Teh Bahagia premium kami, dibuat untuk pengalaman teh yang sempurna"
-      },
-      {
-        "id": 3,
-        "image": "/window.svg",
-        "title": "Tradisi Happy Jasmine",
-        "subtitle": "Membawa Teh Tarik dan Teh Bahagia terbaik sejak pendirian kami"
-      }
+    "heroImages": [
+      "/campaigns/slider2.png",
+      "/campaigns/slider1.jpeg",
+      "/window.svg"
     ]
   },
   "features": {
-    "title": "Minuman Signature Happy Jasmine",
-    "description": "Rasakan Teh Tarik premium dan koleksi Teh Bahagia kami, dibuat dengan rasa Malaysia asli",
-    "content": "Di Happy Jasmine, kami percaya bahwa setiap cangkir teh adalah sebuah cerita. Teh Tarik Berasa kami dibuat dengan teknik penyajian tradisional Malaysia, menghasilkan busa sempurna dan rasa yang kaya. Koleksi Teh Bahagia premium kami menawarkan berbagai varian rasa yang menyegarkan, semuanya dibuat dari bahan-bahan berkualitas tinggi yang dipilih dengan hati-hati.",
+    "title": "Our Digital Marketing Services",
+    "description": "Comprehensive digital marketing solutions to grow your business online",
+    "content": "We specialize in data-driven digital marketing strategies that deliver measurable results. From search engine optimization to social media marketing, content creation to paid advertising, we help businesses establish a strong online presence and achieve their growth objectives.",
     "image": "/products/WhatsApp Image 2025-08-18 at 16.45.48.jpeg",
     "imageWidth": 50
   },
   "products": [
     {
       "id": 1,
-      "name": "Teh Tarik Klasik",
-      "description": "Teh Tarik Berasa Malaysia asli dengan busa sempurna dan teknik penyajian tradisional",
+      "name": "SEO Optimization",
+      "description": "Comprehensive search engine optimization to improve your website's visibility and organic rankings",
       "image": "/products/WhatsApp Image 2025-08-18 at 16.45.48.jpeg",
-      "price": "RM 8.50"
+      "price": "Starting from $999/month"
     },
     {
       "id": 2,
-      "name": "Teh Bahagia Hijau",
-      "description": "Campuran teh hijau Teh Bahagia premium dengan rasa menyegarkan dan aroma yang harum",
+      "name": "Social Media Marketing",
+      "description": "Strategic social media campaigns across all platforms to build engagement and drive conversions",
       "image": "/products/WhatsApp Image 2025-08-18 at 16.42.28 (2).jpeg",
-      "price": "RM 9.50"
+      "price": "Starting from $799/month"
     },
     {
       "id": 3,
-      "name": "Teh Tarik Special",
-      "description": "Teh Tarik Berasa signature dengan bahan khusus untuk pengalaman rasa yang ditingkatkan",
+      "name": "PPC Advertising",
+      "description": "Targeted pay-per-click campaigns on Google Ads and social media platforms for immediate results",
       "image": "/products/WhatsApp Image 2025-08-18 at 16.42.28 (1).jpeg",
-      "price": "RM 10.50"
+      "price": "Starting from $599/month"
     },
     {
       "id": 4,
-      "name": "Campuran Happy Jasmine",
-      "description": "Campuran Teh Bahagia eksklusif kami yang menampilkan daun teh jasmine premium yang diinfus",
+      "name": "Content Marketing",
+      "description": "Professional content creation and distribution strategies to establish thought leadership",
       "image": "/products/WhatsApp Image 2025-08-18 at 16.42.28.jpeg",
-      "price": "RM 11.50"
+      "price": "Starting from $899/month"
     },
     {
       "id": 5,
-      "name": "Teh Tarik Supreme",
-      "description": "Pengalaman Teh Tarik Berasa tertinggi dengan bahan terbaik dan teknik sempurna",
+      "name": "Digital Strategy",
+      "description": "Complete digital marketing strategy development and implementation for long-term growth",
       "image": "/products/WhatsApp Image 2025-08-18 at 16.42.27.jpeg",
-      "price": "RM 12.50"
+      "price": "Starting from $1,499/month"
     }
   ],
   "about": {
-    "title": "Tentang Happy Jasmine",
-    "description": "Happy Jasmine adalah destinasi utama Anda untuk Teh Tarik Malaysia asli dan Teh Bahagia premium. Kami bangga menyajikan Teh Tarik Berasa yang sempurna dengan teknik penyajian tradisional yang diwariskan dari generasi ke generasi. Komitmen kami terhadap kualitas dan rasa asli membuat kami menjadi tempat utama bagi pecinta teh yang mencari pengalaman teh Malaysia yang asli.",
+    "title": "About Our Digital Marketing Agency",
+    "description": "We are a full-service digital marketing agency dedicated to helping businesses succeed in the digital landscape. With years of experience and a team of certified experts, we deliver customized strategies that drive real results. Our data-driven approach ensures every campaign is optimized for maximum ROI and sustainable growth.",
     "image": "/about-image.jpg"
   },
   "contact": {
-    "title": "Kunjungi Happy Jasmine",
-    "description": "Siap merasakan Teh Tarik Berasa asli dan Teh Bahagia premium? Kunjungi kami hari ini dan temukan mengapa Happy Jasmine adalah destinasi utama bagi pecinta teh Malaysia!",
-    "email": "hello@happyjasmine.com",
-    "phone": "+60 12 345 6789",
-    "address": "Happy Jasmine Tea House, Kuala Lumpur, Malaysia",
-    "facebook": "https://facebook.com/happyjasmine",
-    "instagram": "https://instagram.com/happyjasmine",
-    "whatsapp": "60123456789",
-    "tiktok": "https://tiktok.com/@happyjasmine",
-    "youtube": "https://youtube.com/happyjasmine"
+    "title": "Get In Touch",
+    "description": "Ready to transform your digital presence? Contact us today to discuss your marketing goals and discover how we can help your business grow online!",
+    "email": "hello@digitalagency.com",
+    "phone": "+1 (555) 123-4567",
+    "address": "123 Digital Street, Tech City, USA",
+    "facebook": "https://facebook.com/digitalagency",
+    "instagram": "https://instagram.com/digitalagency",
+    "whatsapp": "15551234567",
+    "tiktok": "https://tiktok.com/@digitalagency",
+    "youtube": "https://youtube.com/digitalagency"
   }
 }

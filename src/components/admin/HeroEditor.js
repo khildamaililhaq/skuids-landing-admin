@@ -181,6 +181,200 @@ export default function HeroEditor({ content, setContent, onError, onUploadNotic
           </Typography>
         </Grid>
 
+        {/* Image Background Section */}
+        <Grid item xs={12}>
+          <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>Image Background</Typography>
+          <Box sx={{ mb: 3, p: 2, border: '1px solid rgba(0, 95, 115, 0.2)', borderRadius: 1, backgroundColor: 'background.default' }}>
+            <Typography variant="subtitle2" sx={{ mb: 2, color: 'text.secondary' }}>Background Image Preview:</Typography>
+            {hero?.backgroundImage ? (
+              <Box sx={{ height: 200, backgroundImage: `url(${hero.backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                <Box sx={{ backgroundColor: 'rgba(0,0,0,0.7)', color: 'white', p: 2, borderRadius: 1, textAlign: 'center' }}>
+                  <Typography variant="body2">Image Background Set</Typography>
+                </Box>
+              </Box>
+            ) : (
+              <Box sx={{ height: 200, backgroundColor: 'grey.200', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Typography variant="body2" color="text.secondary">No image background set</Typography>
+              </Box>
+            )}
+          </Box>
+
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} md={8}>
+              <TextField
+                fullWidth
+                label="Image URL"
+                value={hero?.backgroundImage || ''}
+                onChange={(e) => setContent({ ...content, hero: { ...hero, backgroundImage: e.target.value } })}
+                placeholder="https://example.com/background-image.jpg"
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <input
+                type="file"
+                id="hero-image-upload"
+                style={{ display: 'none' }}
+                accept="image/*"
+                onChange={async (e) => {
+                  const inputEl = e.target;
+                  const file = inputEl.files?.[0];
+                  if (file) {
+                    try {
+                      setUploadingIndex('image');
+                      const upload = await uploadFileToStorage(file, 'images');
+                      if (upload.success) {
+                        setContent({ ...content, hero: { ...hero, backgroundImage: upload.url } });
+                        onUploadNotice && onUploadNotice('Image uploaded successfully');
+                      } else {
+                        onError && onError(upload.error || 'Failed to upload image');
+                      }
+                    } catch (err) {
+                      onError && onError('Failed to upload image');
+                    } finally {
+                      setUploadingIndex(null);
+                    }
+                  }
+                  inputEl.value = '';
+                }}
+              />
+              <label htmlFor="hero-image-upload">
+                <Button
+                  component="span"
+                  variant="outlined"
+                  fullWidth
+                  disabled={uploadingIndex === 'image'}
+                >
+                  {uploadingIndex === 'image' ? 'Uploading...' : 'Upload Image'}
+                </Button>
+              </label>
+            </Grid>
+          </Grid>
+          <Typography variant="caption" sx={{ mt: 1, color: 'text.secondary' }}>
+            Supported formats: JPG, PNG, WebP. Image will be displayed as full background with overlay text.
+          </Typography>
+        </Grid>
+
+        {/* Hero Images Section */}
+        <Grid item xs={12}>
+          <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>Hero Images Slider</Typography>
+
+          <Box sx={{ mb: 3, p: 2, border: '1px solid rgba(0, 95, 115, 0.2)', borderRadius: 1, backgroundColor: 'background.default' }}>
+            <Typography variant="subtitle2" sx={{ mb: 2, color: 'text.secondary' }}>Hero Images Preview:</Typography>
+            {hero?.heroImages && hero.heroImages.length > 0 ? (
+              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                {hero.heroImages.map((img, idx) => (
+                  <Box key={idx} sx={{ width: 100, height: 60, backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center', borderRadius: 1, border: '1px solid rgba(0,0,0,0.1)' }} />
+                ))}
+              </Box>
+            ) : (
+              <Typography variant="body2" color="text.secondary">No hero images set</Typography>
+            )}
+          </Box>
+
+          {hero?.heroImages && hero.heroImages.map((image, index) => (
+            <Paper key={index} sx={{ p: 2, mb: 2, border: '1px solid rgba(0, 95, 115, 0.2)' }}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} md={8}>
+                  <TextField
+                    fullWidth
+                    label={`Hero Image ${index + 1} URL`}
+                    value={image || ''}
+                    onChange={(e) => {
+                      const newImages = [...(hero.heroImages || [])];
+                      newImages[index] = e.target.value;
+                      setContent({ ...content, hero: { ...hero, heroImages: newImages } });
+                    }}
+                    placeholder="https://example.com/hero-image.jpg"
+                  />
+                  <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+                    <input
+                      type="file"
+                      id={`hero-image-${index}`}
+                      style={{ display: 'none' }}
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const inputEl = e.target;
+                        const file = inputEl.files?.[0];
+                        if (file) {
+                          try {
+                            setUploadingIndex(`hero-${index}`);
+                            const upload = await uploadFileToStorage(file, 'images');
+                            if (upload.success) {
+                              const newImages = [...(hero.heroImages || [])];
+                              newImages[index] = upload.url;
+                              setContent({ ...content, hero: { ...hero, heroImages: newImages } });
+                              onUploadNotice && onUploadNotice('Hero image uploaded');
+                            } else {
+                              onError && onError(upload.error || 'Failed to upload image');
+                            }
+                          } catch (err) {
+                            onError && onError('Failed to upload image');
+                          } finally {
+                            setUploadingIndex(null);
+                          }
+                        }
+                        inputEl.value = '';
+                      }}
+                    />
+                    <label htmlFor={`hero-image-${index}`}>
+                      <Button component="span" variant="outlined" size="small" disabled={uploadingIndex === `hero-${index}`}>
+                        {uploadingIndex === `hero-${index}` ? 'Uploading...' : 'Upload Image'}
+                      </Button>
+                    </label>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Button variant="outlined" color="error" onClick={() => {
+                    const newImages = hero.heroImages.filter((_, i) => i !== index);
+                    setContent({ ...content, hero: { ...hero, heroImages: newImages } });
+                  }}>Remove</Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          ))}
+          <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
+            <Button variant="outlined" onClick={() => {
+              const newImages = [...(hero.heroImages || []), ''];
+              setContent({ ...content, hero: { ...hero, heroImages: newImages } });
+            }}>Add Hero Image</Button>
+            <input
+              type="file"
+              id="hero-images-multiple"
+              style={{ display: 'none' }}
+              accept="image/*"
+              multiple
+              onChange={async (e) => {
+                const inputEl = e.target;
+                const files = Array.from(inputEl.files || []);
+                if (files.length > 0) {
+                  try {
+                    setUploadingIndex('multiple-hero');
+                    const uploadPromises = files.map(file => uploadFileToStorage(file, 'images'));
+                    const results = await Promise.all(uploadPromises);
+                    const successfulUploads = results.filter(result => result.success).map(result => result.url);
+                    const newImages = [...(hero.heroImages || []), ...successfulUploads];
+                    setContent({ ...content, hero: { ...hero, heroImages: newImages } });
+                    onUploadNotice && onUploadNotice(`${successfulUploads.length} hero images uploaded`);
+                    if (results.some(result => !result.success)) {
+                      onError && onError('Some images failed to upload');
+                    }
+                  } catch (err) {
+                    onError && onError('Failed to upload images');
+                  } finally {
+                    setUploadingIndex(null);
+                  }
+                }
+                inputEl.value = '';
+              }}
+            />
+            <label htmlFor="hero-images-multiple">
+              <Button component="span" variant="outlined" disabled={uploadingIndex === 'multiple-hero'}>
+                {uploadingIndex === 'multiple-hero' ? 'Uploading...' : 'Upload Multiple Images'}
+              </Button>
+            </label>
+          </Box>
+        </Grid>
+
         <Grid item xs={12}>
           <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>Campaign Section</Typography>
 

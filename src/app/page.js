@@ -85,14 +85,14 @@ export default function Home() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
+      <Box sx={{ minHeight: '100vh', backgroundColor: 'secondary.main', paddingTop: '80px' }}>
         {/* Header with Logo */}
         <Header />
 
         {/* Page Sections */}
         <HeroSection heroData={content?.hero} />
-        <ProductsFeaturesSection features={content?.features} />
-        <CampaignSection campaigns={content?.hero?.campaigns} />
+        {/* <ProductsFeaturesSection features={content?.features} /> */}
+        {/* <CampaignSection campaigns={content?.hero?.campaigns} /> */}
 
         {/* Footer */}
         <Footer contactData={content?.contact} />

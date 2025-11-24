@@ -1,4 +1,5 @@
 import { Box, Typography, Grid, Card, CardContent, CardMedia } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 
 export default function ProductGrid({
@@ -7,6 +8,7 @@ export default function ProductGrid({
   categories,
   sidebarWidth = 280
 }) {
+  const theme = useTheme();
   const router = useRouter();
 
   return (
@@ -17,7 +19,7 @@ export default function ProductGrid({
           <Typography
             variant="body2"
             sx={{
-              color: '#666',
+              color: theme.palette.text.secondary,
               fontWeight: 500,
               fontSize: '0.9rem'
             }}
@@ -34,7 +36,7 @@ export default function ProductGrid({
             <Card
               sx={{
                 cursor: 'pointer',
-                border: '1px solid #e8e8e8',
+                border: `1px solid ${theme.palette.grey[300]}`,
                 borderRadius: 2,
                 overflow: 'hidden',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -42,7 +44,7 @@ export default function ProductGrid({
                 '&:hover': {
                   boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
                   transform: 'translateY(-2px)',
-                  borderColor: '#d0d0d0'
+                  borderColor: theme.palette.grey[400]
                 }
               }}
               onClick={() => router.push(`/products/${product.id}`)}
@@ -50,7 +52,7 @@ export default function ProductGrid({
               {/* Image */}
               <Box sx={{
                 height: 240,
-                bgcolor: '#fafafa',
+                bgcolor: theme.palette.background.default,
                 position: 'relative',
                 overflow: 'hidden'
               }}>
@@ -77,13 +79,13 @@ export default function ProductGrid({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#999',
+                    color: theme.palette.grey[500],
                     flexDirection: 'column'
                   }}>
                     <Typography variant="body2" sx={{ mb: 1 }}>
                       No Image
                     </Typography>
-                    <Typography variant="caption" sx={{ color: '#ccc' }}>
+                    <Typography variant="caption" sx={{ color: theme.palette.grey[400] }}>
                       {product.title}
                     </Typography>
                   </Box>
@@ -100,7 +102,7 @@ export default function ProductGrid({
                   sx={{
                     fontSize: '1rem',
                     fontWeight: 500,
-                    color: '#333',
+                    color: theme.palette.text.primary,
                     lineHeight: 1.4,
                     mb: 0.5,
                     display: '-webkit-box',
@@ -128,7 +130,7 @@ export default function ProductGrid({
           <Typography
             variant="h6"
             sx={{
-              color: '#666',
+              color: theme.palette.text.secondary,
               fontWeight: 400,
               mb: 1
             }}
@@ -138,7 +140,7 @@ export default function ProductGrid({
           <Typography
             variant="body2"
             sx={{
-              color: '#999',
+              color: theme.palette.grey[500],
               maxWidth: '400px',
               mx: 'auto'
             }}

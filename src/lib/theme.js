@@ -3,30 +3,30 @@ import { createTheme } from '@mui/material/styles';
 
 export const COLORS = {
   primary: {
-    main: '#005F73',
-    light: '#338BA8',
-    dark: '#003D4D',
-    contrastText: '#FFFFFF'
-  },
-  secondary: {
-    main: '#FFE347',
-    light: '#FFF176',
-    dark: '#FBC02D',
+    main: '#84DC00',
+    light: '#A8E633',
+    dark: '#5DA800',
     contrastText: '#000000'
   },
+  secondary: {
+    main: '#7b3cc3',
+    light: '#7b3cc3',
+    dark: '#7b3cc3',
+    contrastText: '#FFFFFF'
+  },
   warning: {
-    main: '#FF90AD',
-    light: '#FFB3C1',
-    dark: '#E87195'
+    main: '#FF4444',
+    light: '#FF6666',
+    dark: '#CC0000'
   },
   tertiary: {
-    main: '#FFE347',
-    light: '#FFF176',
-    dark: '#FBC02D',
+    main: '#FFA500',
+    light: '#FFBF00',
+    dark: '#CC8400',
     contrastText: '#000000'
   },
   background: {
-    default: '#F5F5F5',
+    default: '#F0F0F0',
     paper: '#FFFFFF'
   }
 };
@@ -51,10 +51,12 @@ export const BORDER_RADIUS = {
 };
 
 export const SHADOWS = {
-  sm: '0 2px 8px rgba(0, 0, 0, 0.1)',
-  md: '0 4px 16px rgba(0, 0, 0, 0.15)',
-  lg: '0 8px 32px rgba(0, 0, 0, 0.2)',
-  xl: '0 16px 48px rgba(0, 0, 0, 0.25)'
+  sm: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+  md: '0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12)',
+  lg: '0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.10)',
+  xl: '0 15px 25px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.05)',
+  glow: '0 0 20px rgba(132, 220, 0, 0.3)',
+  inner: 'inset 0 2px 4px rgba(0, 0, 0, 0.06)'
 };
 
 export const TRANSITIONS = {
@@ -105,10 +107,32 @@ export const COMPONENT_STYLES = {
   },
 
   glassmorphism: {
-    background: 'rgba(255, 255, 255, 0.1)',
+    background: 'rgba(255, 255, 255, 0.08)',
     backdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255, 255, 255, 0.12)',
+    borderRadius: BORDER_RADIUS.xl,
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
+  },
+
+  gradient: {
+    primary: 'linear-gradient(135deg, #84DC00 0%, #A8E633 100%)',
+    secondary: 'linear-gradient(135deg, #0066FF 0%, #3399FF 100%)',
+    tertiary: 'linear-gradient(135deg, #FFA500 0%, #FFBF00 100%)',
+    dark: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+    accent: 'linear-gradient(135deg, #84DC00 0%, #0066FF 50%, #FFA500 100%)'
+  },
+
+  modernCard: {
+    borderRadius: BORDER_RADIUS.xl,
+    background: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(10px)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
-    borderRadius: BORDER_RADIUS.xl
+    boxShadow: SHADOWS.lg,
+    transition: TRANSITIONS.normal,
+    '&:hover': {
+      transform: 'translateY(-4px)',
+      boxShadow: SHADOWS.xl
+    }
   }
 };
 
@@ -203,11 +227,11 @@ export const createCustomTheme = (config) => {
 
   // Ensure COLORS object is properly defined
   const defaultColors = {
-    primary: { main: '#005F73', light: '#338BA8', dark: '#003D4D', contrastText: '#FFFFFF' },
-    secondary: { main: '#FFE347', light: '#FFF176', dark: '#FBC02D', contrastText: '#000000' },
-    warning: { main: '#FF90AD', light: '#FFB3C1', dark: '#E87195' },
-    tertiary: { main: '#FFE347', light: '#FFF176', dark: '#FBC02D', contrastText: '#000000' },
-    background: { default: '#F5F5F5', paper: '#FFFFFF' }
+    primary: { main: '#84DC00', light: '#A8E633', dark: '#5DA800', contrastText: '#000000' },
+    secondary: { main: '#0066FF', light: '#3399FF', dark: '#0044CC', contrastText: '#FFFFFF' },
+    warning: { main: '#FF4444', light: '#FF6666', dark: '#CC0000' },
+    tertiary: { main: '#FFA500', light: '#FFBF00', dark: '#CC8400', contrastText: '#000000' },
+    background: { default: '#F0F0F0', paper: '#FFFFFF' }
   };
 
   const colors = COLORS || defaultColors;
@@ -244,49 +268,55 @@ export const createCustomTheme = (config) => {
       },
     },
     typography: {
-      fontFamily: '"Bemio", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
       h1: {
-        fontSize: '3.5rem',
-        fontWeight: 700,
-        lineHeight: 1.2,
+        fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+        fontWeight: 800,
+        lineHeight: 1.1,
+        letterSpacing: '-0.02em',
       },
       h2: {
-        fontSize: '2.5rem',
-        fontWeight: 600,
-        lineHeight: 1.3,
+        fontSize: 'clamp(2rem, 4vw, 3rem)',
+        fontWeight: 700,
+        lineHeight: 1.2,
+        letterSpacing: '-0.01em',
       },
       h3: {
-        fontSize: '2rem',
+        fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
         fontWeight: 600,
-        lineHeight: 1.4,
+        lineHeight: 1.3,
+        letterSpacing: '-0.005em',
       },
       h4: {
-        fontSize: '1.5rem',
+        fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)',
         fontWeight: 600,
         lineHeight: 1.4,
       },
       h5: {
-        fontSize: '1.25rem',
+        fontSize: 'clamp(1.125rem, 2vw, 1.5rem)',
         fontWeight: 600,
-        lineHeight: 1.5,
+        lineHeight: 1.4,
       },
       h6: {
-        fontSize: '1.125rem',
+        fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
         fontWeight: 600,
         lineHeight: 1.5,
       },
       body1: {
-        fontSize: '1rem',
-        lineHeight: 1.6,
+        fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)',
+        lineHeight: 1.7,
+        fontWeight: 400,
       },
       body2: {
-        fontSize: '0.875rem',
+        fontSize: 'clamp(0.75rem, 1.25vw, 0.875rem)',
         lineHeight: 1.6,
+        fontWeight: 400,
       },
       button: {
         fontSize: '0.875rem',
         fontWeight: 600,
         textTransform: 'none',
+        letterSpacing: '0.02em',
       },
     },
     shape: {
@@ -299,16 +329,45 @@ export const createCustomTheme = (config) => {
             borderRadius: BORDER_RADIUS.xl,
             fontWeight: 600,
             textTransform: 'none',
-            padding: '12px 24px',
+            padding: '14px 28px',
             boxShadow: 'none',
+            transition: TRANSITIONS.normal,
+            position: 'relative',
+            overflow: 'hidden',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: '-100%',
+              width: '100%',
+              height: '100%',
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+              transition: 'left 0.5s',
+            },
+            '&:hover::before': {
+              left: '100%',
+            },
             '&:hover': {
-              boxShadow: SHADOWS.md,
+              transform: 'translateY(-2px)',
+              boxShadow: SHADOWS.lg,
+            },
+            '&:active': {
+              transform: 'translateY(0)',
             },
           },
           contained: {
-            boxShadow: SHADOWS.sm,
+            background: 'linear-gradient(135deg, #84DC00 0%, #A8E633 100%)',
+            boxShadow: SHADOWS.md,
             '&:hover': {
-              boxShadow: SHADOWS.md,
+              background: 'linear-gradient(135deg, #A8E633 0%, #84DC00 100%)',
+              boxShadow: SHADOWS.lg,
+            },
+          },
+          outlined: {
+            borderWidth: '2px',
+            '&:hover': {
+              borderWidth: '2px',
+              background: 'rgba(255, 255, 255, 0.05)',
             },
           },
         },
@@ -332,10 +391,17 @@ export const createCustomTheme = (config) => {
       MuiCard: {
         styleOverrides: {
           root: {
-            borderRadius: BORDER_RADIUS.lg,
-            boxShadow: SHADOWS.sm,
-            border: '1px solid rgba(0, 95, 115, 0.1)',
+            borderRadius: BORDER_RADIUS.xl,
+            boxShadow: SHADOWS.md,
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
             transition: TRANSITIONS.normal,
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: SHADOWS.lg,
+              border: '1px solid rgba(132, 220, 0, 0.2)',
+            },
           },
         },
       },

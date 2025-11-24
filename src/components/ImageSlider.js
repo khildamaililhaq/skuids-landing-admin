@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, Typography, IconButton, Container, Button } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
-export default function ImageSlider({ slides = [] }) {
+export default function ImageSlider({ slides = [], height = '60vh', width = '100%', showText = true }) {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     useEffect(() => {
@@ -21,13 +21,13 @@ export default function ImageSlider({ slides = [] }) {
     const handleDot = (idx) => setCurrentSlide(idx);
 
     return (
-        <Box sx={{ width: '100%', overflow: 'hidden' }}>
+        <Box sx={{ width: '100%', height: '100%', overflow: 'hidden' }}>
             {/* Image slider */}
             <Box
                 sx={{
                     position: 'relative',
                     width: '100%',
-                    height: '60vh',
+                    height: '100%',
                     minHeight: 300,
                     background: 'var(--gradient-primary)',
                 }}
@@ -124,64 +124,66 @@ export default function ImageSlider({ slides = [] }) {
             </Box>
 
             {/* Caption below image */}
-            <Container maxWidth="lg" sx={{ mt: 4 }}>
-                <Box
-                    textAlign="center"
-                    sx={{
-                        maxWidth: 900,
-                        mx: 'auto',
-                        px: { xs: 2, md: 4 },
-                        pb: { xs: 6, md: 10 }, // Extra bottom padding
-                    }}
-                >
-                    <Typography
-                        variant="h1"
-                        component="h1"
+            {showText && (
+                <Container maxWidth="lg" sx={{ mt: 4 }}>
+                    <Box
+                        textAlign="center"
                         sx={{
-                            fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem', lg: '3.5rem' },
-                            fontWeight: 800,
-                            mb: { xs: 2, md: 3 },
-                            letterSpacing: '-0.02em',
-                            lineHeight: 1.1,
-                        }}
-                    >
-                        {slides[currentSlide].title}
-                    </Typography>
-                    <Typography
-                        variant="h5"
-                        component="p"
-                        sx={{
-                            fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
-                            mb: { xs: 4, md: 6 },
-                            maxWidth: 700,
+                            maxWidth: 900,
                             mx: 'auto',
-                            lineHeight: 1.6,
-                            fontWeight: 400,
-                            color: 'rgba(0,0,0,0.7)',
+                            px: { xs: 2, md: 4 },
+                            pb: { xs: 6, md: 10 }, // Extra bottom padding
                         }}
                     >
-                        {slides[currentSlide].subtitle}
-                    </Typography>
-                    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <Button
-                            variant="contained"
-                            size="large"
+                        <Typography
+                            variant="h1"
+                            component="h1"
                             sx={{
-                                bgcolor: 'primary.main',
-                                color: 'secondary.main',
-                                px: { xs: 3, md: 5 },
-                                py: { xs: 1.5, md: 2 },
-                                fontSize: { xs: '1rem', md: '1.1rem' },
-                                fontWeight: 600,
-                                borderRadius: '50px',
-                                minWidth: { xs: '140px', md: '180px' },
+                                fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem', lg: '3.5rem' },
+                                fontWeight: 800,
+                                mb: { xs: 2, md: 3 },
+                                letterSpacing: '-0.02em',
+                                lineHeight: 1.1,
                             }}
                         >
-                            Get Started
-                        </Button>
+                            {slides[currentSlide].title}
+                        </Typography>
+                        <Typography
+                            variant="h5"
+                            component="p"
+                            sx={{
+                                fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
+                                mb: { xs: 4, md: 6 },
+                                maxWidth: 700,
+                                mx: 'auto',
+                                lineHeight: 1.6,
+                                fontWeight: 400,
+                                color: 'rgba(0,0,0,0.7)',
+                            }}
+                        >
+                            {slides[currentSlide].subtitle}
+                        </Typography>
+                        <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+                            <Button
+                                variant="contained"
+                                size="large"
+                                sx={{
+                                    bgcolor: 'primary.main',
+                                    color: 'secondary.main',
+                                    px: { xs: 3, md: 5 },
+                                    py: { xs: 1.5, md: 2 },
+                                    fontSize: { xs: '1rem', md: '1.1rem' },
+                                    fontWeight: 600,
+                                    borderRadius: '50px',
+                                    minWidth: { xs: '140px', md: '180px' },
+                                }}
+                            >
+                                Get Started
+                            </Button>
+                        </Box>
                     </Box>
-                </Box>
-            </Container>
+                </Container>
+            )}
         </Box>
     );
 }

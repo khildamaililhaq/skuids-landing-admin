@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Box, Typography, useTheme, useMediaQuery } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import FeaturesSection from './FeaturesSection';
 import ProductsSection from './ProductsSection';
 
@@ -42,8 +43,8 @@ export default function ProductsFeaturesSection({ features, products }) {
   }, []);
 
   const tabLabels = [
-    { label: 'Varian Rasa', icon: '🧃' },
-    { label: 'Keunggulan', icon: '💚' }
+    { label: 'Our Services', icon: '🚀' },
+    { label: 'Why Choose Us', icon: '⭐' }
   ];
 
   return (
@@ -51,13 +52,11 @@ export default function ProductsFeaturesSection({ features, products }) {
           id="products"
           ref={containerRef}
           sx={{
-            pt: 0,
-            pb: 0,
+            py: { xs: 8, md: 12 },
             width: '100%',
             position: 'relative',
-            background: theme.palette.secondary.main,
+            background: `linear-gradient(135deg, ${theme.palette.background.default} 0%, ${theme.palette.background.paper} 100%)`,
             overflow: 'hidden',
-            minHeight: '80vh'
           }}
       >
 
@@ -67,24 +66,24 @@ export default function ProductsFeaturesSection({ features, products }) {
           zIndex: 1,
           width: '100%'
         }}>
-          {/* Enhanced Tabs Container */}
+          {/* Modern Minimal Tabs Container */}
           <Box sx={{
             display: 'flex',
             justifyContent: 'center',
-            mt: 3,
-            mb: 0,
+            mb: { xs: 6, md: 8 },
             position: 'relative',
             px: { xs: 2, sm: 3 },
             zIndex: 10
           }}>
-            {/* Compact Tab Container with Primary Background */}
-            <Box className="tab-container" sx={{
+            {/* Clean Tab Container */}
+            <Box sx={{
               display: 'flex',
-              background: theme.palette.primary.main,
-              borderRadius: '30px',
-              p: 1,
-              border: `2px solid ${theme.palette.primary.dark}`,
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+              background: alpha(theme.palette.background.paper, 0.8),
+              backdropFilter: 'blur(20px)',
+              borderRadius: '50px',
+              p: 1.5,
+              border: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
               position: 'relative',
             }}>
               {tabLabels.map((tab, index) => (
@@ -92,38 +91,38 @@ export default function ProductsFeaturesSection({ features, products }) {
                       key={index}
                       ref={el => tabsRef.current[index] = el}
                       onClick={() => handleTabChange(index)}
-                      className="compact-tab"
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.5,
-                        px: { xs: 3, sm: 4 },
-                        py: { xs: 2, sm: 2.5 },
-                        borderRadius: '25px',
+                        px: { xs: 4, sm: 5 },
+                        py: { xs: 2.5, sm: 3 },
+                        borderRadius: '40px',
                         cursor: 'pointer',
                         position: 'relative',
                         zIndex: 2,
                         overflow: 'hidden',
-                        minWidth: { xs: '120px', sm: '130px' },
+                        minWidth: { xs: '140px', sm: '160px' },
                         justifyContent: 'center',
-                        transition: 'all 0.3s ease',
-                        // Compact active tab styling with white background
+                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                         background: activeTab === index
-                            ? '#FFFFFF'
-                            : 'rgba(255, 255, 255, 0.2)',
+                            ? `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`
+                            : 'transparent',
                         color: activeTab === index
-                            ? theme.palette.primary.main
-                            : '#FFFFFF',
+                            ? theme.palette.common.white
+                            : theme.palette.text.secondary,
                         boxShadow: activeTab === index
-                            ? '0 4px 15px rgba(0, 0, 0, 0.2)'
+                            ? '0 8px 25px rgba(132, 220, 0, 0.3)'
                             : 'none',
-                        transform: activeTab === index ? 'scale(1.02)' : 'scale(1)',
+                        transform: activeTab === index ? 'scale(1.05)' : 'scale(1)',
                         '&:hover': {
-                          background: activeTab === index
-                              ? '#FFFFFF'
-                              : 'rgba(255, 255, 255, 0.3)',
+                          color: activeTab === index
+                              ? theme.palette.common.white
+                              : theme.palette.text.primary,
                           transform: 'scale(1.02)',
-                          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.15)',
+                          '& .tab-icon': {
+                            transform: 'scale(1.1) rotate(5deg)',
+                          }
                         },
                         '&:active': {
                           transform: 'scale(0.98)',
@@ -132,24 +131,29 @@ export default function ProductsFeaturesSection({ features, products }) {
                       }}
                   >
                     <Typography
+                        className="tab-icon"
                         sx={{
-                          fontSize: { xs: '1rem', sm: '1.1rem' },
-                          fontWeight: activeTab === index ? 600 : 500,
+                          fontSize: { xs: '1.2rem', sm: '1.4rem' },
+                          fontWeight: activeTab === index ? 700 : 500,
                           position: 'relative',
                           zIndex: 3,
                           transition: 'all 0.3s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                     >
                       {tab.icon}
                     </Typography>
                     <Typography
                         sx={{
-                          fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                          fontSize: { xs: '0.85rem', sm: '0.95rem' },
                           fontWeight: activeTab === index ? 600 : 500,
                           position: 'relative',
                           zIndex: 3,
                           whiteSpace: 'nowrap',
-                          letterSpacing: '0.3px',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase',
                           transition: 'all 0.3s ease'
                         }}
                     >
@@ -160,21 +164,18 @@ export default function ProductsFeaturesSection({ features, products }) {
             </Box>
           </Box>
 
-          {/* Simplified Content Area */}
+          {/* Modern Content Area */}
           <Box sx={{
             position: 'relative',
             width: '100%',
-            minHeight: '400px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            border: '1px solid rgba(0, 0, 0, 0.1)',
-            // borderRadius: '16px',
-            overflow: 'hidden',
+            minHeight: '500px',
           }}>
-            {/* Simplified Content */}
+            {/* Content Container with Glassmorphism */}
             <Box sx={{
               width: '100%',
               opacity: isTransitioning ? 0.7 : 1,
-              transition: 'opacity 0.3s ease',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
             }}>
               {activeTab === 0 ? (
                   <ProductsSection products={products} />
@@ -185,112 +186,11 @@ export default function ProductsFeaturesSection({ features, products }) {
           </Box>
         </Box>
 
-        {/* Enhanced Global Styles for Animations */}
+        {/* Modern Tab Animations */}
         <style jsx global>{`
-          @keyframes float0 {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
-          }
-
-          @keyframes float1 {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-10px) rotate(-1deg); }
-            66% { transform: translateY(-20px) rotate(1deg); }
-          }
-
-          @keyframes float2 {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-8px) rotate(1deg); }
-            75% { transform: translateY(-12px) rotate(-1deg); }
-          }
-
-          @keyframes particleFloat {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) scale(1); opacity: 0; }
-          }
-
-          @keyframes bubbleShine {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.2); }
-          }
-
-          @keyframes breathe {
-            0%, 100% { transform: scale(1) rotate(-15deg); opacity: 0.6; }
-            50% { transform: scale(1.1) rotate(-15deg); opacity: 1; }
-          }
-
-          @keyframes drift {
-            0%, 100% { transform: translateX(0px) translateY(0px); }
-            25% { transform: translateX(10px) translateY(-5px); }
-            50% { transform: translateX(-5px) translateY(-10px); }
-            75% { transform: translateX(-10px) translateY(5px); }
-          }
-
-          @keyframes spin {
-            from { transform: translate(-50%, -50%) rotate(45deg); }
-            to { transform: translate(-50%, -50%) rotate(405deg); }
-          }
-
-          @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-
-          @keyframes shimmer {
-            0%, 100% { opacity: 0.2; transform: translateX(-100%); }
-            50% { opacity: 0.5; transform: translateX(100%); }
-          }
-
-          @keyframes iconBounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-            60% { transform: translateY(-4px); }
-          }
-
-          @keyframes topBarPulse {
-            0%, 100% { opacity: 0.6; width: 100px; }
-            50% { opacity: 1; width: 150px; }
-          }
-
-          @keyframes ripple {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
-          }
-
-          /* Enhanced tab transitions */
-          .tab-entering {
-            animation: slideInFromRight 0.6s ease-out;
-          }
-
-          .tab-exiting {
-            animation: slideOutToLeft 0.6s ease-out;
-          }
-
-          @keyframes slideInFromRight {
-            0% { transform: translateX(100%) scale(0.9); opacity: 0; }
-            100% { transform: translateX(0) scale(1); opacity: 1; }
-          }
-
-          @keyframes slideOutToLeft {
-            0% { transform: translateX(0) scale(1); opacity: 1; }
-            100% { transform: translateX(-100%) scale(0.9); opacity: 0; }
-          }
-
-          /* Compact tab effects */
-          .compact-tab {
-            transition: all 0.3s ease;
-          }
-
-          .compact-tab:hover {
-            transform: scale(1.02);
-          }
-
-          .compact-tab:active {
-            transform: scale(0.98);
-            transition: all 0.1s ease;
+          /* Smooth tab transitions */
+          .tab-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           }
         `}</style>
       </Box>

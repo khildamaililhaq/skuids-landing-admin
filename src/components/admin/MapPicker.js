@@ -4,6 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Paper, CircularProgress, Alert } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { MyLocation as MyLocationIcon, Search as SearchIcon } from '@mui/icons-material';
 import dynamic from 'next/dynamic';
 
@@ -27,6 +28,7 @@ if (typeof window !== 'undefined') {
 }
 
 const MapPicker = ({ latitude, longitude, onLocationChange, onLocationSelect }) => {
+  const theme = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -49,7 +51,7 @@ const MapPicker = ({ latitude, longitude, onLocationChange, onLocationSelect }) 
     return new leafletIcon({
       iconUrl: `data:image/svg+xml;base64,${btoa(`
         <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="20" cy="20" r="18" fill="#ff4444" stroke="white" stroke-width="3"/>
+          <circle cx="20" cy="20" r="18" fill="${theme.palette.warning.main}" stroke="white" stroke-width="3"/>
           <circle cx="20" cy="15" r="6" fill="white"/>
           <rect x="18" y="21" width="4" height="8" fill="white"/>
         </svg>

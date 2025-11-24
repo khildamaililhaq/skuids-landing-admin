@@ -55,7 +55,7 @@ export default function FeaturesSection({ features }) {
                         justifyContent: 'center',
                         px: { xs: 2, md: 6 },
                         py: { xs: 4, md: 0 },
-                        textAlign: 'center', // Center-align all text content
+                        textAlign: { xs: 'center', md: 'left' }, // Center on mobile, left-align on desktop
                     }}
                 >
                     <Typography

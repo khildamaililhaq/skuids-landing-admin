@@ -1,4 +1,5 @@
 import { Box, Typography, Button, Divider, Stack } from '@mui/material';
+import { useTheme, alpha } from '@mui/material/styles';
 import { Clear as ClearIcon } from '@mui/icons-material';
 
 export default function ProductSidebar({
@@ -8,13 +9,15 @@ export default function ProductSidebar({
   onClearFilter,
   sidebarWidth = 280
 }) {
+  const theme = useTheme();
+
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         width: { xs: 0, md: sidebarWidth },
         bgcolor: 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(20px)',
-        borderRight: { xs: 'none', md: '1px solid rgba(0, 95, 115, 0.1)' },
+        borderRight: { xs: 'none', md: `1px solid ${alpha(theme.palette.primary.main, 0.1)}` },
         position: { xs: 'relative', md: 'fixed' },
         left: { xs: 'auto', md: 0 },
         top: { xs: 'auto', md: 0 },
@@ -23,7 +26,7 @@ export default function ProductSidebar({
         overflowY: { xs: 'visible', md: 'auto' },
         zIndex: 1000,
         display: { xs: 'none', md: 'block' },
-        boxShadow: { xs: 'none', md: '4px 0 20px rgba(0, 95, 115, 0.08)' },
+        boxShadow: { xs: 'none', md: `4px 0 20px ${alpha(theme.palette.primary.main, 0.08)}` },
         '&::-webkit-scrollbar': {
           width: '6px',
         },
@@ -31,29 +34,29 @@ export default function ProductSidebar({
           background: 'transparent',
         },
         '&::-webkit-scrollbar-thumb': {
-          background: 'rgba(0, 95, 115, 0.2)',
+          background: alpha(theme.palette.primary.main, 0.2),
           borderRadius: '3px',
           '&:hover': {
-            background: 'rgba(0, 95, 115, 0.3)',
+            background: alpha(theme.palette.primary.main, 0.3),
           }
         }
-      }}
+      })}
     >
       <Box sx={{ p: 3, height: '100%', position: 'relative' }}>
         {/* Header */}
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h6"
-            sx={{
+            sx={(theme) => ({
               color: 'primary.main',
               fontWeight: 700,
               fontSize: '1.2rem',
               mb: 1,
-              background: 'linear-gradient(135deg, #005f73, #0a9396)',
+              background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
-            }}
+            })}
           >
             Categories
           </Typography>
@@ -76,7 +79,7 @@ export default function ProductSidebar({
             fullWidth
             variant={selectedCategory === null ? "contained" : "outlined"}
             onClick={() => onCategorySelect(null)}
-            sx={{
+            sx={(theme) => ({
               justifyContent: 'flex-start',
               textTransform: 'none',
               py: 1.8,
@@ -86,35 +89,35 @@ export default function ProductSidebar({
               fontSize: '0.95rem',
               letterSpacing: '0.5px',
               boxShadow: selectedCategory === null
-                ? '0 4px 16px rgba(0, 95, 115, 0.25), 0 2px 8px rgba(0, 95, 115, 0.15)'
-                : '0 2px 8px rgba(0, 95, 115, 0.08)',
+                ? `0 4px 16px ${alpha(theme.palette.primary.main, 0.25)}, 0 2px 8px ${alpha(theme.palette.primary.main, 0.15)}`
+                : `0 2px 8px ${alpha(theme.palette.primary.main, 0.08)}`,
               background: selectedCategory === null
-                ? 'linear-gradient(135deg, #005f73, #0a9396)'
+                ? `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
                 : 'transparent',
-              border: selectedCategory === null ? 'none' : '1px solid rgba(0, 95, 115, 0.2)',
+              border: selectedCategory === null ? 'none' : `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
                 transform: 'translateY(-2px)',
                 boxShadow: selectedCategory === null
-                  ? '0 6px 20px rgba(0, 95, 115, 0.3), 0 4px 12px rgba(0, 95, 115, 0.2)'
-                  : '0 4px 16px rgba(0, 95, 115, 0.15)',
+                  ? `0 6px 20px ${alpha(theme.palette.primary.main, 0.3)}, 0 4px 12px ${alpha(theme.palette.primary.main, 0.2)}`
+                  : `0 4px 16px ${alpha(theme.palette.primary.main, 0.15)}`,
                 background: selectedCategory === null
-                  ? 'linear-gradient(135deg, #0a9396, #005f73)'
-                  : 'rgba(0, 95, 115, 0.05)'
+                  ? `linear-gradient(135deg, ${theme.palette.secondary.main}, ${theme.palette.primary.main})`
+                  : alpha(theme.palette.primary.main, 0.05)
               }
-            }}
+            })}
           >
             All Products
           </Button>
         </Box>
 
         <Divider
-          sx={{
+          sx={(theme) => ({
             mb: 3,
             height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(0, 95, 115, 0.2), transparent)',
+            background: `linear-gradient(90deg, transparent, ${alpha(theme.palette.primary.main, 0.2)}, transparent)`,
             border: 'none'
-          }}
+          })}
         />
 
         {/* Categories List */}
@@ -127,7 +130,7 @@ export default function ProductSidebar({
                   fullWidth
                   variant={selectedCategory === category.id ? "contained" : "text"}
                   onClick={() => onCategorySelect(category.id)}
-                  sx={{
+                  sx={(theme) => ({
                     justifyContent: 'flex-start',
                     textTransform: 'none',
                     py: 1.6,
@@ -138,10 +141,10 @@ export default function ProductSidebar({
                     position: 'relative',
                     overflow: 'hidden',
                     boxShadow: selectedCategory === category.id
-                      ? '0 4px 16px rgba(0, 95, 115, 0.2), 0 2px 8px rgba(0, 95, 115, 0.15)'
+                      ? `0 4px 16px ${alpha(theme.palette.primary.main, 0.2)}, 0 2px 8px ${alpha(theme.palette.primary.main, 0.15)}`
                       : 'none',
                     background: selectedCategory === category.id
-                      ? 'linear-gradient(135deg, #005f73, #0a9396)'
+                      ? `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
                       : 'transparent',
                     border: selectedCategory === category.id ? 'none' : '1px solid transparent',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -158,16 +161,16 @@ export default function ProductSidebar({
                     '&:hover': {
                       transform: 'translateX(4px)',
                       boxShadow: selectedCategory === category.id
-                        ? '0 6px 20px rgba(0, 95, 115, 0.3), 0 4px 12px rgba(0, 95, 115, 0.2)'
-                        : '0 4px 16px rgba(0, 95, 115, 0.1)',
+                        ? `0 6px 20px ${alpha(theme.palette.primary.main, 0.3)}, 0 4px 12px ${alpha(theme.palette.primary.main, 0.2)}`
+                        : `0 4px 16px ${alpha(theme.palette.primary.main, 0.1)}`,
                       background: selectedCategory === category.id
-                        ? 'linear-gradient(135deg, #0a9396, #005f73)'
-                        : 'rgba(0, 95, 115, 0.05)',
+                        ? `linear-gradient(135deg, ${theme.palette.secondary.main}, ${theme.palette.primary.main})`
+                        : alpha(theme.palette.primary.main, 0.05),
                       '&::before': {
                         left: '100%',
                       }
                     }
-                  }}
+                  })}
                 >
                   <Box sx={{ textAlign: 'left', width: '100%', position: 'relative', zIndex: 1 }}>
                     <Typography
@@ -221,25 +224,25 @@ export default function ProductSidebar({
 
         {/* Clear Filter Button */}
         {selectedCategory && (
-          <Box sx={{
+          <Box sx={(theme) => ({
             mt: 4,
             pt: 3,
-            borderTop: '1px solid rgba(0, 95, 115, 0.1)',
+            borderTop: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
             position: 'sticky',
             bottom: 0,
             bgcolor: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(10px)',
             borderRadius: '0 0 12px 12px'
-          }}>
+          })}>
             <Button
               fullWidth
               variant="outlined"
               startIcon={<ClearIcon />}
               onClick={onClearFilter}
-              sx={{
+              sx={(theme) => ({
                 textTransform: 'none',
                 color: 'primary.main',
-                borderColor: 'rgba(0, 95, 115, 0.3)',
+                borderColor: alpha(theme.palette.primary.main, 0.3),
                 py: 1.5,
                 borderRadius: 2.5,
                 fontWeight: 600,
@@ -251,9 +254,9 @@ export default function ProductSidebar({
                   bgcolor: 'primary.main',
                   borderColor: 'primary.main',
                   transform: 'translateY(-1px)',
-                  boxShadow: '0 4px 12px rgba(0, 95, 115, 0.25)'
+                  boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.25)}`
                 }
-              }}
+              })}
             >
               Clear Filter
             </Button>

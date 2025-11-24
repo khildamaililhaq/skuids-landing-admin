@@ -29,11 +29,11 @@ export default function ClientThemeProvider({ children }) {
   const [emotionCache] = useState(clientSideEmotionCache);
   const [themeConfig, setThemeConfig] = useState({
     mode: 'light',
-    primaryColor: '#005F73',
-    secondaryColor: '#FFE347',
-    tertiaryColor: '#FFE347',
-    warningColor: '#FF90AD',
-    backgroundDefault: '#F5F5F5',
+    primaryColor: '#84DC00',
+    secondaryColor: '#0066FF',
+    tertiaryColor: '#FFA500',
+    warningColor: '#FF4444',
+    backgroundDefault: '#F0F0F0',
     backgroundPaper: '#FFFFFF',
   });
 

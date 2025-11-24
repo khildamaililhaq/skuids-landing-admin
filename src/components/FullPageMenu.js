@@ -12,50 +12,51 @@ import {
 import {
   Close as CloseIcon,
   Home as HomeIcon,
-  Category as ProductsIcon,
-  Info as AboutIcon,
-  Campaign as CampaignIcon,
-  AdminPanelSettings as AdminIcon
+  Handshake as PartnersIcon,
+  Build as ServicesIcon,
+  Newspaper as NewsIcon,
+  Info as AboutIcon
 } from '@mui/icons-material';
 import Link from 'next/link';
+import { useTranslation } from '../utils/i18n';
 
-const menuItems = [
+// Function to get menu items with translations
+const getMenuItems = (t) => [
   {
-    title: 'Beranda',
-    description: 'Selamat datang di Happy Jasmine',
-    icon: <HomeIcon sx={{ fontSize: 48, color: 'primary.main' }} />,
+    title: 'Home',
+    description: 'Welcome to Skuids',
+    icon: <HomeIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'Produk',
-    description: 'Jelajahi produk menakjubkan kami',
-    icon: <ProductsIcon sx={{ fontSize: 48, color: 'primary.main' }} />,
-    path: '/products',
+    title: 'Partners',
+    description: 'Our official partners',
+    icon: <PartnersIcon sx={{ fontSize: 48, color: 'white' }} />,
+    path: '/partners',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'Tentang',
-    description: 'Pelajari lebih lanjut tentang perusahaan kami',
-    icon: <AboutIcon sx={{ fontSize: 48, color: 'primary.main' }} />,
-    path: '/about',
+    title: 'Services',
+    description: 'Our services',
+    icon: <ServicesIcon sx={{ fontSize: 48, color: 'white' }} />,
+    path: '/services',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'Kampanye',
-    description: 'Segera hadir...',
-    icon: <CampaignIcon sx={{ fontSize: 48, color: 'rgba(255, 255, 255, 0.5)' }} />,
+    title: 'News',
+    description: 'Latest news and updates',
+    icon: <NewsIcon sx={{ fontSize: 48, color: 'rgba(255, 255, 255, 0.5)' }} />,
     path: '#',
     color: 'rgba(255, 255, 255, 0.5)',
     disabled: true
   },
   {
-    title: 'Admin',
-    description: 'Akses panel admin',
-    icon: <AdminIcon sx={{ fontSize: 48, color: 'primary.main' }} />,
-    path: '/admin',
-    color: 'rgba(255, 255, 255, 0.9)',
-    external: true
+    title: 'About Us',
+    description: 'Learn more about Skuids',
+    icon: <AboutIcon sx={{ fontSize: 48, color: 'white' }} />,
+    path: '/about',
+    color: 'rgba(255, 255, 255, 0.9)'
   }
 ];
 
@@ -64,6 +65,7 @@ export default function FullPageMenu({ open, onClose }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [animateIn, setAnimateIn] = useState(false);
   const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (open) {
@@ -104,7 +106,8 @@ export default function FullPageMenu({ open, onClose }) {
         left: 0,
         right: 0,
         bottom: 0,
-        bgcolor: 'warning.main',
+        bgcolor: 'tertiary.main',
+        backdropFilter: 'blur(20px)',
         zIndex: theme.zIndex.modal + 1000,
         display: 'flex',
         alignItems: 'center',
@@ -139,7 +142,7 @@ export default function FullPageMenu({ open, onClose }) {
         {/* Mobile Fallback Layout */}
         {isMobile && (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 4 }}>
-            {menuItems.map((item, index) => (
+            {getMenuItems(t).map((item, index) => (
               <Box
                 key={`mobile-${item.title}`}
                 component={item.disabled ? 'div' : 'button'}
@@ -179,10 +182,10 @@ export default function FullPageMenu({ open, onClose }) {
                 </Box>
                 
                 <Box sx={{ textAlign: 'left', flex: 1 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5, color: 'primary.main' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5, color: 'white' }}>
                     {item.title}
                   </Typography>
-                  <Typography variant="body2" sx={{ opacity: 0.8, color: 'primary.main' }}>
+                  <Typography variant="body2" sx={{ opacity: 0.8, color: 'white' }}>
                     {item.description}
                   </Typography>
                   {item.disabled && (
@@ -209,7 +212,7 @@ export default function FullPageMenu({ open, onClose }) {
               width: '100%'
             }}
           >
-            {menuItems.map((item, index) => (
+            {getMenuItems(t).map((item, index) => (
               <Grid 
                 item 
                 xs={12} 
@@ -269,23 +272,25 @@ export default function FullPageMenu({ open, onClose }) {
                     {item.icon}
                   </Box>
                   
-                  <Typography 
-                    variant="h4" 
-                    sx={{ 
+                  <Typography
+                    variant="h4"
+                    sx={{
                       fontWeight: 700,
-                      fontSize: { xs: '1.5rem', md: '2rem' }
+                      fontSize: { xs: '1.5rem', md: '2rem' },
+                      color: 'white'
                     }}
                   >
                     {item.title}
                   </Typography>
-                  
-                  <Typography 
-                    variant="body1" 
-                    sx={{ 
+
+                  <Typography
+                    variant="body1"
+                    sx={{
                       opacity: 0.8,
                       fontSize: { xs: '0.9rem', md: '1rem' },
                       maxWidth: 200,
-                      mx: 'auto'
+                      mx: 'auto',
+                      color: 'white'
                     }}
                   >
                     {item.description}
@@ -303,7 +308,7 @@ export default function FullPageMenu({ open, onClose }) {
                       }}
                     >
                       <Typography variant="caption" sx={{ opacity: 0.7 }}>
-                        Coming Soon
+                        {t('menu.comingSoon')}
                       </Typography>
                     </Box>
                   )}
@@ -329,7 +334,7 @@ export default function FullPageMenu({ open, onClose }) {
               fontSize: '0.9rem'
             }}
           >
-            Happy Jasmine - Membawa kebahagiaan melalui produk berkualitas
+            Skuids - 2024 © All Rights Reserved.
           </Typography>
         </Box>
       </Container>
