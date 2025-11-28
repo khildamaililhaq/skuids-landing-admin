@@ -20,6 +20,8 @@ import {
   Category as CategoryIcon,
   LocationOn as LocationIcon,
   Handshake as PartnersIcon,
+  People as AgentsIcon,
+  Link as AgentPartnersIcon,
   Menu as MenuIcon,
   Close as CloseIcon
 } from '@mui/icons-material';
@@ -62,6 +64,18 @@ const menuItems = [
     icon: <PartnersIcon />,
     path: '/admin/partners',
     description: 'Manage partners'
+  },
+  {
+    text: 'Agents',
+    icon: <AgentsIcon />,
+    path: '/admin/agents',
+    description: 'Manage registered agents'
+  },
+  {
+    text: 'Agent Partners',
+    icon: <AgentPartnersIcon />,
+    path: '/admin/agent-partners',
+    description: 'Manage agent-partner relationships'
   },
   {
     text: 'Settings',

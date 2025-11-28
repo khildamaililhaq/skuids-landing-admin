@@ -1,0 +1,34 @@
+{
+  "navigation": {
+    "home": "首页",
+    "products": "产品",
+    "about": "关于我们",
+    "contact": "联系我们",
+    "menu": "菜单"
+  },
+  "menu": {
+    "homeDesc": "欢迎来到快乐茉莉",
+    "productsDesc": "探索我们精彩的产品",
+    "aboutDesc": "了解更多关于我们公司",
+    "campaignDesc": "即将推出...",
+    "adminDesc": "访问管理面板",
+    "comingSoon": "即将推出"
+  },
+  "hero": {
+    "title": "发现印尼拉茶",
+    "subtitle": "正宗马来西亚拉茶、优质幸福茶，以及各种包装绿茶饮料",
+    "cta": "探索产品",
+    "learnMore": "了解更多"
+  },
+  "footer": {
+    "description": "来自勿加泗的印尼拉茶生产商，优质拉茶、幸福茶，以及各种包装绿茶饮料",
+    "copyright": "© 2025 艾卡西塔·奇特拉·马迪亚帕达。版权所有。"
+  },
+  "language": {
+    "switch": "切换语言",
+    "english": "English",
+    "indonesian": "Bahasa Indonesia",
+    "hindi": "हिंदी",
+    "chinese": "中文"
+  }
+}

@@ -2,13 +2,9 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { Box, Typography } from '@mui/material';
-import { motion } from 'framer-motion';
 import { useTheme } from '../components/ThemeProvider';
 import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
-import CampaignSection from '../components/CampaignSection';
-import AnimatedSpacer from '../components/AnimatedSpacer';
-import ProductsFeaturesSection from '../components/ProductsFeaturesSection';
 import Footer from '../components/Footer';
 import { getContent, incrementVisitCount } from '../lib/supabase';
 
@@ -80,23 +76,15 @@ export default function Home() {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <Box sx={{ minHeight: '100vh', backgroundColor: 'secondary.main', paddingTop: '80px' }}>
-        {/* Header with Logo */}
-        <Header />
+    <Box sx={{ minHeight: '100vh', backgroundColor: 'secondary.main' }}>
+      {/* Header with Logo */}
+      <Header />
 
-        {/* Page Sections */}
-        <HeroSection heroData={content?.hero} />
-        {/* <ProductsFeaturesSection features={content?.features} /> */}
-        {/* <CampaignSection campaigns={content?.hero?.campaigns} /> */}
+      {/* Page Sections */}
+      <HeroSection heroData={content?.hero} />
 
-        {/* Footer */}
-        <Footer contactData={content?.contact} />
-      </Box>
-    </motion.div>
+      {/* Footer */}
+      <Footer contactData={content?.contact} />
+    </Box>
   );
 }

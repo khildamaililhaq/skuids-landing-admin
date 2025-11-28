@@ -1,0 +1,34 @@
+{
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact",
+    "menu": "MENU"
+  },
+  "menu": {
+    "homeDesc": "Welcome to Happy Jasmine",
+    "productsDesc": "Explore our amazing products",
+    "aboutDesc": "Learn more about our company",
+    "campaignDesc": "Coming soon...",
+    "adminDesc": "Access admin panel",
+    "comingSoon": "Coming Soon"
+  },
+  "hero": {
+    "title": "Discover Indonesian Teh Tarik",
+    "subtitle": "Authentic Malaysian Teh Tarik, Premium Teh Bahagia, and various Packaged Greentea Drinks",
+    "cta": "Explore Products",
+    "learnMore": "Learn More"
+  },
+  "footer": {
+    "description": "Indonesian Teh Tarik producer from Bekasi, premium Teh Tarik, Teh Bahagia, and various packaged greentea drinks",
+    "copyright": "© 2025 Ekacita Citra Madyapada. All rights reserved."
+  },
+  "language": {
+    "switch": "Switch Language",
+    "english": "English",
+    "indonesian": "Bahasa Indonesia",
+    "hindi": "हिंदी",
+    "chinese": "中文"
+  }
+}

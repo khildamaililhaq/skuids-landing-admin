@@ -2,11 +2,11 @@ import { Box, Typography, Container, Grid, Link, IconButton, Divider } from '@mu
 import { useTheme, alpha } from '@mui/material/styles';
 import { Facebook, Instagram, WhatsApp, Phone, Email, LocationOn } from '@mui/icons-material';
 import { TikTokIcon, YouTubeIcon } from './SocialIcons';
-import { useTranslation } from '../utils/i18n';
+import { useTranslations } from 'next-intl';
 
 export default function Footer({ contactData }) {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <Box
@@ -60,13 +60,6 @@ export default function Footer({ contactData }) {
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 color: '#1877F2',
                 borderRadius: '50%',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                '&:hover': {
-                  background: '#1877F2',
-                  color: 'white',
-                  transform: 'translateY(-4px) scale(1.05)',
-                  boxShadow: '0 8px 25px rgba(24, 119, 242, 0.4)',
-                },
               }}
             >
               <Facebook sx={{ fontSize: { xs: 28, sm: 32 } }} />
@@ -83,13 +76,6 @@ export default function Footer({ contactData }) {
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 color: '#E1306C',
                 borderRadius: '50%',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                '&:hover': {
-                  background: '#E1306C',
-                  color: 'white',
-                  transform: 'translateY(-4px) scale(1.05)',
-                  boxShadow: '0 8px 25px rgba(225, 48, 108, 0.4)',
-                },
               }}
             >
               <Instagram sx={{ fontSize: { xs: 28, sm: 32 } }} />
@@ -106,13 +92,6 @@ export default function Footer({ contactData }) {
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 color: '#25D366',
                 borderRadius: '50%',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                '&:hover': {
-                  background: '#25D366',
-                  color: 'white',
-                  transform: 'translateY(-4px) scale(1.05)',
-                  boxShadow: '0 8px 25px rgba(37, 211, 102, 0.4)',
-                },
               }}
             >
               <WhatsApp sx={{ fontSize: { xs: 28, sm: 32 } }} />
@@ -129,13 +108,6 @@ export default function Footer({ contactData }) {
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 color: '#000000',
                 borderRadius: '50%',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                '&:hover': {
-                  background: '#000000',
-                  color: 'white',
-                  transform: 'translateY(-4px) scale(1.05)',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4)',
-                },
               }}
             >
               <TikTokIcon sx={{ fontSize: { xs: 24, sm: 28 } }} />
@@ -152,13 +124,6 @@ export default function Footer({ contactData }) {
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 color: '#FF0000',
                 borderRadius: '50%',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                '&:hover': {
-                  background: '#FF0000',
-                  color: 'white',
-                  transform: 'translateY(-4px) scale(1.05)',
-                  boxShadow: '0 8px 25px rgba(255, 0, 0, 0.4)',
-                },
               }}
             >
               <YouTubeIcon sx={{ fontSize: { xs: 24, sm: 28 } }} />
@@ -183,13 +148,6 @@ export default function Footer({ contactData }) {
               bgcolor: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.12)',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              cursor: 'pointer',
-              '&:hover': {
-                bgcolor: 'rgba(255, 255, 255, 0.12)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
-              }
             }}>
               <Phone sx={{ fontSize: { xs: 20, sm: 24 }, color: theme.palette.primary.main, flexShrink: 0 }} />
               <Typography variant="body1" sx={{ opacity: 0.95, fontSize: { xs: '0.9rem', sm: '1rem' }, fontWeight: 500 }}>
@@ -205,13 +163,6 @@ export default function Footer({ contactData }) {
               bgcolor: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.12)',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              cursor: 'pointer',
-              '&:hover': {
-                bgcolor: 'rgba(255, 255, 255, 0.12)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
-              }
             }}>
               <Email sx={{ fontSize: { xs: 20, sm: 24 }, color: theme.palette.primary.main, flexShrink: 0 }} />
               <Typography variant="body1" sx={{ opacity: 0.95, fontSize: { xs: '0.9rem', sm: '1rem' }, fontWeight: 500 }}>

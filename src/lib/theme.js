@@ -10,8 +10,8 @@ export const COLORS = {
   },
   secondary: {
     main: '#7b3cc3',
-    light: '#7b3cc3',
-    dark: '#7b3cc3',
+    light: '#9d5dd3',
+    dark: '#5a2b99',
     contrastText: '#FFFFFF'
   },
   warning: {
