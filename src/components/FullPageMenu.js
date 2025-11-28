@@ -18,45 +18,45 @@ import {
   Info as AboutIcon
 } from '@mui/icons-material';
 import Link from 'next/link';
-import { useTranslation } from '../utils/i18n';
+import { useTranslations } from 'next-intl';
 
 // Function to get menu items with translations
 const getMenuItems = (t) => [
   {
-    title: 'Home',
-    description: 'Welcome to Skuids',
+    title: t('navigation.home'),
+    description: t('menu.homeDesc'),
     icon: <HomeIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'Partners',
-    description: 'Our official partners',
-    icon: <PartnersIcon sx={{ fontSize: 48, color: 'white' }} />,
-    path: '/partners',
-    color: 'rgba(255, 255, 255, 0.9)'
-  },
-  {
-    title: 'Services',
-    description: 'Our services',
+    title: t('navigation.products'),
+    description: t('menu.productsDesc'),
     icon: <ServicesIcon sx={{ fontSize: 48, color: 'white' }} />,
-    path: '/services',
+    path: '/products',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'News',
-    description: 'Latest news and updates',
-    icon: <NewsIcon sx={{ fontSize: 48, color: 'rgba(255, 255, 255, 0.5)' }} />,
-    path: '#',
-    color: 'rgba(255, 255, 255, 0.5)',
-    disabled: true
-  },
-  {
-    title: 'About Us',
-    description: 'Learn more about Skuids',
+    title: t('navigation.about'),
+    description: t('menu.aboutDesc'),
     icon: <AboutIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/about',
     color: 'rgba(255, 255, 255, 0.9)'
+  },
+  {
+    title: t('navigation.contact'),
+    description: 'Get in touch with us',
+    icon: <PartnersIcon sx={{ fontSize: 48, color: 'white' }} />,
+    path: '/contact',
+    color: 'rgba(255, 255, 255, 0.9)'
+  },
+  {
+    title: 'Admin',
+    description: t('menu.adminDesc'),
+    icon: <NewsIcon sx={{ fontSize: 48, color: 'rgba(255, 255, 255, 0.5)' }} />,
+    path: '/admin',
+    color: 'rgba(255, 255, 255, 0.5)',
+    external: true
   }
 ];
 
@@ -65,7 +65,7 @@ export default function FullPageMenu({ open, onClose }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [animateIn, setAnimateIn] = useState(false);
   const router = useRouter();
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   useEffect(() => {
     if (open) {

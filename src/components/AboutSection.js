@@ -1,7 +1,10 @@
 import { Box, Typography, Container, Grid, Button } from '@mui/material';
 import { ArrowForward } from '@mui/icons-material';
+import { useTheme, alpha } from '@mui/material/styles';
 
 export default function AboutSection({ aboutData }) {
+  const theme = useTheme();
+  
   return (
     <Box
       id="about"
@@ -62,7 +65,7 @@ export default function AboutSection({ aboutData }) {
                 sx={{
                   fontSize: { xs: '1.1rem', md: '1.2rem' },
                   lineHeight: 1.8,
-                  color: 'var(--muted)',
+                  color: alpha(theme.palette.common.white, 0.8),
                   mb: 4,
                   fontWeight: 400,
                 }}

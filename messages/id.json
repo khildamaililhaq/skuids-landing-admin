@@ -1,0 +1,34 @@
+{
+  "navigation": {
+    "home": "Beranda",
+    "products": "Produk",
+    "about": "Tentang",
+    "contact": "Kontak",
+    "menu": "MENU"
+  },
+  "menu": {
+    "homeDesc": "Selamat datang di Happy Jasmine",
+    "productsDesc": "Jelajahi produk menakjubkan kami",
+    "aboutDesc": "Pelajari lebih lanjut tentang perusahaan kami",
+    "campaignDesc": "Segera hadir...",
+    "adminDesc": "Akses panel admin",
+    "comingSoon": "Segera Hadir"
+  },
+  "hero": {
+    "title": "Temukan Teh Tarik Indonesia",
+    "subtitle": "Teh Tarik Malaysia asli, Teh Bahagia premium, dan berbagai Minuman Greentea Kemasan",
+    "cta": "Jelajahi Produk",
+    "learnMore": "Pelajari Lebih Lanjut"
+  },
+  "footer": {
+    "description": "Produsen Teh Tarik Indonesia asal Bekasi, Teh Tarik premium, Teh Bahagia, dan berbagai Minuman Greentea Kemasan",
+    "copyright": "© 2025 Ekacita Citra Madyapada. Semua hak dilindungi."
+  },
+  "language": {
+    "switch": "Ganti Bahasa",
+    "english": "English",
+    "indonesian": "Bahasa Indonesia",
+    "hindi": "हिंदी",
+    "chinese": "中文"
+  }
+}

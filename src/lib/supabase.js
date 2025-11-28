@@ -479,6 +479,213 @@ export const deletePartner = async (id) => {
   }
 };
 
+// Agents CRUD operations
+export const getAgents = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('agents')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) return { success: false, error: error.message };
+    return { success: true, data: data || [] };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getAgentById = async (id) => {
+  try {
+    const { data, error } = await supabase.from('agents').select('*').eq('id', id).single();
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const createAgent = async (agent) => {
+  try {
+    const { data, error } = await supabase.from('agents').insert(agent).select().single();
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const updateAgent = async (id, updates) => {
+  try {
+    const { data, error } = await supabase.from('agents').update(updates).eq('id', id).select().single();
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const deleteAgent = async (id) => {
+  try {
+    const { error } = await supabase.from('agents').delete().eq('id', id);
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+// Agent authentication
+export const registerAgent = async (agentData) => {
+  try {
+    // First create auth user
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: agentData.email,
+      password: agentData.password,
+    });
+
+    if (authError) return { success: false, error: authError.message };
+
+    // Then create agent record
+    const agentRecord = {
+      id: authData.user.id,
+      name: agentData.name,
+      username: agentData.username,
+      phone_number: agentData.phone_number,
+      email: agentData.email,
+    };
+
+    const { data: agentDataResult, error: agentError } = await supabase
+      .from('agents')
+      .insert(agentRecord)
+      .select()
+      .single();
+
+    if (agentError) return { success: false, error: agentError.message };
+
+    return { success: true, data: agentDataResult };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const loginAgent = async (email, password) => {
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return { success: false, error: error.message };
+    return { success: true, user: data.user };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const logoutAgent = async () => {
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getCurrentAgent = async () => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { success: false, error: 'No user logged in' };
+
+    const { data, error } = await supabase
+      .from('agents')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+// Agent Partners CRUD operations
+export const getAgentPartners = async (agentId) => {
+  try {
+    const { data, error } = await supabase
+      .from('agent_partners')
+      .select(`
+        *,
+        partners (
+          id,
+          name,
+          description,
+          photo,
+          agent_join_link,
+          hosts_join_link
+        )
+      `)
+      .eq('agent_id', agentId);
+    if (error) return { success: false, error: error.message };
+    return { success: true, data: data || [] };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const createAgentPartner = async (agentPartner) => {
+  try {
+    const { data, error } = await supabase.from('agent_partners').insert(agentPartner).select().single();
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const updateAgentPartner = async (id, updates) => {
+  try {
+    const { data, error } = await supabase.from('agent_partners').update(updates).eq('id', id).select().single();
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const deleteAgentPartner = async (id) => {
+  try {
+    const { error } = await supabase.from('agent_partners').delete().eq('id', id);
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+// Get all agent partners for admin
+export const getAllAgentPartners = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('agent_partners')
+      .select(`
+        *,
+        agents (
+          id,
+          name,
+          username,
+          email
+        ),
+        partners (
+          id,
+          name,
+          description
+        )
+      `)
+      .order('created_at', { ascending: false });
+    if (error) return { success: false, error: error.message };
+    return { success: true, data: data || [] };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
 export default supabase;
 
 

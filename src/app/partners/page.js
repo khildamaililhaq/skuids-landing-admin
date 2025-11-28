@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { getContent, incrementVisitCount, getPartners } from '../../lib/supabase';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function PartnersPage() {
   const { updateTheme } = useTheme();
@@ -101,8 +102,11 @@ export default function PartnersPage() {
           <Typography variant="h2" align="center" gutterBottom>
             Our Partners
           </Typography>
-          <Typography variant="h5" align="center" color="text.secondary" sx={{ mb: 6 }}>
+          <Typography variant="h5" align="center" color="text.secondary" sx={{ mb: 4 }}>
             Meet our official partners
+          </Typography>
+          <Typography variant="body1" align="center" color="text.secondary" sx={{ mb: 6 }}>
+            Interested in becoming an agent? <Link href="/register" style={{ color: 'primary.main', textDecoration: 'none' }}>Register here</Link> or <Link href="/login" style={{ color: 'primary.main', textDecoration: 'none' }}>Login</Link> to access your client area.
           </Typography>
 
           {partners.length > 0 ? (

@@ -1,6 +1,6 @@
 import ClientThemeProvider from '../components/ThemeProvider';
 import PageTransition from '../components/PageTransition';
-import { LanguageProvider } from '../utils/i18n';
+import IntlProvider from '../components/IntlProvider';
 import "./globals.css";
 
 export const metadata = {
@@ -126,13 +126,13 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body suppressHydrationWarning={true}>
-        <LanguageProvider>
+        <IntlProvider>
           <ClientThemeProvider>
             <PageTransition>
               {children}
             </PageTransition>
           </ClientThemeProvider>
-        </LanguageProvider>
+        </IntlProvider>
       </body>
     </html>
   );
