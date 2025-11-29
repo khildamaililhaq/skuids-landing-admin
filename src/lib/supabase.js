@@ -556,8 +556,12 @@ export const registerAgent = async (agentData) => {
 
     const signupResult = await signupResponse.json();
 
+    console.log('Registration response:', signupResult);
+
     if (!signupResponse.ok || !signupResult.success) {
-      return { success: false, error: signupResult.error || 'Signup failed' };
+      const errorMsg = signupResult.error || signupResult.message || 'Signup failed';
+      console.error('Registration failed:', errorMsg);
+      return { success: false, error: errorMsg };
     }
 
     // Step 2: Create agent record in database (now user has auth, should bypass RLS)

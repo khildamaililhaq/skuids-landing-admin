@@ -44,10 +44,19 @@ export async function POST(request) {
 
     const authResult = await signUpResponse.json();
 
+    // Log the full response for debugging
+    console.log('Supabase signup response status:', signUpResponse.status);
+    console.log('Supabase signup response:', authResult);
+
     if (!signUpResponse.ok || authResult.error) {
+      const errorMessage = typeof authResult.error === 'string' 
+        ? authResult.error 
+        : authResult.error?.message || authResult.message || 'Auth signup failed';
+      
+      console.error('Supabase signup error:', errorMessage);
       return NextResponse.json(
-        { success: false, error: authResult.error?.message || 'Auth signup failed' },
-        { status: 400 }
+        { success: false, error: errorMessage },
+        { status: signUpResponse.status || 400 }
       );
     }
 
