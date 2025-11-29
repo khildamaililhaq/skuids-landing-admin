@@ -536,32 +536,22 @@ export const deleteAgent = async (id) => {
 // Agent authentication
 export const registerAgent = async (agentData) => {
   try {
-    // First create auth user
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: agentData.email,
-      password: agentData.password,
+    // Call the backend API route that uses service role (bypasses RLS)
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(agentData),
     });
 
-    if (authError) return { success: false, error: authError.message };
+    const result = await response.json();
 
-    // Then create agent record
-    const agentRecord = {
-      id: authData.user.id,
-      name: agentData.name,
-      username: agentData.username,
-      phone_number: agentData.phone_number,
-      email: agentData.email,
-    };
+    if (!response.ok) {
+      return { success: false, error: result.error || 'Registration failed' };
+    }
 
-    const { data: agentDataResult, error: agentError } = await supabase
-      .from('agents')
-      .insert(agentRecord)
-      .select()
-      .single();
-
-    if (agentError) return { success: false, error: agentError.message };
-
-    return { success: true, data: agentDataResult };
+    return { success: true, data: result.data };
   } catch (err) {
     return { success: false, error: err.message };
   }
