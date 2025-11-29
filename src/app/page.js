@@ -85,7 +85,7 @@ export default function Home() {
       <Header />
 
       {/* Hero Section */}
-      <HeroSection heroData={content?.hero} />
+      <HeroSection heroData={content?.hero} /> 
 
       {/* How It Works */}
       <HowItWorksSection howItWorksData={content?.howItWorks} />

@@ -7,7 +7,10 @@ import {
   Paper,
   Alert,
   Snackbar,
-  CircularProgress
+  CircularProgress,
+  Button,
+  Tabs,
+  Tab
 } from '@mui/material';
 import { getContent, updateContent } from '../../lib/supabase';
 import LogoEditor from './LogoEditor';
@@ -15,6 +18,10 @@ import HeroEditor from './HeroEditor';
 import ProductsFeaturesEditor from './ProductsFeaturesEditor';
 import AboutEditor from './AboutEditor';
 import ContactEditor from './ContactEditor';
+import HowItWorksEditor from './HowItWorksEditor';
+import BenefitsEditor from './BenefitsEditor';
+import PlatformsEditor from './PlatformsEditor';
+import TestimonialsEditor from './TestimonialsEditor';
 
 export default function LandingPageProperties() {
   const [content, setContent] = useState(null);
@@ -23,6 +30,7 @@ export default function LandingPageProperties() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [uploadNotice, setUploadNotice] = useState('');
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
     fetchContent();
@@ -74,142 +82,155 @@ export default function LandingPageProperties() {
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: { xs: 1, sm: 2 } }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3 } }}>
       {/* Header */}
-      <Box sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
-        <Typography 
-          variant="h3" 
-          component="h1" 
+      <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }}>
+            Landing Page Content
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Edit all sections of your landing page in one place
+          </Typography>
+        </Box>
+        <Button
+          onClick={saveContent}
+          disabled={saving}
+          variant="contained"
           sx={{ 
-            mb: { xs: 1, sm: 2 }, 
-            color: 'primary.main', 
-            fontWeight: 700,
-            fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' }
+            bgcolor: 'primary.main',
+            minWidth: 160,
+            py: 1.5,
+            fontWeight: 600,
+            fontSize: '1rem'
           }}
         >
-          Landing Page Properties
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-          Manage your landing page content, hero section, features, products, and more.
-        </Typography>
-        
-        {/* Save Button */}
-        <Paper 
-          sx={{ 
-            p: 3, 
-            mb: 4, 
-            bgcolor: 'primary.light', 
-            color: 'primary.contrastText',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 2
-          }}
-        >
-          <Box>
-            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
-              Save Your Changes
-            </Typography>
-            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-              Don't forget to save your changes after editing the content.
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            <Typography 
-              variant="body2" 
-              sx={{ 
-                display: 'flex', 
-                alignItems: 'center',
-                opacity: 0.8
-              }}
-            >
-              {saving ? 'Saving...' : 'Ready to save'}
-            </Typography>
-            <Box
-              component="button"
-              onClick={saveContent}
-              disabled={saving}
-              sx={{
-                bgcolor: 'white',
-                color: 'primary.main',
-                border: 'none',
-                borderRadius: 2,
-                px: 4,
-                py: 1.5,
-                fontSize: '1rem',
-                fontWeight: 600,
-                cursor: saving ? 'not-allowed' : 'pointer',
-                opacity: saving ? 0.6 : 1,
-                transition: 'all 0.2s ease-in-out',
-                '&:hover': {
-                  bgcolor: 'grey.100',
-                  transform: saving ? 'none' : 'translateY(-2px)'
-                },
-                '&:active': {
-                  transform: 'translateY(0)'
-                }
-              }}
-            >
-              {saving ? 'Saving...' : 'Save Changes'}
-            </Box>
-          </Box>
-        </Paper>
+          {saving ? 'Saving...' : '💾 Save Changes'}
+        </Button>
       </Box>
 
-      {/* Content Editors */}
-      <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
-        {/* Logo Section */}
-        <Grid item xs={12}>
-          <LogoEditor
-            content={content}
-            setContent={setContent}
-            onError={setError}
-            onUploadNotice={setUploadNotice}
-          />
-        </Grid>
+      {/* Tabs */}
+      <Paper sx={{ mb: 3, borderRadius: 2 }}>
+        <Tabs 
+          value={activeTab} 
+          onChange={(e, newValue) => setActiveTab(newValue)}
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            bgcolor: 'background.default'
+          }}
+        >
+          <Tab label="Hero" />
+          <Tab label="How It Works" />
+          <Tab label="Agent Benefits" />
+          <Tab label="Host Benefits" />
+          <Tab label="Platforms" />
+          <Tab label="Testimonials" />
+          <Tab label="Features" />
+          <Tab label="About & Contact" />
+          <Tab label="Branding" />
+        </Tabs>
 
-        {/* Hero Section */}
-        <Grid item xs={12}>
-          <HeroEditor
-            content={content}
-            setContent={setContent}
-            onError={setError}
-            onUploadNotice={setUploadNotice}
-          />
-        </Grid>
+        {/* Tab Content */}
+        <Box sx={{ p: { xs: 2, sm: 3 } }}>
+          {/* Hero Tab */}
+          {activeTab === 0 && (
+            <Box>
+              <HeroEditor
+                content={content}
+                setContent={setContent}
+                onError={setError}
+                onUploadNotice={setUploadNotice}
+              />
+            </Box>
+          )}
 
-        {/* Products and Features Section */}
-        <Grid item xs={12}>
-          <ProductsFeaturesEditor 
-            content={content} 
-            setContent={setContent} 
-            onError={setError} 
-            onUploadNotice={setUploadNotice} 
-          />
-        </Grid>
+          {/* How It Works Tab */}
+          {activeTab === 1 && (
+            <HowItWorksEditor 
+              data={content?.howItWorks}
+              onChange={(data) => setContent({ ...content, howItWorks: data })}
+            />
+          )}
 
-        {/* About Section */}
-        <Grid item xs={12}>
-          <AboutEditor 
-            content={content} 
-            setContent={setContent} 
-          />
-        </Grid>
+          {/* Agent Benefits Tab */}
+          {activeTab === 2 && (
+            <BenefitsEditor 
+              data={content?.agentBenefits}
+              title="Agent Benefits"
+              onChange={(data) => setContent({ ...content, agentBenefits: data })}
+            />
+          )}
 
-        {/* Contact Section */}
-        <Grid item xs={12}>
-          <ContactEditor 
-            content={content} 
-            setContent={setContent} 
-          />
-        </Grid>
-      </Grid>
+          {/* Host Benefits Tab */}
+          {activeTab === 3 && (
+            <BenefitsEditor 
+              data={content?.hostBenefits}
+              title="Host Benefits"
+              onChange={(data) => setContent({ ...content, hostBenefits: data })}
+            />
+          )}
+
+          {/* Platforms Tab */}
+          {activeTab === 4 && (
+            <PlatformsEditor 
+              data={content?.platforms}
+              onChange={(data) => setContent({ ...content, platforms: data })}
+            />
+          )}
+
+          {/* Testimonials Tab */}
+          {activeTab === 5 && (
+            <TestimonialsEditor 
+              data={content?.testimonials}
+              onChange={(data) => setContent({ ...content, testimonials: data })}
+            />
+          )}
+
+          {/* Features Tab */}
+          {activeTab === 6 && (
+            <ProductsFeaturesEditor 
+              content={content} 
+              setContent={setContent} 
+              onError={setError} 
+              onUploadNotice={setUploadNotice} 
+            />
+          )}
+
+          {/* About & Contact Tab */}
+          {activeTab === 7 && (
+            <Box>
+              <AboutEditor 
+                content={content} 
+                setContent={setContent} 
+              />
+              <Box sx={{ mt: 4 }}>
+                <ContactEditor 
+                  content={content} 
+                  setContent={setContent} 
+                />
+              </Box>
+            </Box>
+          )}
+
+          {/* Branding Tab */}
+          {activeTab === 8 && (
+            <LogoEditor
+              content={content}
+              setContent={setContent}
+              onError={setError}
+              onUploadNotice={setUploadNotice}
+            />
+          )}
+        </Box>
+      </Paper>
 
       {/* Notifications */}
       <Snackbar open={success} autoHideDuration={4000} onClose={() => setSuccess(false)}>
         <Alert severity="success" sx={{ width: '100%' }}>
-          Content saved successfully! Your changes are now live.
+          ✅ Content saved successfully! Your changes are now live.
         </Alert>
       </Snackbar>
 
