@@ -23,7 +23,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <Box sx={{ minHeight: '100vh' }}>
+    <Box sx={{ minHeight: '100vh' }} suppressHydrationWarning>
       <Header />
 
       {/* Hero Section */}

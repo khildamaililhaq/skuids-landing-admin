@@ -80,7 +80,7 @@ export default function Home() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: 'secondary.main' }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: 'secondary.main' }} suppressHydrationWarning>
       {/* Header with Logo */}
       <Header />
 

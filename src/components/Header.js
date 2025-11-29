@@ -14,9 +14,11 @@ export default function Header({ logo: propLogo }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [languageMenuAnchor, setLanguageMenuAnchor] = useState(null);
   const [currentLanguage, setCurrentLanguage] = useState('id');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') || 'id';
+    setMounted(true);
+    const savedLanguage = typeof window !== 'undefined' ? (localStorage.getItem('language') || 'id') : 'id';
     setCurrentLanguage(savedLanguage);
   }, []);
 

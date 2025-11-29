@@ -6,8 +6,7 @@ import {
   Typography,
   Container,
   Grid,
-  useTheme,
-  useMediaQuery
+  useTheme
 } from '@mui/material';
 import {
   Close as CloseIcon,
@@ -69,11 +68,23 @@ const getMenuItems = (t) => [
 
 export default function FullPageMenu({ open, onClose }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [isMobile, setIsMobile] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
   const router = useRouter();
   const t = useTranslations();
 
+  // Handle media query changes after mount to avoid hydration mismatch
+  useEffect(() => {
+    // Check if mobile after mounting to avoid hydration mismatch
+    const mediaQuery = window.matchMedia(theme.breakpoints.down('md').replace('@media ', ''));
+    setIsMobile(mediaQuery.matches);
+    
+    const handleChange = (e) => setIsMobile(e.matches);
+    mediaQuery.addListener(handleChange);
+    return () => mediaQuery.removeListener(handleChange);
+  }, [theme.breakpoints]);
+
+  // Handle animation state
   useEffect(() => {
     if (open) {
       // Small delay to ensure DOM is ready

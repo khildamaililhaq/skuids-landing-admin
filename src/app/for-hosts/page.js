@@ -1,7 +1,6 @@
 'use client';
 
-import { Box, Typography, Container, Button, Grid } from '@mui/material';
-import { useTheme } from '../../components/ThemeProvider';
+import { Box, Typography, Container, Button, Grid, useTheme as useMuiTheme } from '@mui/material';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import BenefitsSection from '../../components/BenefitsSection';
@@ -11,7 +10,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function ForHostsPage() {
-  const theme = useTheme();
+  const theme = useMuiTheme();
   const [content, setContent] = useState(null);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function ForHostsPage() {
   }, []);
 
   return (
-    <Box sx={{ minHeight: '100vh' }}>
+    <Box sx={{ minHeight: '100vh' }} suppressHydrationWarning>
       <Header />
 
       {/* Hero Section for Hosts */}
