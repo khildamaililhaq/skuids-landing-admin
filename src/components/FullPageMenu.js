@@ -24,30 +24,37 @@ import { useTranslations } from 'next-intl';
 const getMenuItems = (t) => [
   {
     title: t('navigation.home'),
-    description: t('menu.homeDesc'),
+    description: 'Discover how to earn with Skuids',
     icon: <HomeIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: t('navigation.products'),
-    description: t('menu.productsDesc'),
+    title: 'For Agents',
+    description: 'Build your team and grow your income',
+    icon: <PartnersIcon sx={{ fontSize: 48, color: 'white' }} />,
+    path: '/for-agents',
+    color: 'rgba(255, 255, 255, 0.9)'
+  },
+  {
+    title: 'For Hosts',
+    description: 'Start earning from live streaming',
     icon: <ServicesIcon sx={{ fontSize: 48, color: 'white' }} />,
-    path: '/products',
+    path: '/for-hosts',
+    color: 'rgba(255, 255, 255, 0.9)'
+  },
+  {
+    title: 'Platforms',
+    description: 'Stream on Chamet, Poppo & more',
+    icon: <NewsIcon sx={{ fontSize: 48, color: 'white' }} />,
+    path: '/platforms',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
     title: t('navigation.about'),
-    description: t('menu.aboutDesc'),
+    description: 'About Skuids and our mission',
     icon: <AboutIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/about',
-    color: 'rgba(255, 255, 255, 0.9)'
-  },
-  {
-    title: t('navigation.contact'),
-    description: 'Get in touch with us',
-    icon: <PartnersIcon sx={{ fontSize: 48, color: 'white' }} />,
-    path: '/contact',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {

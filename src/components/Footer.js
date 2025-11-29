@@ -3,6 +3,7 @@ import { useTheme, alpha } from '@mui/material/styles';
 import { Facebook, Instagram, WhatsApp, Phone, Email, LocationOn } from '@mui/icons-material';
 import { TikTokIcon, YouTubeIcon } from './SocialIcons';
 import { useTranslations } from 'next-intl';
+import NextLink from 'next/link';
 
 export default function Footer({ contactData }) {
   const theme = useTheme();
@@ -31,6 +32,35 @@ export default function Footer({ contactData }) {
       }}
     >
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        {/* Navigation Links */}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: { xs: 2, md: 4 },
+            flexWrap: 'wrap',
+            mb: { xs: 4, md: 6 },
+            pb: { xs: 3, md: 4 },
+            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          }}
+        >
+          <Link component={NextLink} href="/" sx={{ color: 'white', textDecoration: 'none', '&:hover': { opacity: 0.8 } }}>
+            Home
+          </Link>
+          <Link component={NextLink} href="/for-agents" sx={{ color: 'white', textDecoration: 'none', '&:hover': { opacity: 0.8 } }}>
+            For Agents
+          </Link>
+          <Link component={NextLink} href="/for-hosts" sx={{ color: 'white', textDecoration: 'none', '&:hover': { opacity: 0.8 } }}>
+            For Hosts
+          </Link>
+          <Link component={NextLink} href="/platforms" sx={{ color: 'white', textDecoration: 'none', '&:hover': { opacity: 0.8 } }}>
+            Platforms
+          </Link>
+          <Link component={NextLink} href="/about" sx={{ color: 'white', textDecoration: 'none', '&:hover': { opacity: 0.8 } }}>
+            About
+          </Link>
+        </Box>
+
         {/* Social Media & Contact Info - Simple Layout */}
         <Box sx={{
           display: 'flex',
