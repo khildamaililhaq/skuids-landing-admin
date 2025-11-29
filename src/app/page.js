@@ -5,6 +5,10 @@ import { Box, Typography } from '@mui/material';
 import { useTheme } from '../components/ThemeProvider';
 import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
+import HowItWorksSection from '../components/HowItWorksSection';
+import BenefitsSection from '../components/BenefitsSection';
+import PlatformsSection from '../components/PlatformsSection';
+import TestimonialsSection from '../components/TestimonialsSection';
 import Footer from '../components/Footer';
 import { getContent, incrementVisitCount } from '../lib/supabase';
 
@@ -70,7 +74,7 @@ export default function Home() {
         alignItems="center"
         minHeight="100vh"
       >
-        <Typography variant="h4">Memuat...</Typography>
+        <Typography variant="h4">Loading...</Typography>
       </Box>
     );
   }
@@ -80,8 +84,39 @@ export default function Home() {
       {/* Header with Logo */}
       <Header />
 
-      {/* Page Sections */}
+      {/* Hero Section */}
       <HeroSection heroData={content?.hero} />
+
+      {/* How It Works */}
+      <HowItWorksSection howItWorksData={content?.howItWorks} />
+
+      {/* Agent Benefits */}
+      <BenefitsSection 
+        title="For Agents"
+        description="Build your team and grow your income with our powerful tools and support"
+        benefits={content?.agentBenefits}
+        backgroundColor="transparent"
+      />
+
+      {/* Host Benefits */}
+      <BenefitsSection 
+        title="For Hosts"
+        description="Start earning immediately with flexible earning opportunities"
+        benefits={content?.hostBenefits}
+        backgroundColor="transparent"
+      />
+
+      {/* Platforms Section */}
+      <PlatformsSection 
+        platforms={content?.platforms}
+        title="Stream & Earn on Top Platforms"
+      />
+
+      {/* Testimonials */}
+      <TestimonialsSection 
+        testimonials={content?.testimonials}
+        title="Success Stories from Our Community"
+      />
 
       {/* Footer */}
       <Footer contactData={content?.contact} />
