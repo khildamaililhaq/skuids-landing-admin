@@ -79,7 +79,10 @@ export default function RegisterPage() {
     });
 
     if (result.success) {
-      showAlert('Registration successful! Please check your email to verify your account.');
+      const message = result.message || result.partial 
+        ? 'Registration successful! Please check your email to verify your account before logging in.'
+        : 'Registration successful! You can now log in.';
+      showAlert(message);
       setTimeout(() => {
         router.push('/login');
       }, 2000);
