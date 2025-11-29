@@ -564,6 +564,23 @@ export const registerAgent = async (agentData) => {
       return { success: false, error: errorMsg };
     }
 
+    // Validate we have user data
+    if (!signupResult.user) {
+      console.error('No user in signup result:', signupResult);
+      return { success: false, error: 'Registration failed: No user data in response' };
+    }
+    
+    // Handle pending verification case where user.id might not be immediately available
+    if (!signupResult.user.id || signupResult.user.id === 'pending_verification') {
+      console.log('User is pending email verification, skipping agent record creation');
+      return {
+        success: true,
+        data: { email: signupResult.user.email || agentData.email },
+        message: 'Registration successful! Please verify your email before logging in.',
+        partial: true
+      };
+    }
+
     // Step 2: Create agent record in database (now user has auth, should bypass RLS)
     // Wait a moment for auth to be ready
     await new Promise(resolve => setTimeout(resolve, 500));

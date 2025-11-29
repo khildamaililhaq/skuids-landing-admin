@@ -46,9 +46,9 @@ export async function POST(request) {
 
     // Log the full response for debugging
     console.log('Supabase signup response status:', signUpResponse.status);
-    console.log('Supabase signup response:', authResult);
+    console.log('Supabase signup response:', JSON.stringify(authResult, null, 2));
 
-    if (!signUpResponse.ok || authResult.error) {
+    if (!signUpResponse.ok) {
       const errorMessage = typeof authResult.error === 'string' 
         ? authResult.error 
         : authResult.error?.message || authResult.message || 'Auth signup failed';
@@ -57,6 +57,28 @@ export async function POST(request) {
       return NextResponse.json(
         { success: false, error: errorMessage },
         { status: signUpResponse.status || 400 }
+      );
+    }
+
+    // Check if we have user data in the response
+    if (!authResult.user || !authResult.user.id) {
+      console.error('No user data in signup response:', authResult);
+      // Sometimes Supabase returns success but with confirmation_sent_at instead of full user object
+      if (authResult.confirmation_sent_at || authResult.user?.confirmation_sent_at) {
+        console.log('Email confirmation sent, returning pending verification');
+        return NextResponse.json({
+          success: true,
+          user: {
+            id: 'pending_verification',
+            email: agentData.email,
+            email_confirmed_at: null
+          },
+          message: 'Registration successful! Please check your email to verify your account.'
+        });
+      }
+      return NextResponse.json(
+        { success: false, error: 'Signup returned no user data. Email may already be registered.' },
+        { status: 400 }
       );
     }
 
