@@ -16,7 +16,13 @@ export default function Home() {
   const { updateTheme } = useTheme();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const updateThemeRef = useRef(updateTheme);
+
+  // Set mounted flag on first render
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     updateThemeRef.current = updateTheme;
@@ -50,29 +56,34 @@ export default function Home() {
       }
     };
 
-    fetchContent();
-  }, []);
+    if (mounted) {
+      fetchContent();
+    }
+  }, [mounted]);
 
   // Increment visit count on page load
   useEffect(() => {
-    const trackVisit = async () => {
-      try {
-        await incrementVisitCount('landing');
-      } catch (error) {
-        console.error('Failed to track visit:', error);
-      }
-    };
+    if (!loading && mounted) {
+      const trackVisit = async () => {
+        try {
+          await incrementVisitCount('landing');
+        } catch (error) {
+          console.error('Failed to track visit:', error);
+        }
+      };
 
-    trackVisit();
-  }, []);
+      trackVisit();
+    }
+  }, [loading, mounted]);
 
-  if (loading) {
+  if (!mounted || loading) {
     return (
       <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
         minHeight="100vh"
+        suppressHydrationWarning
       >
         <Typography variant="h4">Loading...</Typography>
       </Box>
