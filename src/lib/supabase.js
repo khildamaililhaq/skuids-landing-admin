@@ -3,11 +3,20 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+// Determine the correct redirect URL based on environment
+const getRedirectUrl = () => {
+  if (typeof window === 'undefined') return 'http://localhost:3000';
+  
+  const isProduction = window.location.hostname === 'skuids.live' || window.location.hostname === 'www.skuids.live';
+  return isProduction ? 'https://skuids.live/auth/callback' : 'http://localhost:3000/auth/callback';
+};
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true,
+    redirectTo: getRedirectUrl(),
   },
 });
 
@@ -536,8 +545,8 @@ export const deleteAgent = async (id) => {
 // Agent authentication
 export const registerAgent = async (agentData) => {
   try {
-    // Call the backend API route that uses service role (bypasses RLS)
-    const response = await fetch('/api/register', {
+    // Step 1: Create auth user via backend API
+    const signupResponse = await fetch('/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -545,14 +554,44 @@ export const registerAgent = async (agentData) => {
       body: JSON.stringify(agentData),
     });
 
-    const result = await response.json();
+    const signupResult = await signupResponse.json();
 
-    if (!response.ok) {
-      return { success: false, error: result.error || 'Registration failed' };
+    if (!signupResponse.ok || !signupResult.success) {
+      return { success: false, error: signupResult.error || 'Signup failed' };
     }
 
-    return { success: true, data: result.data };
+    // Step 2: Create agent record in database (now user has auth, should bypass RLS)
+    // Wait a moment for auth to be ready
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const agentRecord = {
+      id: signupResult.user.id,
+      name: agentData.name,
+      username: agentData.username || agentData.email.split('@')[0],
+      phone_number: agentData.phone_number || null,
+      email: agentData.email,
+    };
+
+    const { data: agentResult, error: agentError } = await supabase
+      .from('agents')
+      .insert(agentRecord)
+      .select()
+      .single();
+
+    if (agentError) {
+      console.error('Agent record creation failed:', agentError);
+      // Agent record failed but auth user was created - user can still log in
+      return {
+        success: true,
+        data: signupResult.user,
+        message: 'Signup successful but profile creation pending. Please log in to complete your profile.',
+        partial: true
+      };
+    }
+
+    return { success: true, data: agentResult };
   } catch (err) {
+    console.error('Registration error:', err);
     return { success: false, error: err.message };
   }
 };
