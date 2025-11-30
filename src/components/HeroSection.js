@@ -73,7 +73,7 @@ export default function HeroSection({ heroData }) {
               left: 0,
               right: 0,
               bottom: 0,
-              background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.6)} 0%, ${alpha(theme.palette.primary.main, 0.4)} 100%)`,
+              background: `linear-gradient(135deg, ${alpha(theme.palette.secondary.main, 0.3)} 0%, ${alpha(theme.palette.secondary.main, 0.2)} 100%)`,
               zIndex: 1,
             },
           }}

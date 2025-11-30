@@ -58,6 +58,7 @@ const BenefitCard = ({ benefit, index, theme }) => {
         sx={{
           height: 460,
           maxHeight: 460,
+          maxWidth: 360,
           display: 'flex',
           flexDirection: 'column',
           borderRadius: '20px',
@@ -69,7 +70,8 @@ const BenefitCard = ({ benefit, index, theme }) => {
           position: 'relative',
           '@media (max-width: 900px)': {
             height: 'auto',
-            maxHeight: 'none',
+            // maxWidth: '200px',
+            maxHeight: '500px',
           },
           '&::before': {
             content: '""',
@@ -383,7 +385,14 @@ export default function BenefitsSection({ title, description, benefits, backgrou
           viewport={{ once: true, margin: '-100px' }}
           style={{ width: '100%' }}
         >
-          <Grid container spacing={{ xs: 3, sm: 3, md: 4 }}>
+          <Grid 
+            container 
+            spacing={{ xs: 3, sm: 3, md: 4 }}
+            sx={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             {benefits.map((benefit, index) => (
               <Grid 
                 item 
@@ -394,9 +403,10 @@ export default function BenefitsSection({ title, description, benefits, backgrou
                 key={benefit.id || index}
                 sx={{
                   display: 'flex',
+                  justifyContent: 'center',
                 }}
               >
-                <Box sx={{ width: '100%', display: 'flex' }}>
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                   <BenefitCard benefit={benefit} index={index} theme={theme} />
                 </Box>
               </Grid>

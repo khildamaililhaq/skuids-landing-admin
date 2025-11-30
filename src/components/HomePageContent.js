@@ -39,7 +39,6 @@ export default function HomePageContent({ content }) {
 
       {/* Platforms Section */}
       <PlatformsSection
-        platforms={content?.platforms}
         title="Stream & Earn on Top Platforms"
       />
 

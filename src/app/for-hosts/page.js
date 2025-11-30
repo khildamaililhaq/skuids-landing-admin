@@ -30,48 +30,53 @@ export default function ForHostsPage() {
       {/* Hero Section for Hosts */}
       <Box
         sx={{
-          py: { xs: 8, md: 12 },
-          px: { xs: 2, md: 4 },
+          pt: { xs: 14, sm: 16, md: 20 },
+          pb: { xs: 6, sm: 8, md: 12 },
+          px: { xs: 2, sm: 3, md: 4 },
           background: `linear-gradient(135deg, ${theme.palette.primary.main}20 0%, ${theme.palette.secondary.main}20 100%)`,
           textAlign: 'center',
+          overflow: 'hidden',
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="md" sx={{ px: { xs: 1, sm: 2, md: 3 } }}>
           <Typography
             variant="h2"
             component="h1"
             sx={{
               fontWeight: 'bold',
               mb: 3,
-              fontSize: { xs: '2rem', md: '3.5rem' },
+              fontSize: { xs: 'clamp(1.75rem, 5vw, 3.5rem)' },
+              lineHeight: 1.2,
               background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              wordBreak: 'break-word',
             }}
           >
             Earn Money While Streaming
           </Typography>
           <Typography
-            variant="h6"
+            variant="body1"
             sx={{
               color: theme.palette.text.secondary,
               mb: 4,
               lineHeight: 1.8,
-              fontSize: { xs: '1rem', md: '1.25rem' },
+              fontSize: { xs: 'clamp(0.95rem, 2.5vw, 1.25rem)' },
+              wordBreak: 'break-word',
             }}
           >
             Start your livestream career with Skuids. Earn from viewer gifts, daily missions, and bonuses. Work flexibly on your own schedule.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', gap: { xs: 1, sm: 2 }, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button
               component={Link}
               href="/register"
               variant="contained"
-              size="large"
+              size="medium"
               sx={{
-                px: 4,
-                py: 1.5,
+                px: { xs: 2.5, sm: 4 },
+                py: { xs: 1, sm: 1.5 },
                 bgcolor: theme.palette.primary.main,
                 '&:hover': {
                   bgcolor: theme.palette.primary.dark,
@@ -82,10 +87,10 @@ export default function ForHostsPage() {
             </Button>
             <Button
               variant="outlined"
-              size="large"
+              size="medium"
               sx={{
-                px: 4,
-                py: 1.5,
+                px: { xs: 2.5, sm: 4 },
+                py: { xs: 1, sm: 1.5 },
                 borderColor: theme.palette.primary.main,
                 color: theme.palette.primary.main,
               }}
@@ -141,7 +146,7 @@ export default function ForHostsPage() {
             </Typography>
           </Box>
 
-          <Grid container spacing={4}>
+          <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
             {[
               {
                 icon: '🎁',
@@ -168,10 +173,13 @@ export default function ForHostsPage() {
                 earning: 'Tier-based rewards',
               },
             ].map((item, idx) => (
-              <Grid item xs={12} md={6} key={idx}>
+              <Grid item xs={12} md={6} key={idx} sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Box
                   sx={{
                     p: 4,
+                    width: '100%',
+                    maxWidth: 400,
+                    textAlign: 'center',
                     border: `2px solid ${theme.palette.primary.main}40`,
                     borderRadius: 3,
                     background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.mode === 'dark' ? '#1a1a1a' : '#f5f5f5'} 100%)`,
@@ -228,7 +236,7 @@ export default function ForHostsPage() {
             </Typography>
           </Box>
 
-          <Grid container spacing={4}>
+          <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
             {[
               {
                 step: '1',
@@ -246,11 +254,13 @@ export default function ForHostsPage() {
                 description: 'Launch your first stream and start earning! Our support team is here if you need help.',
               },
             ].map((item, idx) => (
-              <Grid item xs={12} md={4} key={idx}>
+              <Grid item xs={12} md={4} key={idx} sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Box
                   sx={{
                     textAlign: 'center',
                     p: 4,
+                    width: '100%',
+                    maxWidth: 350,
                     border: `2px solid ${theme.palette.primary.main}40`,
                     borderRadius: 3,
                     background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.mode === 'dark' ? '#1a1a1a' : '#f5f5f5'} 100%)`,
