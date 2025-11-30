@@ -89,7 +89,7 @@ export default function ProductsPage() {
               variant="h5"
               sx={{
                 mb: 2,
-                color: '#666',
+                color: 'text.secondary',
                 fontWeight: 500
               }}
             >
@@ -98,7 +98,7 @@ export default function ProductsPage() {
             <Typography
               variant="body2"
               sx={{
-                color: '#999',
+                color: 'text.secondary',
                 maxWidth: '300px'
               }}
             >
@@ -114,7 +114,7 @@ export default function ProductsPage() {
   return (
     <>
       <Header />
-      <Box sx={{ minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+      <Box sx={{ minHeight: '100vh', bgcolor: '#FFFCF5' }}>
         <Container maxWidth="lg" sx={{ py: 3 }}>
 
           {/* Simple Title */}

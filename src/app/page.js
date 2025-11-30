@@ -1,8 +1,4 @@
-'use client';
-
-import { useEffect, useState, useRef } from 'react';
-import { Box, Typography } from '@mui/material';
-import { useTheme } from '../components/ThemeProvider';
+import { Box } from '@mui/material';
 import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
 import HowItWorksSection from '../components/HowItWorksSection';
@@ -10,127 +6,77 @@ import BenefitsSection from '../components/BenefitsSection';
 import PlatformsSection from '../components/PlatformsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import Footer from '../components/Footer';
+import HomePageContent from '../components/HomePageContent';
 import { getContent, incrementVisitCount } from '../lib/supabase';
 
-export default function Home() {
-  const { updateTheme } = useTheme();
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [mounted, setMounted] = useState(false);
-  const updateThemeRef = useRef(updateTheme);
+// SEO Metadata
+export const metadata = {
+  title: 'Skuids - Livestream & Earn | Join the Top Streaming Agency',
+  description: 'Join Skuids and start earning through livestreaming. Partner with top platforms, grow your audience, and monetize your content with our complete support system.',
+  keywords: ['livestreaming', 'earn money', 'content creator', 'streaming agency', 'social media monetization'],
+  authors: [{ name: 'Skuids' }],
+  openGraph: {
+    title: 'Skuids - Livestream & Earn | Join the Top Streaming Agency',
+    description: 'Join Skuids and start earning through livestreaming. Partner with top platforms, grow your audience, and monetize your content.',
+    url: 'https://skuids.live',
+    siteName: 'Skuids',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Skuids - Livestream & Earn',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Skuids - Livestream & Earn',
+    description: 'Join Skuids and start earning through livestreaming.',
+    images: ['/og-image.jpg'],
+  },
+};
 
-  // Set mounted flag on first render
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+export default async function Home() {
+  const result = await getContent();
+  const content = result.success ? result.data : null;
 
-  useEffect(() => {
-    updateThemeRef.current = updateTheme;
-  }, [updateTheme]);
-
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const result = await getContent();
-        if (result.success) {
-          setContent(result.data);
-          
-          // Apply theme from content if available
-          if (result.data.theme) {
-            updateThemeRef.current({
-              mode: result.data.theme.mode || 'light',
-              primaryColor: result.data.theme.primaryColor || '#005F73',
-              secondaryColor: result.data.theme.secondaryColor || '#FFE347',
-              warningColor: result.data.theme.warningColor || '#FF90AD',
-              backgroundDefault: result.data.theme.backgroundDefault || '#F5F5F5',
-              backgroundPaper: result.data.theme.backgroundPaper || '#FFFFFF',
-            });
-          }
-        } else {
-          console.error('Failed to fetch content:', result.error);
-        }
-      } catch (error) {
-        console.error('Failed to fetch content:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (mounted) {
-      fetchContent();
-    }
-  }, [mounted]);
-
-  // Increment visit count on page load
-  useEffect(() => {
-    if (!loading && mounted) {
-      const trackVisit = async () => {
-        try {
-          await incrementVisitCount('landing');
-        } catch (error) {
-          console.error('Failed to track visit:', error);
-        }
-      };
-
-      trackVisit();
-    }
-  }, [loading, mounted]);
-
-  if (!mounted || loading) {
-    return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="100vh"
-        suppressHydrationWarning
-      >
-        <Typography variant="h4">Loading...</Typography>
-      </Box>
-    );
+  // Increment visit count server-side
+  try {
+    await incrementVisitCount('landing');
+  } catch (error) {
+    console.error('Failed to track visit:', error);
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: 'secondary.main' }} suppressHydrationWarning>
-      {/* Header with Logo */}
-      <Header />
-
-      {/* Hero Section */}
-      <HeroSection heroData={content?.hero} /> 
-
-      {/* How It Works */}
-      <HowItWorksSection howItWorksData={content?.howItWorks} />
-
-      {/* Agent Benefits */}
-      <BenefitsSection 
-        title="For Agents"
-        description="Build your team and grow your income with our powerful tools and support"
-        benefits={content?.agentBenefits}
-        backgroundColor="transparent"
+    <>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Skuids',
+            url: 'https://skuids.live',
+            logo: 'https://skuids.live/logo.png',
+            description: 'The premier livestreaming agency helping creators earn through multiple platforms',
+            sameAs: [
+              'https://facebook.com/skuids',
+              'https://instagram.com/skuids',
+              'https://twitter.com/skuids',
+            ],
+            contactPoint: {
+              '@type': 'ContactPoint',
+              contactType: 'Customer Service',
+              email: content?.contact?.email || 'support@skuids.live',
+            },
+          }),
+        }}
       />
 
-      {/* Host Benefits */}
-      <BenefitsSection 
-        title="For Hosts"
-        description="Start earning immediately with flexible earning opportunities"
-        benefits={content?.hostBenefits}
-        backgroundColor="transparent"
-      />
-
-      {/* Platforms Section */}
-      <PlatformsSection 
-        platforms={content?.platforms}
-        title="Stream & Earn on Top Platforms"
-      />
-
-      {/* Testimonials */}
-      <TestimonialsSection 
-        testimonials={content?.testimonials}
-        title="Success Stories from Our Community"
-      />
-
-      {/* Footer */}
-      <Footer contactData={content?.contact} />
-    </Box>
+      <HomePageContent content={content} />
+    </>
   );
 }

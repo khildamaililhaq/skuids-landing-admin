@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Box, Button, IconButton, Container, Menu, MenuItem } from '@mui/material';
 import { Menu as MenuIcon, Language as LanguageIcon } from '@mui/icons-material';

@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography, Container, Grid, Link, IconButton, Divider } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
 import { Facebook, Instagram, WhatsApp, Phone, Email, LocationOn } from '@mui/icons-material';
@@ -88,7 +90,7 @@ export default function Footer({ contactData }) {
                 background: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#1877F2',
+                color: theme.palette.social?.facebook || '#1877F2',
                 borderRadius: '50%',
               }}
             >
@@ -104,7 +106,7 @@ export default function Footer({ contactData }) {
                 background: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#E1306C',
+                color: theme.palette.social?.instagram || '#E1306C',
                 borderRadius: '50%',
               }}
             >
@@ -120,7 +122,7 @@ export default function Footer({ contactData }) {
                 background: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#25D366',
+                color: theme.palette.social?.whatsapp || '#25D366',
                 borderRadius: '50%',
               }}
             >
@@ -136,7 +138,7 @@ export default function Footer({ contactData }) {
                 background: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#000000',
+                color: theme.palette.social?.tiktok || '#000000',
                 borderRadius: '50%',
               }}
             >
@@ -152,7 +154,7 @@ export default function Footer({ contactData }) {
                 background: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#FF0000',
+                color: theme.palette.social?.youtube || '#FF0000',
                 borderRadius: '50%',
               }}
             >

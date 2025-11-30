@@ -33,10 +33,10 @@ export default function PartnersPage() {
           if (contentResult.data.theme) {
             updateThemeRef.current({
               mode: contentResult.data.theme.mode || 'light',
-              primaryColor: contentResult.data.theme.primaryColor || '#005F73',
-              secondaryColor: contentResult.data.theme.secondaryColor || '#FFE347',
-              warningColor: contentResult.data.theme.warningColor || '#FF90AD',
-              backgroundDefault: contentResult.data.theme.backgroundDefault || '#F5F5F5',
+              primaryColor: contentResult.data.theme.primaryColor || '#CFAA0A',
+              secondaryColor: contentResult.data.theme.secondaryColor || '#8E7629',
+              warningColor: contentResult.data.theme.warningColor || '#B3261E',
+              backgroundDefault: contentResult.data.theme.backgroundDefault || '#FFFCF5',
               backgroundPaper: contentResult.data.theme.backgroundPaper || '#FFFFFF',
             });
           }

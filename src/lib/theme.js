@@ -3,31 +3,55 @@ import { createTheme } from '@mui/material/styles';
 
 export const COLORS = {
   primary: {
-    main: '#84DC00',
-    light: '#A8E633',
-    dark: '#5DA800',
-    contrastText: '#000000'
+    main: '#CFAA0A',        // Primary
+    light: '#F7D96F',       // Primary Container
+    dark: '#8D7200',
+    contrastText: '#FFFFFF' // On Primary
   },
   secondary: {
-    main: '#7b3cc3',
-    light: '#9d5dd3',
-    dark: '#5a2b99',
+    main: '#8E7629',
+    light: '#E0C276',       // Secondary Container
+    dark: '#594700',
     contrastText: '#FFFFFF'
   },
-  warning: {
-    main: '#FF4444',
-    light: '#FF6666',
-    dark: '#CC0000'
-  },
   tertiary: {
-    main: '#FFA500',
-    light: '#FFBF00',
-    dark: '#CC8400',
-    contrastText: '#000000'
+    main: '#009A98',
+    light: '#67D0CE',
+    dark: '#004F4C',
+    contrastText: '#FFFFFF'
   },
   background: {
-    default: '#F0F0F0',
+    default: '#FFFCF5',
     paper: '#FFFFFF'
+  },
+  text: {
+    primary: '#1A1A15',
+    secondary: '#47473F'
+  },
+  neutral: {
+    10: '#1A1A15',
+    20: '#2F2F2A',
+    30: '#47473F',
+    40: '#5F5F56',
+    50: '#77776D',
+    60: '#909086',
+    70: '#AAAA9F',
+    80: '#C5C5BA',
+    90: '#E2E2D7',
+    95: '#F6F6EC',
+    99: '#FDFCFA'
+  },
+  warning: {
+    main: '#B3261E',
+    light: '#F9DEDC',
+    dark: '#B3261E'
+  },
+  social: {
+    facebook: '#1877F2',
+    instagram: '#E1306C',
+    whatsapp: '#25D366',
+    tiktok: '#000000',
+    youtube: '#FF0000'
   }
 };
 
@@ -115,11 +139,11 @@ export const COMPONENT_STYLES = {
   },
 
   gradient: {
-    primary: 'linear-gradient(135deg, #84DC00 0%, #A8E633 100%)',
-    secondary: 'linear-gradient(135deg, #0066FF 0%, #3399FF 100%)',
-    tertiary: 'linear-gradient(135deg, #FFA500 0%, #FFBF00 100%)',
-    dark: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-    accent: 'linear-gradient(135deg, #84DC00 0%, #0066FF 50%, #FFA500 100%)'
+    primary: `linear-gradient(135deg, ${COLORS.primary.main} 0%, ${COLORS.primary.light} 100%)`,
+    secondary: `linear-gradient(135deg, ${COLORS.secondary.main} 0%, ${COLORS.secondary.light} 100%)`,
+    tertiary: `linear-gradient(135deg, ${COLORS.tertiary.main} 0%, ${COLORS.tertiary.light} 100%)`,
+    dark: `linear-gradient(135deg, ${COLORS.text.primary} 0%, ${COLORS.neutral[20]} 100%)`,
+    accent: `linear-gradient(135deg, ${COLORS.primary.main} 0%, ${COLORS.tertiary.main} 50%, ${COLORS.secondary.main} 100%)`
   },
 
   modernCard: {
@@ -225,90 +249,91 @@ export const createCustomTheme = (config) => {
   // Ensure config is defined
   const safeConfig = config || {};
 
-  // Ensure COLORS object is properly defined
-  const defaultColors = {
-    primary: { main: '#84DC00', light: '#A8E633', dark: '#5DA800', contrastText: '#000000' },
-    secondary: { main: '#0066FF', light: '#3399FF', dark: '#0044CC', contrastText: '#FFFFFF' },
-    warning: { main: '#FF4444', light: '#FF6666', dark: '#CC0000' },
-    tertiary: { main: '#FFA500', light: '#FFBF00', dark: '#CC8400', contrastText: '#000000' },
-    background: { default: '#F0F0F0', paper: '#FFFFFF' }
-  };
-
-  const colors = COLORS || defaultColors;
-
   return createTheme({
     palette: {
       mode: safeConfig.mode || 'light',
       primary: {
-        main: safeConfig.primaryColor || colors.primary.main,
-        light: colors.primary.light,
-        dark: colors.primary.dark,
-        contrastText: colors.primary.contrastText,
+        main: safeConfig.primaryColor || COLORS.primary.main,
+        light: COLORS.primary.light,
+        dark: COLORS.primary.dark,
+        contrastText: COLORS.primary.contrastText,
       },
       secondary: {
-        main: safeConfig.secondaryColor || colors.secondary.main,
-        light: colors.secondary.light,
-        dark: colors.secondary.dark,
-        contrastText: colors.secondary.contrastText,
+        main: safeConfig.secondaryColor || COLORS.secondary.main,
+        light: COLORS.secondary.light,
+        dark: COLORS.secondary.dark,
+        contrastText: COLORS.secondary.contrastText,
       },
       warning: {
-        main: safeConfig.warningColor || colors.warning.main,
-        light: colors.warning.light,
-        dark: colors.warning.dark,
+        main: COLORS.warning.main,
+        light: COLORS.warning.light,
+        dark: COLORS.warning.dark,
       },
       tertiary: {
-        main: safeConfig.tertiaryColor || colors.tertiary.main,
-        light: colors.tertiary.light,
-        dark: colors.tertiary.dark,
-        contrastText: colors.tertiary.contrastText,
+        main: safeConfig.tertiaryColor || COLORS.tertiary.main,
+        light: COLORS.tertiary.light,
+        dark: COLORS.tertiary.dark,
+        contrastText: COLORS.tertiary.contrastText,
       },
       background: {
-        default: safeConfig.backgroundDefault || colors.background.default,
-        paper: safeConfig.backgroundPaper || colors.background.paper,
+        default: safeConfig.backgroundDefault || COLORS.background.default,
+        paper: safeConfig.backgroundPaper || COLORS.background.paper,
       },
+      text: {
+        primary: COLORS.text.primary,
+        secondary: COLORS.text.secondary,
+      },
+      social: {
+        facebook: COLORS.social.facebook,
+        instagram: COLORS.social.instagram,
+        whatsapp: COLORS.social.whatsapp,
+        tiktok: COLORS.social.tiktok,
+        youtube: COLORS.social.youtube,
+      },
+      neutral: COLORS.neutral,
     },
     typography: {
       fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
       h1: {
-        fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-        fontWeight: 800,
+        fontSize: '3rem',
+        fontWeight: 700,
         lineHeight: 1.1,
         letterSpacing: '-0.02em',
       },
       h2: {
-        fontSize: 'clamp(2rem, 4vw, 3rem)',
+        fontSize: '2.5rem',
         fontWeight: 700,
         lineHeight: 1.2,
         letterSpacing: '-0.01em',
       },
       h3: {
-        fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+        fontSize: '2rem',
         fontWeight: 600,
         lineHeight: 1.3,
         letterSpacing: '-0.005em',
       },
       h4: {
-        fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)',
+        fontSize: '1.5rem',
         fontWeight: 600,
         lineHeight: 1.4,
       },
       h5: {
-        fontSize: 'clamp(1.125rem, 2vw, 1.5rem)',
+        fontSize: '1.25rem',
         fontWeight: 600,
         lineHeight: 1.4,
       },
       h6: {
-        fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+        fontSize: '1rem',
         fontWeight: 600,
         lineHeight: 1.5,
       },
       body1: {
-        fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)',
+        fontSize: '1rem',
         lineHeight: 1.7,
         fontWeight: 400,
       },
       body2: {
-        fontSize: 'clamp(0.75rem, 1.25vw, 0.875rem)',
+        fontSize: '0.875rem',
         lineHeight: 1.6,
         fontWeight: 400,
       },
@@ -326,40 +351,25 @@ export const createCustomTheme = (config) => {
       MuiButton: {
         styleOverrides: {
           root: {
-            borderRadius: BORDER_RADIUS.xl,
+            borderRadius: 12,
             fontWeight: 600,
             textTransform: 'none',
-            padding: '14px 28px',
+            padding: '10px 20px',
             boxShadow: 'none',
             transition: TRANSITIONS.normal,
-            position: 'relative',
-            overflow: 'hidden',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: '-100%',
-              width: '100%',
-              height: '100%',
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-              transition: 'left 0.5s',
-            },
-            '&:hover::before': {
-              left: '100%',
-            },
             '&:hover': {
               transform: 'translateY(-2px)',
-              boxShadow: SHADOWS.lg,
+              boxShadow: SHADOWS.md,
             },
             '&:active': {
               transform: 'translateY(0)',
             },
           },
           contained: {
-            background: 'linear-gradient(135deg, #84DC00 0%, #A8E633 100%)',
+            background: `linear-gradient(135deg, ${COLORS.primary.main} 0%, ${COLORS.primary.light} 100%)`,
             boxShadow: SHADOWS.md,
             '&:hover': {
-              background: 'linear-gradient(135deg, #A8E633 0%, #84DC00 100%)',
+              background: `linear-gradient(135deg, ${COLORS.primary.light} 0%, ${COLORS.primary.main} 100%)`,
               boxShadow: SHADOWS.lg,
             },
           },
@@ -376,13 +386,13 @@ export const createCustomTheme = (config) => {
         styleOverrides: {
           root: {
             '& .MuiOutlinedInput-root': {
-              borderRadius: BORDER_RADIUS.md,
+              borderRadius: 12,
               transition: TRANSITIONS.fast,
               '&:hover fieldset': {
-                borderColor: 'primary.main',
+                borderColor: COLORS.primary.main,
               },
               '&.Mui-focused fieldset': {
-                borderColor: 'primary.main',
+                borderColor: COLORS.primary.main,
               },
             },
           },
@@ -391,16 +401,15 @@ export const createCustomTheme = (config) => {
       MuiCard: {
         styleOverrides: {
           root: {
-            borderRadius: BORDER_RADIUS.xl,
+            borderRadius: 16,
             boxShadow: SHADOWS.md,
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
+            border: `1px solid ${COLORS.neutral[90]}`,
+            background: COLORS.background.paper,
             transition: TRANSITIONS.normal,
             '&:hover': {
               transform: 'translateY(-4px)',
               boxShadow: SHADOWS.lg,
-              border: '1px solid rgba(132, 220, 0, 0.2)',
+              borderColor: COLORS.primary.light,
             },
           },
         },
@@ -409,6 +418,7 @@ export const createCustomTheme = (config) => {
         styleOverrides: {
           root: {
             backgroundImage: 'none',
+            borderRadius: 16,
           },
         },
       },

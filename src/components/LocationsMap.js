@@ -77,23 +77,23 @@ const LocationsMap = () => {
   const categoryConfig = {
     'Pabrik': {
       icon: FactoryIcon,
-      color: '#1976d2',
-      bgColor: '#e3f2fd'
+      color: theme.palette.primary?.main || '#1976d2',
+      bgColor: theme.palette.primary?.light + '33' || '#e3f2fd'
     },
     'Supplier': {
       icon: BusinessIcon,
-      color: '#7b1fa2',
-      bgColor: '#f3e5f5'
+      color: theme.palette.secondary?.main || '#7b1fa2',
+      bgColor: theme.palette.secondary?.light + '33' || '#f3e5f5'
     },
     'Dropshipper': {
       icon: LocalShippingIcon,
-      color: '#f57c00',
-      bgColor: '#fff3e0'
+      color: theme.palette.warning?.main || '#f57c00',
+      bgColor: theme.palette.warning?.light + '33' || '#fff3e0'
     },
     'Toko': {
       icon: StoreIcon,
-      color: '#388e3c',
-      bgColor: '#e8f5e8'
+      color: theme.palette.tertiary?.main || '#388e3c',
+      bgColor: theme.palette.tertiary?.light + '33' || '#e8f5e8'
     }
   };
 
@@ -195,7 +195,7 @@ const LocationsMap = () => {
             <p style={{
               margin: '0 0 4px 0',
               fontSize: '12px',
-              color: '#666'
+              color: theme.palette.text.secondary
             }}>
               {location.category}
             </p>
@@ -203,7 +203,7 @@ const LocationsMap = () => {
               <p style={{
                 margin: 0,
                 fontSize: '12px',
-                color: '#666'
+                color: theme.palette.text.secondary
               }}>
                 {location.description}
               </p>
