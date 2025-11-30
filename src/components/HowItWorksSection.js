@@ -34,7 +34,14 @@ const QontoConnector = () => {
 export default function HowItWorksSection({ howItWorksData }) {
   const theme = useMuiTheme();
 
-  if (!howItWorksData || !howItWorksData.steps) {
+  // Show nothing if no data
+  if (!howItWorksData) {
+    return null;
+  }
+
+  // Use fallback data if steps are missing
+  const steps = howItWorksData.steps || [];
+  if (steps.length === 0) {
     return null;
   }
 
@@ -122,7 +129,7 @@ export default function HowItWorksSection({ howItWorksData }) {
           style={{ width: '100%' }}
         >
           <Grid container spacing={{ xs: 3, sm: 4, md: 5 }}>
-            {howItWorksData.steps.map((step, index) => (
+            {steps.map((step, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <motion.div variants={itemVariants} style={{ height: '100%' }}>
                   <FeatureCard
@@ -138,7 +145,7 @@ export default function HowItWorksSection({ howItWorksData }) {
         </motion.div>
 
         {/* Process Timeline - Desktop Only */}
-        {howItWorksData.steps && howItWorksData.steps.length > 0 && (
+        {steps && steps.length > 0 && (
           <Box
             sx={{
               mt: { xs: 8, md: 10 },
@@ -153,7 +160,7 @@ export default function HowItWorksSection({ howItWorksData }) {
               viewport={{ once: true }}
             >
               <Stepper
-                activeStep={howItWorksData.steps.length - 1}
+                activeStep={steps.length - 1}
                 connector={<QontoConnector />}
                 sx={{
                   '& .MuiStepLabel-root': {
@@ -161,7 +168,7 @@ export default function HowItWorksSection({ howItWorksData }) {
                   },
                 }}
               >
-                {howItWorksData.steps.map((step, index) => (
+                {steps.map((step, index) => (
                   <Step key={index}>
                     <StepLabel
                       sx={{
