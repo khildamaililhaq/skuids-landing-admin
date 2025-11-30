@@ -1,8 +1,251 @@
 'use client';
 
-import { Box, Container, Typography, Grid, useTheme as useMuiTheme, Stack, Card, CardContent, alpha } from '@mui/material';
+import { Box, Container, Typography, Grid, useTheme as useMuiTheme, Stack, Card, CardContent, CardMedia, alpha, Chip } from '@mui/material';
 import { motion } from 'framer-motion';
-import FeatureCard from './FeatureCard';
+import { CheckCircle, TrendingUp } from '@mui/icons-material';
+
+const BenefitCard = ({ benefit, index, theme }) => {
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.9 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: [0.34, 1.56, 0.64, 1],
+        delay: i * 0.1,
+      },
+    }),
+    hover: {
+      y: -12,
+      boxShadow: `0 20px 40px ${alpha(theme.palette.primary.main, 0.15)}`,
+    },
+  };
+
+  const imageVariants = {
+    hover: {
+      scale: 1.05,
+    },
+  };
+
+  // Generate a dynamic gradient based on index
+  const gradients = [
+    `linear-gradient(135deg, ${theme.palette.primary.main}20 0%, ${theme.palette.primary.main}05 100%)`,
+    `linear-gradient(135deg, ${theme.palette.secondary.main}20 0%, ${theme.palette.secondary.main}05 100%)`,
+    `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.2)} 0%, ${alpha(theme.palette.secondary.main, 0.1)} 100%)`,
+    `linear-gradient(135deg, ${theme.palette.primary.main}15 0%, ${theme.palette.success.main}10 100%)`,
+  ];
+
+  const gradient = gradients[index % gradients.length];
+
+  return (
+    <motion.div
+      custom={index}
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      whileHover="hover"
+      viewport={{ once: true, margin: '-100px' }}
+      style={{ height: '100%', width: '100%' }}
+    >
+      <Card
+        sx={{
+          height: '100%',
+          minHeight: 500,
+          display: 'flex',
+          flexDirection: 'column',
+          borderRadius: '20px',
+          overflow: 'hidden',
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+          background: gradient,
+          backdropFilter: 'blur(10px)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '2px',
+            background: `linear-gradient(90deg, transparent, ${theme.palette.primary.main}, transparent)`,
+            opacity: 0,
+            transition: 'opacity 0.3s ease',
+          },
+          '&:hover::before': {
+            opacity: 1,
+          },
+        }}
+      >
+        {/* Image Section with overlay - Fixed height */}
+        <Box
+          sx={{
+            position: 'relative',
+            height: 180,
+            width: '100%',
+            overflow: 'hidden',
+            background: gradient,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
+        >
+          {benefit.image ? (
+            <Box
+              component="img"
+              src={benefit.image}
+              alt={benefit.title}
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.3s ease',
+              }}
+            />
+          ) : (
+            <motion.div
+              variants={imageVariants}
+              style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '4rem',
+              }}
+            >
+              {benefit.icon && (
+                <Box
+                  sx={{
+                    fontSize: '3.5rem',
+                    filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.1))',
+                  }}
+                >
+                  {benefit.icon}
+                </Box>
+              )}
+            </motion.div>
+          )}
+
+          {/* Animated background elements */}
+          <Box
+            sx={{
+              position: 'absolute',
+              top: -50,
+              right: -50,
+              width: 150,
+              height: 150,
+              borderRadius: '50%',
+              background: alpha(theme.palette.primary.main, 0.1),
+              animation: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              '@keyframes pulse': {
+                '0%, 100%': { transform: 'scale(1)', opacity: 0.5 },
+                '50%': { transform: 'scale(1.1)', opacity: 0.8 },
+              },
+            }}
+          />
+        </Box>
+
+        {/* Content Section */}
+        <CardContent
+          sx={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            p: { xs: 2.5, md: 3 },
+            pb: { xs: 2.5, md: 3 },
+            textAlign: 'center',
+            minHeight: 280,
+          }}
+        >
+          {/* Badge */}
+          <Box sx={{ mb: 1.5, display: 'flex', justifyContent: 'center' }}>
+            <Chip
+              icon={<CheckCircle sx={{ fontSize: '1.2rem !important' }} />}
+              label="Featured"
+              size="small"
+              sx={{
+                background: alpha(theme.palette.primary.main, 0.15),
+                color: theme.palette.primary.main,
+                fontWeight: 600,
+                fontSize: '0.75rem',
+                height: 28,
+                '& .MuiChip-icon': {
+                  color: 'inherit',
+                },
+              }}
+            />
+          </Box>
+
+          {/* Title - Fixed lines */}
+          <Typography
+            variant="h6"
+            component="h3"
+            sx={{
+              fontWeight: 700,
+              fontSize: { xs: '1.15rem', md: '1.35rem' },
+              color: theme.palette.text.primary,
+              mb: 1.5,
+              lineHeight: 1.3,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minHeight: '2.6rem',
+            }}
+          >
+            {benefit.title}
+          </Typography>
+
+          {/* Description - Fixed lines */}
+          <Typography
+            variant="body2"
+            sx={{
+              color: theme.palette.text.secondary,
+              lineHeight: 1.6,
+              fontSize: { xs: '0.9rem', md: '0.95rem' },
+              mb: 2,
+              flex: 1,
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {benefit.description}
+          </Typography>
+
+          {/* Icon button at bottom - centered */}
+          <motion.div
+            whileHover={{ x: 0, scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1,
+                color: theme.palette.primary.main,
+                fontWeight: 600,
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+              }}
+            >
+              Learn More
+              <TrendingUp sx={{ fontSize: '1.2rem' }} />
+            </Box>
+          </motion.div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
 
 export default function BenefitsSection({ title, description, benefits, backgroundColor = 'transparent' }) {
   const theme = useMuiTheme();
@@ -17,17 +260,17 @@ export default function BenefitsSection({ title, description, benefits, backgrou
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.1,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
+      transition: { duration: 0.5, ease: 'easeOut' },
     },
   };
 
@@ -37,21 +280,29 @@ export default function BenefitsSection({ title, description, benefits, backgrou
       sx={{
         py: { xs: 8, sm: 10, md: 14 },
         px: { xs: 2, sm: 3, md: 4 },
-        backgroundColor: backgroundColor,
-        background: backgroundColor === 'transparent' 
-          ? undefined 
-          : `linear-gradient(135deg, ${backgroundColor}00 0%, ${theme.palette.primary.main}05 100%)`,
+        background: `linear-gradient(135deg, ${theme.palette.background.default} 0%, ${alpha(theme.palette.primary.main, 0.03)} 100%)`,
         position: 'relative',
         overflow: 'hidden',
         '&::before': {
           content: '""',
           position: 'absolute',
-          top: '-50%',
-          right: '-10%',
-          width: '500px',
-          height: '500px',
+          top: '-20%',
+          right: '-5%',
+          width: '600px',
+          height: '600px',
           borderRadius: '50%',
-          background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.08)}, transparent)`,
+          background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.06)}, transparent)`,
+          pointerEvents: 'none',
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-5%',
+          width: '400px',
+          height: '400px',
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${alpha(theme.palette.secondary.main, 0.05)}, transparent)`,
           pointerEvents: 'none',
         },
       }}
@@ -65,7 +316,7 @@ export default function BenefitsSection({ title, description, benefits, backgrou
           viewport={{ once: true, margin: '-100px' }}
           style={{ width: '100%' }}
         >
-          <Stack spacing={3} sx={{ textAlign: 'center', mb: { xs: 8, md: 10 } }}>
+          <Stack spacing={3} sx={{ textAlign: 'center', mb: { xs: 8, md: 12 } }}>
             <motion.div variants={itemVariants}>
               <Typography
                 variant="h2"
@@ -104,7 +355,7 @@ export default function BenefitsSection({ title, description, benefits, backgrou
           </Stack>
         </motion.div>
 
-        {/* Benefits Grid */}
+        {/* Benefits Grid - Modern Cards */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -112,80 +363,26 @@ export default function BenefitsSection({ title, description, benefits, backgrou
           viewport={{ once: true, margin: '-100px' }}
           style={{ width: '100%' }}
         >
-          <Grid container spacing={{ xs: 3, sm: 4, md: 4 }}>
+          <Grid container spacing={{ xs: 3, sm: 3, md: 4 }} sx={{ display: 'flex', alignItems: 'stretch' }}>
             {benefits.map((benefit, index) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={3}
+              <Grid 
+                item 
+                xs={12} 
+                sm={6} 
+                md={6} 
+                lg={3} 
                 key={benefit.id || index}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'stretch',
+                  justifyContent: 'center',
+                }}
               >
-                <motion.div variants={itemVariants} style={{ height: '100%' }}>
-                  <FeatureCard
-                    icon={benefit.icon}
-                    title={benefit.title}
-                    description={benefit.description}
-                  />
-                </motion.div>
+                <BenefitCard benefit={benefit} index={index} theme={theme} />
               </Grid>
             ))}
           </Grid>
         </motion.div>
-
-        {/* Enhanced Benefits List - Optional secondary section */}
-        {benefits.length > 0 && (
-          <Box sx={{ mt: { xs: 12, md: 16 } }}>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              <Grid container spacing={{ xs: 3, md: 4 }}>
-                {benefits.slice(0, Math.min(3, benefits.length)).map((benefit, index) => (
-                  <Grid item xs={12} md={4} key={`detail-${benefit.id || index}`}>
-                    <Stack
-                      spacing={2}
-                      sx={{
-                        p: { xs: 3, md: 4 },
-                        borderRadius: '16px',
-                        background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${alpha(theme.palette.primary.main, 0.03)} 100%)`,
-                        border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        '&:hover': {
-                          border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
-                          boxShadow: `0 8px 24px ${alpha(theme.palette.primary.main, 0.1)}`,
-                        },
-                      }}
-                    >
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: 700,
-                          color: theme.palette.primary.main,
-                          fontSize: { xs: '1.1rem', md: '1.25rem' },
-                        }}
-                      >
-                        ✓ {benefit.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          color: theme.palette.text.secondary,
-                          lineHeight: 1.7,
-                          fontSize: { xs: '0.95rem', md: '1rem' },
-                        }}
-                      >
-                        {benefit.description}
-                      </Typography>
-                    </Stack>
-                  </Grid>
-                ))}
-              </Grid>
-            </motion.div>
-          </Box>
-        )}
       </Container>
     </Box>
   );
