@@ -40,19 +40,24 @@ const BenefitCard = ({ benefit, index, theme }) => {
   const gradient = gradients[index % gradients.length];
 
   return (
-    <motion.div
-      custom={index}
-      variants={cardVariants}
-      initial="hidden"
-      whileInView="visible"
-      whileHover="hover"
-      viewport={{ once: true, margin: '-100px' }}
-      style={{ height: '100%', width: '100%' }}
-    >
+    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <motion.div
+        custom={index}
+        variants={cardVariants}
+        initial="hidden"
+        whileInView="visible"
+        whileHover="hover"
+        viewport={{ once: true, margin: '-100px' }}
+        style={{ 
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
       <Card
         sx={{
-          height: '100%',
-          minHeight: 500,
+          height: 460,
+          maxHeight: 460,
           display: 'flex',
           flexDirection: 'column',
           borderRadius: '20px',
@@ -62,6 +67,10 @@ const BenefitCard = ({ benefit, index, theme }) => {
           backdropFilter: 'blur(10px)',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           position: 'relative',
+          '@media (max-width: 900px)': {
+            height: 'auto',
+            maxHeight: 'none',
+          },
           '&::before': {
             content: '""',
             position: 'absolute',
@@ -158,7 +167,13 @@ const BenefitCard = ({ benefit, index, theme }) => {
             p: { xs: 2.5, md: 3 },
             pb: { xs: 2.5, md: 3 },
             textAlign: 'center',
-            minHeight: 280,
+            height: 280,
+            maxHeight: 280,
+            overflow: 'hidden',
+            '@media (max-width: 900px)': {
+              height: 'auto',
+              maxHeight: 'none',
+            },
           }}
         >
           {/* Badge */}
@@ -195,7 +210,9 @@ const BenefitCard = ({ benefit, index, theme }) => {
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              minHeight: '2.6rem',
+              height: '2.6rem',
+              maxHeight: '2.6rem',
+              flexShrink: 0,
             }}
           >
             {benefit.title}
@@ -209,12 +226,14 @@ const BenefitCard = ({ benefit, index, theme }) => {
               lineHeight: 1.6,
               fontSize: { xs: '0.9rem', md: '0.95rem' },
               mb: 2,
-              flex: 1,
               display: '-webkit-box',
               WebkitLineClamp: 3,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
+              height: '4.8rem',
+              maxHeight: '4.8rem',
+              flexShrink: 0,
             }}
           >
             {benefit.description}
@@ -244,6 +263,7 @@ const BenefitCard = ({ benefit, index, theme }) => {
         </CardContent>
       </Card>
     </motion.div>
+    </Box>
   );
 };
 
@@ -363,7 +383,7 @@ export default function BenefitsSection({ title, description, benefits, backgrou
           viewport={{ once: true, margin: '-100px' }}
           style={{ width: '100%' }}
         >
-          <Grid container spacing={{ xs: 3, sm: 3, md: 4 }} sx={{ display: 'flex', alignItems: 'stretch' }}>
+          <Grid container spacing={{ xs: 3, sm: 3, md: 4 }}>
             {benefits.map((benefit, index) => (
               <Grid 
                 item 
@@ -374,11 +394,11 @@ export default function BenefitsSection({ title, description, benefits, backgrou
                 key={benefit.id || index}
                 sx={{
                   display: 'flex',
-                  alignItems: 'stretch',
-                  justifyContent: 'center',
                 }}
               >
-                <BenefitCard benefit={benefit} index={index} theme={theme} />
+                <Box sx={{ width: '100%', display: 'flex' }}>
+                  <BenefitCard benefit={benefit} index={index} theme={theme} />
+                </Box>
               </Grid>
             ))}
           </Grid>
