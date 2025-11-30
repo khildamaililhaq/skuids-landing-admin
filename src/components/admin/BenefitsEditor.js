@@ -38,7 +38,7 @@ export default function BenefitsEditor({ data, title, onChange }) {
   };
 
   return (
-    <Paper sx={{ p: 3, mb: 3, background: 'linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%)' }}>
+    <Paper sx={{ p: 3, mb: 3, background: 'linear-gradient(135deg, rgba(207, 170, 10, 0.05) 0%, rgba(255, 252, 245, 1) 100%)' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
           {title}

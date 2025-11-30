@@ -50,7 +50,7 @@ export default function MobileCategoryFilter({
           onClick={onClearFilter}
           sx={{
             textTransform: 'none',
-            color: '#666',
+            color: 'text.secondary',
             fontSize: '0.9rem'
           }}
         >

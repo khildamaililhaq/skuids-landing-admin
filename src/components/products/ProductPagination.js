@@ -22,7 +22,7 @@ export default function ProductPagination({
       />
 
       {totalProducts > 0 && (
-        <Typography variant="body2" sx={{ mt: 2, color: '#666', textAlign: 'center' }}>
+        <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary', textAlign: 'center' }}>
           Showing {((currentPage - 1) * productsPerPage) + 1} - {Math.min(currentPage * productsPerPage, totalProducts)} of {totalProducts} products
         </Typography>
       )}

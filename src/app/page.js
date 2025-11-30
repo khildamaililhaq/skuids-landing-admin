@@ -39,10 +39,10 @@ export default function Home() {
           if (result.data.theme) {
             updateThemeRef.current({
               mode: result.data.theme.mode || 'light',
-              primaryColor: result.data.theme.primaryColor || '#005F73',
-              secondaryColor: result.data.theme.secondaryColor || '#FFE347',
-              warningColor: result.data.theme.warningColor || '#FF90AD',
-              backgroundDefault: result.data.theme.backgroundDefault || '#F5F5F5',
+              primaryColor: result.data.theme.primaryColor || '#CFAA0A',
+              secondaryColor: result.data.theme.secondaryColor || '#8E7629',
+              warningColor: result.data.theme.warningColor || '#B3261E',
+              backgroundDefault: result.data.theme.backgroundDefault || '#FFFCF5',
               backgroundPaper: result.data.theme.backgroundPaper || '#FFFFFF',
             });
           }

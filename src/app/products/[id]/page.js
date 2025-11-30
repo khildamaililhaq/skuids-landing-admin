@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
       <Header />
 
       {/* Mobile-First Layout */}
-      <Box sx={{ minHeight: '100vh', bgcolor: '#f8f9fa' }}>
+      <Box sx={{ minHeight: '100vh', bgcolor: '#FFFCF5' }}>
         <Container maxWidth="lg" sx={{ py: 2, px: 2 }}>
 
           {/* Back Button - Mobile Optimized */}
@@ -265,8 +265,8 @@ export default function ProductDetailPage() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    bgcolor: '#f8f9fa',
-                    color: '#666'
+                    bgcolor: '#FFFCF5',
+                    color: 'text.secondary'
                   }}
                 >
                   <Typography variant="h2" sx={{ mb: 1 }}>📷</Typography>
@@ -307,10 +307,11 @@ export default function ProductDetailPage() {
                       cursor: 'pointer',
                       borderRadius: 1,
                       overflow: 'hidden',
-                      border: activeImage === index ? '2px solid #1976d2' : '2px solid #e0e0e0',
+                      border: activeImage === index ? '2px solid' : '2px solid',
+                      borderColor: activeImage === index ? 'primary.main' : 'neutral.80',
                       transition: 'all 0.2s ease',
                       '&:hover': {
-                        borderColor: '#1976d2'
+                        borderColor: 'primary.main'
                       }
                     }}
                   >
@@ -341,7 +342,7 @@ export default function ProductDetailPage() {
                   variant="h6"
                   sx={{
                     fontWeight: 600,
-                    color: '#333',
+                    color: 'text.primary',
                     mb: 2,
                     fontSize: '1.1rem'
                   }}
@@ -351,7 +352,7 @@ export default function ProductDetailPage() {
                 <Typography
                   variant="body1"
                   sx={{
-                    color: '#666',
+                    color: 'text.secondary',
                     lineHeight: 1.6,
                     fontSize: '1rem'
                   }}
@@ -368,7 +369,7 @@ export default function ProductDetailPage() {
                   variant="h6"
                   sx={{
                     fontWeight: 600,
-                    color: '#333',
+                    color: 'text.primary',
                     mb: 2,
                     fontSize: '1.1rem'
                   }}
@@ -378,8 +379,9 @@ export default function ProductDetailPage() {
                 <Paper
                   sx={{
                     p: 3,
-                    bgcolor: '#f8f9fa',
-                    border: '1px solid #e0e0e0',
+                    bgcolor: '#FFFCF5',
+                    borderColor: 'neutral.80',
+                    border: '1px solid',
                     borderRadius: 2,
                     display: 'flex',
                     justifyContent: 'center'

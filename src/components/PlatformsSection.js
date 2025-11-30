@@ -44,7 +44,7 @@ export default function PlatformsSection({ platforms, title = 'Supported Platfor
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.mode === 'dark' ? '#1a1a1a' : '#f5f5f5'} 100%)`,
+                  background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.mode === 'dark' ? '#1a1a1a' : theme.palette.neutral?.[90] || '#f5f5f5'} 100%)`,
                   border: `2px solid ${theme.palette.primary.main}40`,
                   borderRadius: 3,
                   transition: 'all 0.3s ease',

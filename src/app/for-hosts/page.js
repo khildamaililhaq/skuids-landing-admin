@@ -323,7 +323,7 @@ export default function ForHostsPage() {
               color: theme.palette.primary.main,
               fontWeight: 'bold',
               '&:hover': {
-                bgcolor: '#f0f0f0',
+                bgcolor: '#FFFCF5',
               },
             }}
           >

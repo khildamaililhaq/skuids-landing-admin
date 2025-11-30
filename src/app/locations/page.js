@@ -9,7 +9,7 @@ export default function LocationsPage() {
   return (
     <>
       <Header />
-      <Box sx={{ minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+      <Box sx={{ minHeight: '100vh', bgcolor: '#FFFCF5' }}>
         <Container maxWidth="lg" sx={{ py: 3 }}>
           <Typography variant="h4" sx={{ mb: 3, textAlign: 'center', fontWeight: 600 }}>
             Lokasi Kami
