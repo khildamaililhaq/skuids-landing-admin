@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography, Container, Grid, Link, IconButton, Divider } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
 import { Facebook, Instagram, WhatsApp, Phone, Email, LocationOn } from '@mui/icons-material';
