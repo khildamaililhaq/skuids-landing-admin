@@ -1,10 +1,9 @@
 'use client';
 
-import { Box, Card, CardContent, Typography } from '@mui/material';
-import { useTheme } from './ThemeProvider';
+import { Box, Card, CardContent, Typography, useTheme as useMuiTheme } from '@mui/material';
 
 export default function FeatureCard({ icon, title, description, number }) {
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   return (
     <Card

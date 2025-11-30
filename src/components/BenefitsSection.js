@@ -1,11 +1,10 @@
 'use client';
 
-import { Box, Container, Typography, Grid } from '@mui/material';
+import { Box, Container, Typography, Grid, useTheme as useMuiTheme } from '@mui/material';
 import FeatureCard from './FeatureCard';
-import { useTheme } from './ThemeProvider';
 
 export default function BenefitsSection({ title, description, benefits, backgroundColor = 'transparent' }) {
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   if (!benefits || benefits.length === 0) {
     return null;

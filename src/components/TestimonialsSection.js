@@ -1,10 +1,9 @@
 'use client';
 
-import { Box, Container, Typography, Grid, Card, CardContent, Avatar } from '@mui/material';
-import { useTheme } from './ThemeProvider';
+import { Box, Container, Typography, Grid, Card, CardContent, Avatar, useTheme as useMuiTheme } from '@mui/material';
 
 export default function TestimonialsSection({ testimonials, title = 'Success Stories' }) {
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   if (!testimonials || testimonials.length === 0) {
     return null;

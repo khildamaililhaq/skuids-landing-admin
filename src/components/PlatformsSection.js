@@ -1,10 +1,9 @@
 'use client';
 
-import { Box, Container, Typography, Grid, Card, CardContent, Chip } from '@mui/material';
-import { useTheme } from './ThemeProvider';
+import { Box, Container, Typography, Grid, Card, CardContent, Chip, useTheme as useMuiTheme } from '@mui/material';
 
 export default function PlatformsSection({ platforms, title = 'Supported Platforms' }) {
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   if (!platforms || platforms.length === 0) {
     return null;
