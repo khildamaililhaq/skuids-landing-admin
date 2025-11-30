@@ -25,6 +25,20 @@ export const signInUser = async (email, password) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { success: false, error: error.message };
+    
+    // Check user role - must be admin to access admin area
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const userMetadata = user.user_metadata || {};
+      const role = userMetadata.role;
+      
+      if (role !== 'admin') {
+        // Not an admin - sign them out
+        await supabase.auth.signOut();
+        return { success: false, error: 'Only admins can access the admin panel. Please use the agent login page.' };
+      }
+    }
+    
     return { success: true, user: data.user };
   } catch (err) {
     return { success: false, error: err.message };
@@ -733,6 +747,20 @@ export const loginAgent = async (email, password) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { success: false, error: error.message };
+    
+    // Check user role - must be agent to access agent area
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const userMetadata = user.user_metadata || {};
+      const role = userMetadata.role;
+      
+      if (role !== 'agent') {
+        // Not an agent - sign them out
+        await supabase.auth.signOut();
+        return { success: false, error: 'Only agents can access this area. Please check your login credentials or use the admin login page.' };
+      }
+    }
+    
     return { success: true, user: data.user };
   } catch (err) {
     return { success: false, error: err.message };

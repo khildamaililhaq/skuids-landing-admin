@@ -3,16 +3,32 @@
 import { useState, useEffect } from 'react';
 import LoginForm from '../../components/LoginForm';
 import AdminDashboard from '../../components/AdminDashboard';
-import { subscribeToAuthChanges } from '../../lib/supabase';
+import { subscribeToAuthChanges, signOutUser } from '../../lib/supabase';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(true);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Listen to Firebase authentication state changes
+    // Listen to Supabase authentication state changes
     const unsubscribe = subscribeToAuthChanges((user) => {
-      setIsAuthenticated(!!user);
+      if (user) {
+        // Check if user has admin role
+        const userRole = user.user_metadata?.role;
+        if (userRole === 'admin') {
+          setIsAuthenticated(true);
+          setIsAuthorized(true);
+        } else {
+          // User is logged in but not an admin
+          setIsAuthenticated(false);
+          setIsAuthorized(false);
+          signOutUser();
+        }
+      } else {
+        setIsAuthenticated(false);
+        setIsAuthorized(true);
+      }
       setLoading(false);
     });
 
@@ -37,6 +53,24 @@ export default function AdminPage() {
         minHeight: '100vh'
       }}>
         Loading...
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        flexDirection: 'column',
+        gap: '20px',
+        fontFamily: 'Arial, sans-serif'
+      }}>
+        <h1>Access Denied</h1>
+        <p>Only admins can access the admin panel.</p>
+        <a href="/" style={{ color: '#0066cc', textDecoration: 'none' }}>Go Home</a>
       </div>
     );
   }

@@ -21,7 +21,7 @@ import {
   Pending as PendingIcon
 } from '@mui/icons-material';
 import ClientLayout from '../../components/client/ClientLayout';
-import { getCurrentAgent, getAgentPartners } from '../../lib/supabase';
+import { getCurrentAgent, getAgentPartners, supabase } from '../../lib/supabase';
 
 export default function ClientPage() {
   const router = useRouter();
@@ -31,6 +31,13 @@ export default function ClientPage() {
 
   useEffect(() => {
     const loadData = async () => {
+      // First verify user role
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || user.user_metadata?.role !== 'agent') {
+        router.push('/');
+        return;
+      }
+
       const agentResult = await getCurrentAgent();
       if (agentResult.success) {
         setAgent(agentResult.data);

@@ -1,0 +1,1038 @@
+openapi: 3.0.0
+info:
+  title: Ekacita Agent API
+  description: |
+    Comprehensive API documentation for Ekacita Agent Mobile Application.
+    This API powers the Android/iOS Flutter app for recruitment agents.
+  version: 1.0.0
+  contact:
+    name: Ekacita Support
+    email: support@ekacita.live
+    url: https://ekacita.live
+  license:
+    name: Copyright © 2025 Ekacita
+    url: https://ekacita.live
+
+servers:
+  - url: https://api.ekacita.live/v1
+    description: Production Server
+  - url: http://localhost:3000/api/v1
+    description: Development Server
+  - url: https://staging-api.ekacita.live/v1
+    description: Staging Server
+
+tags:
+  - name: Authentication
+    description: User authentication and account management
+  - name: Agent Profile
+    description: Agent profile and account information
+  - name: Dashboard
+    description: Dashboard and statistics
+  - name: Hosts Management
+    description: Manage recruited hosts
+  - name: Earnings & Payouts
+    description: Earnings tracking and payment management
+  - name: Marketing Tools
+    description: Referral and marketing features
+  - name: Notifications
+    description: Notification management
+  - name: Support
+    description: Support and help features
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained after login
+
+  schemas:
+    Error:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "An error occurred"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              field:
+                type: string
+              message:
+                type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+          format: uuid
+
+    Agent:
+      type: object
+      properties:
+        agentId:
+          type: string
+          format: uuid
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        profileImage:
+          type: string
+          format: uri
+        bio:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, suspended]
+        totalHosts:
+          type: integer
+        totalEarnings:
+          type: number
+          format: float
+        monthlyEarnings:
+          type: number
+          format: float
+        commissionRate:
+          type: number
+          format: float
+        bankAccount:
+          type: object
+          properties:
+            accountName:
+              type: string
+            accountNumber:
+              type: string
+            bankName:
+              type: string
+        identityVerified:
+          type: boolean
+        bankVerified:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Host:
+      type: object
+      properties:
+        hostId:
+          type: string
+          format: uuid
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        profileImage:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum: [active, inactive]
+        totalEarnings:
+          type: number
+          format: float
+        monthlyEarnings:
+          type: number
+          format: float
+        joinDate:
+          type: string
+          format: date-time
+        platforms:
+          type: array
+          items:
+            type: string
+            enum: [chamet, poppo]
+        verificationStatus:
+          type: string
+          enum: [verified, pending, rejected]
+        lastActiveAt:
+          type: string
+          format: date-time
+        performanceScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+
+    Earning:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [commission, bonus, referral]
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
+        hostId:
+          type: string
+          format: uuid
+        hostName:
+          type: string
+        source:
+          type: string
+          enum: [streaming, mission, gift]
+        transactionDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [completed, pending]
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [earnings, host_signup, payment, announcement, alert]
+        title:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+        read:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+        data:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+          format: uuid
+
+paths:
+  /auth/register-agent:
+    post:
+      summary: Register new agent
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fullName
+                - email
+                - phone
+                - password
+                - confirmPassword
+                - agreeToTerms
+              properties:
+                fullName:
+                  type: string
+                  minLength: 3
+                email:
+                  type: string
+                  format: email
+                phone:
+                  type: string
+                  pattern: '^\+?[0-9]{10,15}$'
+                password:
+                  type: string
+                  minLength: 8
+                confirmPassword:
+                  type: string
+                  minLength: 8
+                referralCode:
+                  type: string
+                agreeToTerms:
+                  type: boolean
+                  example: true
+      responses:
+        '201':
+          description: Agent registered successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          agentId:
+                            type: string
+                            format: uuid
+                          email:
+                            type: string
+                          status:
+                            type: string
+                            example: pending_verification
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Email or phone already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/verify-email:
+    post:
+      summary: Verify email with OTP
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - otp
+              properties:
+                email:
+                  type: string
+                  format: email
+                otp:
+                  type: string
+                  pattern: '^\d{6}$'
+      responses:
+        '200':
+          description: Email verified successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          agentId:
+                            type: string
+                            format: uuid
+                          verified:
+                            type: boolean
+                            example: true
+        '400':
+          description: Invalid OTP
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      summary: Agent login
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          agentId:
+                            type: string
+                            format: uuid
+                          accessToken:
+                            type: string
+                          refreshToken:
+                            type: string
+                          expiresIn:
+                            type: integer
+                            example: 3600
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/refresh:
+    post:
+      summary: Refresh access token
+      tags: [Authentication]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          accessToken:
+                            type: string
+                          expiresIn:
+                            type: integer
+
+  /auth/logout:
+    post:
+      summary: Agent logout
+      tags: [Authentication]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /agents/{agentId}:
+    get:
+      summary: Get agent profile
+      tags: [Agent Profile]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Agent profile retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Agent'
+        '404':
+          description: Agent not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update agent profile
+      tags: [Agent Profile]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                phone:
+                  type: string
+                bio:
+                  type: string
+                bankAccount:
+                  type: object
+                  properties:
+                    accountName:
+                      type: string
+                    accountNumber:
+                      type: string
+                    bankName:
+                      type: string
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Agent'
+
+  /agents/{agentId}/dashboard:
+    get:
+      summary: Get dashboard statistics
+      tags: [Dashboard]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [today, week, month, year]
+            default: month
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Dashboard statistics retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          totalEarnings:
+                            type: number
+                            format: float
+                          monthlyEarnings:
+                            type: number
+                            format: float
+                          totalHosts:
+                            type: integer
+                          activeHosts:
+                            type: integer
+                          pendingPayouts:
+                            type: number
+                            format: float
+                          statistics:
+                            type: object
+                          recentActivities:
+                            type: array
+                            items:
+                              type: object
+
+  /agents/{agentId}/hosts:
+    get:
+      summary: Get all recruited hosts
+      tags: [Hosts Management]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, inactive, all]
+            default: all
+        - name: search
+          in: query
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Hosts list retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                          hosts:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Host'
+
+  /agents/{agentId}/hosts/{hostId}:
+    get:
+      summary: Get host details
+      tags: [Hosts Management]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: hostId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Host details retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/Host'
+                          - type: object
+                            properties:
+                              earnings:
+                                type: object
+                              performance:
+                                type: object
+
+  /agents/{agentId}/earnings:
+    get:
+      summary: Get earnings summary
+      tags: [Earnings & Payouts]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [today, week, month, year]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Earnings summary retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          totalEarnings:
+                            type: number
+                            format: float
+                          periodEarnings:
+                            type: number
+                            format: float
+                          breakdown:
+                            type: object
+
+  /agents/{agentId}/earnings/history:
+    get:
+      summary: Get earnings history
+      tags: [Earnings & Payouts]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [commission, bonus, referral, all]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Earnings history retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          earnings:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Earning'
+
+  /agents/{agentId}/withdrawals:
+    post:
+      summary: Request withdrawal
+      tags: [Earnings & Payouts]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - bankAccountId
+              properties:
+                amount:
+                  type: number
+                  format: float
+                  minimum: 100
+                bankAccountId:
+                  type: string
+                  format: uuid
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Withdrawal request created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          withdrawalId:
+                            type: string
+                            format: uuid
+                          status:
+                            type: string
+                            example: pending
+
+    get:
+      summary: Get withdrawal history
+      tags: [Earnings & Payouts]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, completed, failed, all]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Withdrawal history retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          withdrawals:
+                            type: array
+                            items:
+                              type: object
+
+  /agents/{agentId}/referral:
+    get:
+      summary: Get referral information
+      tags: [Marketing Tools]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Referral information retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          referralCode:
+                            type: string
+                          referralLink:
+                            type: string
+                            format: uri
+                          totalReferrals:
+                            type: integer
+                          referralBonus:
+                            type: number
+                            format: float
+
+  /agents/{agentId}/notifications:
+    get:
+      summary: Get notifications
+      tags: [Notifications]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: read
+          in: query
+          schema:
+            type: string
+            enum: [true, false, all]
+            default: all
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Notifications retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          unreadCount:
+                            type: integer
+                          notifications:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Notification'
+
+  /agents/{agentId}/support/tickets:
+    post:
+      summary: Create support ticket
+      tags: [Support]
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - category
+                - subject
+                - description
+              properties:
+                category:
+                  type: string
+                  enum: [general, technical, payment, account, other]
+                subject:
+                  type: string
+                description:
+                  type: string
+                priority:
+                  type: string
+                  enum: [high, normal, low]
+                  default: normal
+                attachments:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: Support ticket created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          ticketId:
+                            type: string
+                            format: uuid
+                          ticketNumber:
+                            type: string
+                          status:
+                            type: string
+                            example: open
+
+  /faq:
+    get:
+      summary: Get FAQ
+      tags: [Support]
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [all, general, earnings, hosts, technical]
+            default: all
+      responses:
+        '200':
+          description: FAQ retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          faqs:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  format: uuid
+                                question:
+                                  type: string
+                                answer:
+                                  type: string
+                                category:
+                                  type: string
+
+security:
+  - bearerAuth: []
