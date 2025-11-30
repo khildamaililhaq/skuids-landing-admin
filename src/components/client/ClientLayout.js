@@ -35,17 +35,17 @@ import { logoutAgent } from '../../lib/supabase';
 
 const menuItems = [
   {
-    text: 'Dashboard',
+    text: 'client.dashboard',
     icon: <DashboardIcon />,
     path: '/client',
   },
   {
-    text: 'Partners',
+    text: 'client.partners',
     icon: <PartnersIcon />,
     path: '/client/partners',
   },
   {
-    text: 'Profile',
+    text: 'client.profile',
     icon: <ProfileIcon />,
     path: '/client/profile',
   },
@@ -112,7 +112,7 @@ export default function ClientLayout({ children, agent }) {
               {agent?.name || 'Agent'}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Client Area
+              {t('client.dashboard')}
             </Typography>
           </Box>
         </Box>
@@ -151,7 +151,7 @@ export default function ClientLayout({ children, agent }) {
                     {item.icon}
                   </ListItemIcon>
                   <ListItemText
-                    primary={item.text}
+                    primary={t(item.text)}
                     primaryTypographyProps={{
                       fontWeight: isActive ? 600 : 500,
                       fontSize: '0.95rem'
@@ -183,7 +183,7 @@ export default function ClientLayout({ children, agent }) {
             <LogoutIcon />
           </ListItemIcon>
           <ListItemText
-            primary="Logout"
+            primary={t('admin.logout')}
             primaryTypographyProps={{
               fontWeight: 500,
               fontSize: '0.95rem'
@@ -238,7 +238,7 @@ export default function ClientLayout({ children, agent }) {
               </IconButton>
             )}
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Skuids Client Area
+              {t('client.dashboard')}
             </Typography>
             <IconButton
               onClick={handleLanguageMenuOpen}

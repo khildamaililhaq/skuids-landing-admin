@@ -1,16 +1,16 @@
 export const metadata = {
-  title: "Produk Teh Tarik & Minuman Kemasan | Happy Jasmine",
-  description: "Jelajahi koleksi lengkap Teh Tarik Indonesia, Minuman Greentea Kemasan, Minuman Rasa Kemasan, Minuman Thattea Kemasan, dan Minuman Coklat Kemasan dari Happy Jasmine.",
-  keywords: "produk teh tarik, minuman greentea kemasan, minuman rasa kemasan, minuman thattea kemasan, minuman coklat kemasan, happy jasmine products",
+  title: "Produk Teh Tarik & Minuman Kemasan | Ekacita",
+  description: "Jelajahi koleksi lengkap Teh Tarik Indonesia, Minuman Greentea Kemasan, Minuman Rasa Kemasan, Minuman Thattea Kemasan, dan Minuman Coklat Kemasan dari Ekacita.",
+  keywords: "produk teh tarik, minuman greentea kemasan, minuman rasa kemasan, minuman thattea kemasan, minuman coklat kemasan, ekacita products",
   openGraph: {
-    title: "Produk Teh Tarik & Minuman Kemasan | Happy Jasmine",
-    description: "Temukan berbagai produk minuman berkualitas dari Happy Jasmine.",
-    url: "https://happyjasmine.co/products",
-    siteName: "Happy Jasmine",
+    title: "Produk Teh Tarik & Minuman Kemasan | Ekacita",
+    description: "Temukan berbagai produk minuman berkualitas dari Ekacita.",
+    url: "https://ekacita.live/products",
+    siteName: "Ekacita",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Produk Teh Tarik & Minuman Kemasan | Happy Jasmine",
+    title: "Produk Teh Tarik & Minuman Kemasan | Ekacita",
     description: "Temukan berbagai produk minuman berkualitas dari Happy Jasmine.",
   },
 };

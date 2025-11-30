@@ -27,65 +27,49 @@ import {
 } from '@mui/icons-material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 const menuItems = [
   {
-    text: 'Dashboard',
+    text: 'admin.dashboard',
     icon: <DashboardIcon />,
     path: '/admin',
-    description: 'Overview and analytics'
+    description: 'descriptions.dashboardDesc'
   },
   {
-    text: 'Landing Page',
+    text: 'admin.landing',
     icon: <WebIcon />,
     path: '/admin/landing-page',
-    description: 'Content and properties'
+    description: 'descriptions.landingDesc'
   },
-  // {
-  //   text: 'Products',
-  //   icon: <ProductsIcon />,
-  //   path: '/admin/products',
-  //   description: 'Manage product catalog'
-  // },
-  // {
-  //   text: 'Categories',
-  //   icon: <CategoryIcon />,
-  //   path: '/admin/categories',
-  //   description: 'Manage product categories'
-  // },
-  // {
-  //   text: 'Locations',
-  //   icon: <LocationIcon />,
-  //   path: '/admin/locations',
-  //   description: 'Manage business locations'
-  // },
   {
-    text: 'Partners',
+    text: 'admin.partners',
     icon: <PartnersIcon />,
     path: '/admin/partners',
-    description: 'Manage partners'
+    description: 'descriptions.partnersDesc'
   },
   {
-    text: 'Agents',
+    text: 'admin.agents',
     icon: <AgentsIcon />,
     path: '/admin/agents',
-    description: 'Manage registered agents'
+    description: 'descriptions.agentsDesc'
   },
   {
-    text: 'Agent Partners',
+    text: 'agent-partners',
     icon: <AgentPartnersIcon />,
     path: '/admin/agent-partners',
-    description: 'Manage agent-partner relationships'
+    description: 'descriptions.agentPartnersDesc'
   },
   {
-    text: 'Settings',
+    text: 'admin.settings',
     icon: <SettingsIcon />,
     path: '/admin/settings',
-    description: 'Configuration and preferences'
+    description: 'descriptions.settingsDesc'
   }
 ];
 
 export default function AdminSidebar({ open, onClose }) {
+  const t = useTranslations();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const pathname = usePathname();
@@ -116,13 +100,13 @@ export default function AdminSidebar({ open, onClose }) {
               fontSize: { xs: '1rem', md: '1.1rem' }, 
               color: 'primary.main' 
             }}>
-              Admin Panel
+              {t('admin.dashboard')}
             </Box>
             <Box sx={{ 
               fontSize: { xs: '0.7rem', md: '0.8rem' }, 
               color: 'text.secondary' 
             }}>
-              Happy Jasmine
+              Ekacita
             </Box>
           </Box>
         </Box>
@@ -160,8 +144,8 @@ export default function AdminSidebar({ open, onClose }) {
                     {item.icon}
                   </ListItemIcon>
                   <ListItemText 
-                    primary={item.text}
-                    secondary={item.description}
+                    primary={t(item.text)}
+                    secondary={t(item.description)}
                     primaryTypographyProps={{
                       fontWeight: isActive ? 600 : 500,
                       fontSize: { xs: '0.9rem', md: '0.95rem' }
@@ -187,13 +171,13 @@ export default function AdminSidebar({ open, onClose }) {
           color: 'text.secondary', 
           mb: 1 
         }}>
-          Logged in as Admin
+          {t('admin.dashboard')}
         </Box>
         <Box sx={{ 
           fontSize: { xs: '0.6rem', md: '0.7rem' }, 
           color: 'text.disabled' 
         }}>
-          Happy Jasmine Admin Panel
+          Ekacita {t('admin.dashboard')}
         </Box>
       </Box>
     </Box>

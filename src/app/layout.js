@@ -4,18 +4,18 @@ import IntlProvider from '../components/IntlProvider';
 import "./globals.css";
 
 export const metadata = {
-  title: "Skuids - Live Streaming Host Recruitment Agency",
-  description: "Skuids recruits professional live streaming hosts for official partners Chamet and Poppo. Join our network of talented hosts and elevate your streaming career.",
-  keywords: "live streaming hosts, host recruitment, Chamet hosts, Poppo hosts, streaming talent, live broadcast hosts, professional hosts",
-  authors: [{ name: "Skuids" }],
-  creator: "Skuids",
-  publisher: "Skuids",
+  title: "Ekacita - Platform Streaming Profesional",
+  description: "Bergabunglah dengan platform streaming profesional Ekacita dan mulai hasilkan pendapatan dari live streaming Anda hari ini.",
+  keywords: "streaming, platform live, streaming host, penghasilan streaming, chamet, poppo",
+  authors: [{ name: "Ekacita" }],
+  creator: "Ekacita",
+  publisher: "Ekacita",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://skuids.live'),
+  metadataBase: new URL('https://ekacita.live'),
   alternates: {
     canonical: '/',
   },
@@ -25,16 +25,16 @@ export const metadata = {
     apple: '/favicon.ico',
   },
   openGraph: {
-    title: "Skuids - Live Streaming Host Recruitment Agency",
-    description: "Skuids recruits professional live streaming hosts for official partners Chamet and Poppo. Join our network of talented hosts and elevate your streaming career.",
-    url: "https://skuids.live",
-    siteName: "Skuids",
+    title: "Ekacita - Platform Streaming Profesional",
+    description: "Bergabunglah dengan platform streaming profesional Ekacita dan mulai hasilkan pendapatan dari live streaming Anda hari ini.",
+    url: "https://ekacita.live",
+    siteName: "Ekacita",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Skuids - Live Streaming Host Recruitment Agency",
+        alt: "Ekacita - Platform Streaming Profesional",
       },
     ],
     locale: "id_ID",
@@ -42,8 +42,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Skuids - Live Streaming Host Recruitment Agency",
-    description: "Skuids recruits professional live streaming hosts for official partners Chamet and Poppo. Join our network of talented hosts and elevate your streaming career.",
+    title: "Ekacita - Platform Streaming Profesional",
+    description: "Bergabunglah dengan platform streaming profesional Ekacita dan mulai hasilkan pendapatan dari live streaming Anda hari ini.",
     images: ["/og-image.jpg"],
   },
   robots: {

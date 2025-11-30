@@ -23,41 +23,41 @@ import { useTranslations } from 'next-intl';
 const getMenuItems = (t) => [
   {
     title: t('navigation.home'),
-    description: 'Discover how to earn with Skuids',
+    description: t('menu.discoverEarnings'),
     icon: <HomeIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'For Agents',
-    description: 'Build your team and grow your income',
+    title: t('navigation.forAgents'),
+    description: t('menu.forAgentsDesc'),
     icon: <PartnersIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/for-agents',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'For Hosts',
-    description: 'Start earning from live streaming',
+    title: t('navigation.forHosts'),
+    description: t('menu.forHostsDesc'),
     icon: <ServicesIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/for-hosts',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'Platforms',
-    description: 'Stream on Chamet, Poppo & more',
+    title: t('navigation.platforms'),
+    description: t('menu.platformsDesc'),
     icon: <NewsIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/platforms',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
     title: t('navigation.about'),
-    description: 'About Skuids and our mission',
+    description: t('menu.aboutDesc'),
     icon: <AboutIcon sx={{ fontSize: 48, color: 'white' }} />,
     path: '/about',
     color: 'rgba(255, 255, 255, 0.9)'
   },
   {
-    title: 'Admin',
+    title: t('menuItems.adminTitle'),
     description: t('menu.adminDesc'),
     icon: <NewsIcon sx={{ fontSize: 48, color: 'rgba(255, 255, 255, 0.5)' }} />,
     path: '/admin',
@@ -208,7 +208,7 @@ export default function FullPageMenu({ open, onClose }) {
                   </Typography>
                   {item.disabled && (
                     <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
-                      Segera Hadir
+                      {t('menu.comingSoon')}
                     </Typography>
                   )}
                 </Box>

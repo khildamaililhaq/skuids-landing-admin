@@ -4,9 +4,11 @@ import { Box, Container, Typography, Grid, Card, CardContent, Chip, Button, useT
 import { motion } from 'framer-motion';
 import { TrendingUp } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { getPartners } from '@/lib/supabase';
 
-export default function PlatformsSection({ title = 'Supported Platforms' }) {
+export default function PlatformsSection({ title = null }) {
+  const t = useTranslations();
   const theme = useMuiTheme();
   const [platforms, setPlatforms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -87,7 +89,7 @@ export default function PlatformsSection({ title = 'Supported Platforms' }) {
                   letterSpacing: '-0.01em',
                 }}
               >
-                {title}
+                {title || t('platforms.title')}
               </Typography>
             </motion.div>
 
@@ -102,7 +104,7 @@ export default function PlatformsSection({ title = 'Supported Platforms' }) {
                   lineHeight: 1.6,
                 }}
               >
-                Expand your reach and maximize earnings across all major streaming platforms
+                {t('platforms.description')}
               </Typography>
             </motion.div>
           </Stack>
@@ -242,7 +244,7 @@ export default function PlatformsSection({ title = 'Supported Platforms' }) {
                                 },
                               }}
                             >
-                              Visit Website →
+                              {t('platforms.visitWebsite')}
                             </Typography>
                           </Box>
                         )}
@@ -270,7 +272,7 @@ export default function PlatformsSection({ title = 'Supported Platforms' }) {
                               },
                             }}
                           >
-                            Join Host
+                            {t('platforms.joinHost')}
                           </Button>
                           <Button
                             variant="outlined"
@@ -295,7 +297,7 @@ export default function PlatformsSection({ title = 'Supported Platforms' }) {
                               },
                             }}
                           >
-                            Join Agent
+                            {t('platforms.joinAgent')}
                           </Button>
                         </Stack>
                       </Stack>

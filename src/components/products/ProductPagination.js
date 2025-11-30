@@ -1,4 +1,5 @@
 import { Box, Typography, Pagination } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 export default function ProductPagination({
   totalPages,
@@ -7,6 +8,8 @@ export default function ProductPagination({
   totalProducts,
   productsPerPage = 20
 }) {
+  const t = useTranslations();
+
   if (totalPages <= 1) return null;
 
   return (
@@ -23,7 +26,7 @@ export default function ProductPagination({
 
       {totalProducts > 0 && (
         <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary', textAlign: 'center' }}>
-          Showing {((currentPage - 1) * productsPerPage) + 1} - {Math.min(currentPage * productsPerPage, totalProducts)} of {totalProducts} products
+          {t('pagination.showing')} {((currentPage - 1) * productsPerPage) + 1} - {Math.min(currentPage * productsPerPage, totalProducts)} {t('pagination.of')} {totalProducts} {t('pagination.products')}
         </Typography>
       )}
     </Box>
