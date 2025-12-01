@@ -23,7 +23,8 @@ import {
   People as AgentsIcon,
   Link as AgentPartnersIcon,
   Menu as MenuIcon,
-  Close as CloseIcon
+  Close as CloseIcon,
+  VideoCall as PoppoHostIcon
 } from '@mui/icons-material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -59,6 +60,12 @@ const menuItems = [
     icon: <AgentPartnersIcon />,
     path: '/admin/agent-partners',
     description: 'descriptions.agentPartnersDesc'
+  },
+  {
+    text: 'Poppo Hosts',
+    icon: <PoppoHostIcon />,
+    path: '/admin/poppo-hosts',
+    description: 'Manage Poppo host registrations'
   },
   {
     text: 'admin.settings',

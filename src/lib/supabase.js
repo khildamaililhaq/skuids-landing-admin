@@ -876,6 +876,111 @@ export const getAllAgentPartners = async () => {
   }
 };
 
+// Poppo Host CRUD operations
+export const registerPoppoHost = async (hostData) => {
+  try {
+    const { data, error } = await supabase
+      .from('poppo_host')
+      .insert({
+        name: hostData.name,
+        date_of_birth: hostData.dateOfBirth,
+        gender: hostData.gender,
+        phone_number: hostData.phoneNumber,
+        poppo_id: hostData.poppoId,
+        email: hostData.email,
+      })
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getPoppoHosts = async (from = 0, to = 19) => {
+  try {
+    const { data, error, count } = await supabase
+      .from('poppo_host')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to);
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data: data || [], count: count || 0 };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getPoppoHostById = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from('poppo_host')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getPoppoHostByPoppoId = async (poppoId) => {
+  try {
+    const { data, error } = await supabase
+      .from('poppo_host')
+      .select('*')
+      .eq('poppo_id', poppoId)
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const updatePoppoHost = async (id, updates) => {
+  try {
+    const { data, error } = await supabase
+      .from('poppo_host')
+      .update({
+        name: updates.name,
+        date_of_birth: updates.dateOfBirth,
+        gender: updates.gender,
+        phone_number: updates.phoneNumber,
+        poppo_id: updates.poppoId,
+        email: updates.email,
+      })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const deletePoppoHost = async (id) => {
+  try {
+    const { error } = await supabase
+      .from('poppo_host')
+      .delete()
+      .eq('id', id);
+
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
 export default supabase;
 
 
