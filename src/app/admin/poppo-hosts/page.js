@@ -415,7 +415,6 @@ function PoppoHostsContent() {
 
 export default function PoppoHostsAdmin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAuthorized, setIsAuthorized] = useState(true);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -425,15 +424,12 @@ export default function PoppoHostsAdmin() {
         const userRole = user.user_metadata?.role;
         if (userRole === 'admin') {
           setIsAuthenticated(true);
-          setIsAuthorized(true);
         } else {
           setIsAuthenticated(false);
-          setIsAuthorized(false);
           signOutUser();
         }
       } else {
         setIsAuthenticated(false);
-        setIsAuthorized(true);
       }
       setLoading(false);
     });
@@ -454,12 +450,12 @@ export default function PoppoHostsAdmin() {
     );
   }
 
-  if (!isAuthenticated || !isAuthorized) {
+  if (!isAuthenticated) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', flexDirection: 'column', gap: 2 }}>
         <Typography variant="h5">Access Denied</Typography>
         <Typography>Only admins can access this page.</Typography>
-        <Button href="/" variant="contained">Go Home</Button>
+        <Button href="/login" variant="contained">Go to Login</Button>
       </Box>
     );
   }

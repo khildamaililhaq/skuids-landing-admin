@@ -7,7 +7,6 @@ import { subscribeToAuthChanges, signOutUser } from '../../lib/supabase';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAuthorized, setIsAuthorized] = useState(true);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,16 +17,13 @@ export default function AdminPage() {
         const userRole = user.user_metadata?.role;
         if (userRole === 'admin') {
           setIsAuthenticated(true);
-          setIsAuthorized(true);
         } else {
           // User is logged in but not an admin
           setIsAuthenticated(false);
-          setIsAuthorized(false);
           signOutUser();
         }
       } else {
         setIsAuthenticated(false);
-        setIsAuthorized(true);
       }
       setLoading(false);
     });
@@ -57,7 +53,7 @@ export default function AdminPage() {
     );
   }
 
-  if (!isAuthorized) {
+  if (!isAuthenticated) {
     return (
       <div style={{
         display: 'flex',
@@ -70,7 +66,7 @@ export default function AdminPage() {
       }}>
         <h1>Access Denied</h1>
         <p>Only admins can access the admin panel.</p>
-        <a href="/" style={{ color: '#0066cc', textDecoration: 'none' }}>Go Home</a>
+        <a href="/login" style={{ color: '#0066cc', textDecoration: 'none' }}>Go to Login</a>
       </div>
     );
   }
