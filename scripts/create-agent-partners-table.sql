@@ -25,6 +25,11 @@ ALTER TABLE agent_partners ENABLE ROW LEVEL SECURITY;
 -- Drop existing policies if they exist
 DROP POLICY IF EXISTS "Agents can view their partner relationships" ON agent_partners;
 DROP POLICY IF EXISTS "Authenticated users can manage agent partners" ON agent_partners;
+DROP POLICY IF EXISTS "Public can read agent partners" ON agent_partners;
+
+-- Allow public to read all agent partners
+CREATE POLICY "Public can read agent partners" ON agent_partners
+  FOR SELECT USING (true);
 
 -- Create policy for agents to view their own partner relationships
 CREATE POLICY "Agents can view their partner relationships" ON agent_partners
