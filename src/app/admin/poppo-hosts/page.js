@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import AdminLayout from '../../../components/admin/AdminLayout';
 import {
   Box,
   Table,
@@ -40,9 +42,9 @@ import {
   Close as CloseIcon,
   ExpandMore as ExpandMoreIcon
 } from '@mui/icons-material';
-import { getPoppoHosts, updatePoppoHost, deletePoppoHost } from '../../../lib/supabase';
+import { getPoppoHosts, updatePoppoHost, deletePoppoHost, subscribeToAuthChanges, signOutUser } from '../../../lib/supabase';
 
-export default function PoppoHostsAdmin() {
+function PoppoHostsContent() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
@@ -408,5 +410,63 @@ export default function PoppoHostsAdmin() {
         </DialogActions>
       </Dialog>
     </Box>
+  );
+}
+
+export default function PoppoHostsAdmin() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = subscribeToAuthChanges((user) => {
+      if (user) {
+        const userRole = user.user_metadata?.role;
+        if (userRole === 'admin') {
+          setIsAuthenticated(true);
+          setIsAuthorized(true);
+        } else {
+          setIsAuthenticated(false);
+          setIsAuthorized(false);
+          signOutUser();
+        }
+      } else {
+        setIsAuthenticated(false);
+        setIsAuthorized(true);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    router.push('/login');
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated || !isAuthorized) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', flexDirection: 'column', gap: 2 }}>
+        <Typography variant="h5">Access Denied</Typography>
+        <Typography>Only admins can access this page.</Typography>
+        <Button href="/" variant="contained">Go Home</Button>
+      </Box>
+    );
+  }
+
+  return (
+    <AdminLayout onLogout={handleLogout}>
+      <PoppoHostsContent />
+    </AdminLayout>
   );
 }
