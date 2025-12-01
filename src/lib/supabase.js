@@ -756,16 +756,22 @@ export const loginAgent = async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { success: false, error: error.message };
     
-    // Check user role - must be agent to access agent area
+    // Check user role - should be agent (but be lenient for legacy accounts)
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       const userMetadata = user.user_metadata || {};
       const role = userMetadata.role;
       
-      if (role !== 'agent') {
-        // Not an agent - sign them out
+      // Reject if role is explicitly 'admin'
+      if (role === 'admin') {
         await supabase.auth.signOut();
-        return { success: false, error: 'Only agents can access this area. Please check your login credentials or use the admin login page.' };
+        return { success: false, error: 'This is an admin account. Please use the admin login page.' };
+      }
+      
+      // Allow if role is 'agent' or no role is set (legacy agent accounts)
+      if (role && role !== 'agent') {
+        await supabase.auth.signOut();
+        return { success: false, error: `Invalid user role: ${role}. Please contact support.` };
       }
     }
     
