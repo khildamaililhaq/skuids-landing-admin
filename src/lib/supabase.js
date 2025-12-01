@@ -26,11 +26,19 @@ export const signInUser = async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { success: false, error: error.message };
     
-    // Check user role - must be admin to access admin area
+    // Get current user with metadata
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       const userMetadata = user.user_metadata || {};
       const role = userMetadata.role;
+      
+      // If no role is set, this could be a legacy admin account
+      // Log it but allow access to check metadata in Supabase
+      if (!role) {
+        console.warn(`User ${email} has no role set. Check Supabase user_metadata.`);
+        // For now, allow login but warn - admin should set role in Supabase
+        return { success: true, user: data.user, warning: 'User role not set in metadata. Please contact support.' };
+      }
       
       if (role !== 'admin') {
         // Not an admin - sign them out

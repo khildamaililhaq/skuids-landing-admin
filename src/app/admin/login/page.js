@@ -122,6 +122,13 @@ export default function AdminLoginPage() {
               <Typography variant="caption" color="text.secondary">
                 Admin credentials required. Only users with admin role can access this area.
               </Typography>
+              <Typography variant="caption" color="error" display="block" sx={{ mt: 1 }}>
+                {error && error.includes('role') && (
+                  <>
+                    Having issues? Your account may need admin role assigned. Contact support or an existing admin to run the set-admin-role endpoint.
+                  </>
+                )}
+              </Typography>
             </Box>
 
             <Box mt={2} textAlign="center">
