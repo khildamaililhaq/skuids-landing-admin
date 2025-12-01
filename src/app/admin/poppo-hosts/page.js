@@ -439,13 +439,13 @@ export default function PoppoHostsAdmin() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    router.push('/login');
+    router.push('/admin/login');
   };
 
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <CircularProgress />
+        <CircularProgress size={40} />
       </Box>
     );
   }
@@ -455,7 +455,7 @@ export default function PoppoHostsAdmin() {
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', flexDirection: 'column', gap: 2 }}>
         <Typography variant="h5">Access Denied</Typography>
         <Typography>Only admins can access this page.</Typography>
-        <Button href="/login" variant="contained">Go to Login</Button>
+        <Button href="/admin/login" variant="contained">Go to Admin Login</Button>
       </Box>
     );
   }

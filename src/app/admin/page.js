@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import LoginForm from '../../components/LoginForm';
+import { useRouter } from 'next/navigation';
 import AdminDashboard from '../../components/AdminDashboard';
 import { subscribeToAuthChanges, signOutUser } from '../../lib/supabase';
+import { Box, CircularProgress } from '@mui/material';
 
 export default function AdminPage() {
+  const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -21,20 +23,18 @@ export default function AdminPage() {
           // User is logged in but not an admin
           setIsAuthenticated(false);
           signOutUser();
+          router.push('/admin/login');
         }
       } else {
         setIsAuthenticated(false);
+        router.push('/admin/login');
       }
       setLoading(false);
     });
 
     // Cleanup subscription
     return () => unsubscribe();
-  }, []);
-
-  const handleLogin = (success) => {
-    setIsAuthenticated(success);
-  };
+  }, [router]);
 
   const handleLogout = () => {
     setIsAuthenticated(false);
@@ -42,42 +42,17 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh'
-      }}>
-        Loading...
-      </div>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
     );
   }
 
   if (!isAuthenticated) {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        flexDirection: 'column',
-        gap: '20px',
-        fontFamily: 'Arial, sans-serif'
-      }}>
-        <h1>Access Denied</h1>
-        <p>Only admins can access the admin panel.</p>
-        <a href="/login" style={{ color: '#0066cc', textDecoration: 'none' }}>Go to Login</a>
-      </div>
-    );
+    return null; // Will redirect via useEffect
   }
 
   return (
-    <div>
-      {isAuthenticated ? (
-        <AdminDashboard onLogout={handleLogout} />
-      ) : (
-        <LoginForm onLogin={handleLogin} />
-      )}
-    </div>
+    <AdminDashboard onLogout={handleLogout} />
   );
 }
