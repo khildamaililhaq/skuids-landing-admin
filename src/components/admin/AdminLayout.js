@@ -7,12 +7,15 @@ import {
   Typography,
   Button,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  Drawer,
+  Stack
 } from '@mui/material';
 import {
   Menu as MenuIcon,
   ViewInAr as ViewIcon,
-  Logout as LogoutIcon
+  Logout as LogoutIcon,
+  Close as CloseIcon
 } from '@mui/icons-material';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,7 +26,8 @@ import { useContent } from '../../hooks/useContent';
 
 export default function AdminLayout({ children, onLogout }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const { content } = useContent();
@@ -45,90 +49,92 @@ export default function AdminLayout({ children, onLogout }) {
 
   const getPageTitle = () => {
     if (pathname === '/admin') return 'Dashboard';
-    if (pathname === '/admin/landing-page') return 'Landing Page Properties';
+    if (pathname === '/admin/landing-page') return 'Landing Page';
     if (pathname === '/admin/settings') return 'Settings';
+    if (pathname === '/admin/poppo-hosts') return 'Poppo Hosts';
+    if (pathname === '/admin/agents') return 'Agents';
+    if (pathname === '/admin/partners') return 'Partners';
     return 'Admin Panel';
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Sidebar */}
-      <AdminSidebar 
-        open={sidebarOpen} 
-        onClose={() => setSidebarOpen(false)}
-      />
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
+      {/* Sidebar - Desktop */}
+      {!isTablet && <AdminSidebar open={true} onClose={() => {}} />}
+
+      {/* Sidebar - Mobile Drawer */}
+      {isTablet && (
+        <Drawer
+          anchor="left"
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          ModalProps={{ keepMounted: true }}
+        >
+          <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        </Drawer>
+      )}
 
       {/* Main Content Area */}
-      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
         {/* Top App Bar */}
         <AppBar 
           position="sticky" 
           sx={{ 
             bgcolor: 'background.paper',
             color: 'text.primary',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
             zIndex: theme.zIndex.drawer + 1
           }}
         >
           <Toolbar sx={{ 
+            minHeight: { xs: 56, sm: 64 },
             px: { xs: 1, sm: 2, md: 3 },
-            py: { xs: 1, md: 1.5 },
-            flexWrap: 'wrap',
-            gap: { xs: 1, sm: 2 }
+            gap: { xs: 0.5, sm: 1, md: 2 }
           }}>
             {/* Mobile Menu Button */}
-            {isMobile && (
+            {isTablet && (
               <IconButton
                 edge="start"
                 color="inherit"
                 aria-label="menu"
                 onClick={toggleSidebar}
-                sx={{ 
-                  mr: { xs: 1, sm: 2 },
-                  color: 'primary.main'
-                }}
+                sx={{ color: 'primary.main', mr: { xs: 0.5, sm: 1 } }}
               >
-                <MenuIcon />
+                <MenuIcon fontSize="small" />
               </IconButton>
             )}
 
             {/* Logo */}
-            <Link href="/" style={{ textDecoration: 'none', marginRight: '16px' }}>
+            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
               <Box 
                 sx={{ 
                   display: 'flex', 
                   alignItems: 'center',
                   cursor: 'pointer',
                   transition: 'transform 0.2s ease',
-                  '&:hover': {
-                    transform: 'scale(1.05)'
-                  }
+                  '&:hover': { transform: 'scale(1.05)' },
+                  mr: { xs: 1, sm: 2 }
                 }}
               >
                 <Image
                   src={logo}
-                  alt="Happy Jasmine"
-                  width={isMobile ? 50 : 60}
-                  height={isMobile ? 25 : 30}
-                  style={{
-                    height: 'auto',
-                    maxWidth: '100%',
-                    filter: 'invert(0.3)'
-                  }}
+                  alt="Logo"
+                  width={isMobile ? 40 : 50}
+                  height={isMobile ? 20 : 25}
                   priority
+                  style={{ height: 'auto', maxWidth: '100%' }}
                 />
               </Box>
             </Link>
 
             {/* Page Title */}
             <Typography 
-              variant={isMobile ? "subtitle1" : "h6"}
+              variant="subtitle1"
               sx={{ 
                 flexGrow: 1,
                 color: 'primary.main',
                 fontWeight: 600,
-                fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' },
-                minWidth: 0,
+                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap'
@@ -138,55 +144,40 @@ export default function AdminLayout({ children, onLogout }) {
             </Typography>
 
             {/* Action Buttons */}
-            <Box sx={{ 
-              display: 'flex', 
-              gap: { xs: 0.5, sm: 1 },
-              flexWrap: 'wrap',
-              alignItems: 'center'
-            }}>
+            <Stack direction="row" spacing={{ xs: 0.25, sm: 0.5 }} sx={{ alignItems: 'center' }}>
               <Button 
-                color="inherit" 
                 href="/" 
-                startIcon={<ViewIcon />}
+                startIcon={isMobile ? undefined : <ViewIcon />}
                 sx={{ 
                   color: 'primary.main',
-                  borderColor: 'primary.main',
-                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                  px: { xs: 1.5, sm: 2 },
-                  py: { xs: 0.5, sm: 1 },
+                  fontSize: { xs: '0.7rem', sm: '0.85rem' },
+                  px: { xs: 1, sm: 1.5 },
+                  py: { xs: 0.4, sm: 0.6 },
                   minWidth: { xs: 'auto', sm: 'auto' },
-                  '&:hover': {
-                    bgcolor: 'primary.main',
-                    color: 'white'
-                  }
+                  '&:hover': { bgcolor: 'primary.main', color: 'white' }
                 }}
                 variant="outlined"
-                size={isMobile ? "small" : "medium"}
+                size="small"
               >
-                {isMobile ? 'View' : 'View Site'}
+                {isMobile ? <ViewIcon fontSize="small" /> : 'View'}
               </Button>
               <Button 
-                color="inherit" 
                 onClick={handleLogout}
-                startIcon={<LogoutIcon />}
+                startIcon={isMobile ? undefined : <LogoutIcon />}
                 sx={{ 
                   color: 'error.main',
-                  borderColor: 'error.main',
-                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                  px: { xs: 1.5, sm: 2 },
-                  py: { xs: 0.5, sm: 1 },
+                  fontSize: { xs: '0.7rem', sm: '0.85rem' },
+                  px: { xs: 1, sm: 1.5 },
+                  py: { xs: 0.4, sm: 0.6 },
                   minWidth: { xs: 'auto', sm: 'auto' },
-                  '&:hover': {
-                    bgcolor: 'error.main',
-                    color: 'white'
-                  }
+                  '&:hover': { bgcolor: 'error.main', color: 'white' }
                 }}
                 variant="outlined"
-                size={isMobile ? "small" : "medium"}
+                size="small"
               >
-                {isMobile ? 'Logout' : 'Logout'}
+                {isMobile ? <LogoutIcon fontSize="small" /> : 'Logout'}
               </Button>
-            </Box>
+            </Stack>
           </Toolbar>
         </AppBar>
 
@@ -196,10 +187,9 @@ export default function AdminLayout({ children, onLogout }) {
           sx={{ 
             flexGrow: 1,
             bgcolor: 'background.default',
-            minHeight: 'calc(100vh - 64px)',
-            p: { xs: 1, sm: 2, md: 3 },
             width: '100%',
-            overflow: 'hidden'
+            overflow: 'auto',
+            p: { xs: 1, sm: 1.5, md: 2 }
           }}
         >
           {children}

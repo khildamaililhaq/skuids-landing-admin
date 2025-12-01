@@ -20,26 +20,32 @@ CREATE INDEX IF NOT EXISTS idx_poppo_host_phone ON poppo_host(phone_number);
 ALTER TABLE poppo_host ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for RLS
--- Allow anyone to insert (public registration)
+-- Allow anyone to insert (public registration) - no auth required
 CREATE POLICY "Enable insert for public registration"
   ON poppo_host
   FOR INSERT
-  TO PUBLIC
   WITH CHECK (true);
 
--- Allow users to view their own records
-CREATE POLICY "Enable read access for own records"
+-- Allow anyone to read all records (public data)
+CREATE POLICY "Enable read for public"
   ON poppo_host
   FOR SELECT
+  USING (true);
+
+-- Allow admins to update and delete (optional - with admin role check)
+CREATE POLICY "Enable update for admins"
+  ON poppo_host
+  FOR UPDATE
   USING (
-    auth.uid()::text = id::text OR
-    email = auth.jwt() ->> 'email'
+    (SELECT raw_user_meta_data ->> 'role' FROM auth.users WHERE auth.users.id = auth.uid()) = 'admin'
+  )
+  WITH CHECK (
+    (SELECT raw_user_meta_data ->> 'role' FROM auth.users WHERE auth.users.id = auth.uid()) = 'admin'
   );
 
--- Allow admins to view all records (optional - requires admin role)
--- CREATE POLICY "Enable read for admins"
---   ON poppo_host
---   FOR SELECT
---   USING (
---     (SELECT raw_user_meta_data ->> 'role' FROM auth.users WHERE auth.users.id = auth.uid()) = 'admin'
---   );
+CREATE POLICY "Enable delete for admins"
+  ON poppo_host
+  FOR DELETE
+  USING (
+    (SELECT raw_user_meta_data ->> 'role' FROM auth.users WHERE auth.users.id = auth.uid()) = 'admin'
+  );

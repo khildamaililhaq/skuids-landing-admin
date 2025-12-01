@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
 import {
   Box,
   Drawer,
@@ -8,7 +8,6 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  IconButton,
   useTheme,
   useMediaQuery
 } from '@mui/material';
@@ -22,8 +21,6 @@ import {
   Handshake as PartnersIcon,
   People as AgentsIcon,
   Link as AgentPartnersIcon,
-  Menu as MenuIcon,
-  Close as CloseIcon,
   VideoCall as PoppoHostIcon
 } from '@mui/icons-material';
 import Link from 'next/link';
@@ -81,72 +78,61 @@ export default function AdminSidebar({ open, onClose }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const pathname = usePathname();
 
-  const drawerWidth = isMobile ? '100%' : 280;
-
-  const handleNavigation = (path) => {
-    if (isMobile) {
-      onClose();
-    }
-  };
+  const drawerWidth = useMemo(() => (isMobile ? 280 : 280), [isMobile]);
 
   const drawerContent = (
-    <Box sx={{ width: '100%', height: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
       <Box sx={{ 
-        p: { xs: 2, md: 3 }, 
+        p: 2, 
         borderBottom: `1px solid ${theme.palette.divider}`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+        flexShrink: 0
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <WebIcon sx={{ color: 'primary.main', fontSize: { xs: 24, md: 28 } }} />
+          <WebIcon sx={{ color: 'primary.main', fontSize: 24 }} />
           <Box>
             <Box sx={{ 
               fontWeight: 700, 
-              fontSize: { xs: '1rem', md: '1.1rem' }, 
+              fontSize: '0.95rem', 
               color: 'primary.main' 
             }}>
               {t('admin.dashboard')}
             </Box>
             <Box sx={{ 
-              fontSize: { xs: '0.7rem', md: '0.8rem' }, 
+              fontSize: '0.75rem', 
               color: 'text.secondary' 
             }}>
               Ekacita
             </Box>
           </Box>
         </Box>
-        {isMobile && (
-          <IconButton onClick={onClose} size="small">
-            <CloseIcon />
-          </IconButton>
-        )}
       </Box>
 
       {/* Navigation Menu */}
-      <List sx={{ px: { xs: 1, md: 2 }, py: 1 }}>
+      <List sx={{ px: 1, py: 1, flex: 1, overflow: 'auto' }}>
         {menuItems.map((item) => {
           const isActive = pathname === item.path;
           return (
-            <ListItem key={item.path} disablePadding sx={{ mb: 1 }}>
+            <ListItem key={item.path} disablePadding sx={{ mb: 0.5 }}>
               <Link href={item.path} style={{ textDecoration: 'none', width: '100%' }}>
                 <ListItemButton
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 1.5,
                     bgcolor: isActive ? 'primary.main' : 'transparent',
                     color: isActive ? 'primary.contrastText' : 'text.primary',
                     '&:hover': {
                       bgcolor: isActive ? 'primary.dark' : 'action.hover',
                     },
-                    transition: 'all 0.2s ease-in-out',
-                    py: { xs: 1.5, md: 2 },
-                    px: { xs: 1.5, md: 2 }
+                    transition: 'all 0.15s ease-in-out',
+                    py: 1.25,
+                    px: 1.5,
+                    minHeight: 'auto'
                   }}
                 >
                   <ListItemIcon sx={{ 
                     color: isActive ? 'primary.contrastText' : 'primary.main',
-                    minWidth: { xs: 36, md: 40 }
+                    minWidth: 36,
+                    fontSize: 20
                   }}>
                     {item.icon}
                   </ListItemIcon>
@@ -155,11 +141,12 @@ export default function AdminSidebar({ open, onClose }) {
                     secondary={t(item.description)}
                     primaryTypographyProps={{
                       fontWeight: isActive ? 600 : 500,
-                      fontSize: { xs: '0.9rem', md: '0.95rem' }
+                      fontSize: '0.9rem'
                     }}
                     secondaryTypographyProps={{
-                      fontSize: { xs: '0.7rem', md: '0.75rem' },
-                      color: isActive ? 'rgba(255,255,255,0.7)' : 'text.secondary'
+                      fontSize: '0.7rem',
+                      color: isActive ? 'rgba(255,255,255,0.6)' : 'text.secondary',
+                      noWrap: true
                     }}
                   />
                 </ListItemButton>
@@ -169,22 +156,12 @@ export default function AdminSidebar({ open, onClose }) {
         })}
       </List>
 
-      <Divider sx={{ my: { xs: 1, md: 2 } }} />
+      <Divider sx={{ my: 1 }} />
 
-      {/* User Info */}
-      <Box sx={{ p: { xs: 2, md: 3 }, textAlign: 'center' }}>
-        <Box sx={{ 
-          fontSize: { xs: '0.7rem', md: '0.8rem' }, 
-          color: 'text.secondary', 
-          mb: 1 
-        }}>
-          {t('admin.dashboard')}
-        </Box>
-        <Box sx={{ 
-          fontSize: { xs: '0.6rem', md: '0.7rem' }, 
-          color: 'text.disabled' 
-        }}>
-          Ekacita {t('admin.dashboard')}
+      {/* Footer Info */}
+      <Box sx={{ p: 2, textAlign: 'center', flexShrink: 0 }}>
+        <Box sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
+          Admin Panel v1.0
         </Box>
       </Box>
     </Box>
