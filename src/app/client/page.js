@@ -31,10 +31,23 @@ export default function ClientPage() {
 
   useEffect(() => {
     const loadData = async () => {
-      // First verify user role
+      // First verify user is logged in
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user || user.user_metadata?.role !== 'agent') {
-        router.push('/');
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+      
+      // Check user role - reject only if explicitly admin or other invalid role
+      const userRole = user.user_metadata?.role;
+      if (userRole === 'admin') {
+        router.push('/admin');
+        return;
+      }
+      
+      if (userRole && userRole !== 'agent') {
+        // Invalid role
+        router.push('/login');
         return;
       }
 
