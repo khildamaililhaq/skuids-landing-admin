@@ -995,6 +995,98 @@ export const deletePoppoHost = async (id) => {
   }
 };
 
+// Host registration functions
+export const registerHost = async (hostData) => {
+  try {
+    const { data, error } = await supabase
+      .from('hosts')
+      .insert({
+        name: hostData.name,
+        date_of_birth: hostData.dateOfBirth,
+        gender: hostData.gender,
+        partner_id: hostData.partnerId || null,
+        domicile: hostData.domicile,
+        whatsapp_number: hostData.whatsappNumber,
+        email: hostData.email || null,
+      })
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getHosts = async (from = 0, to = 9) => {
+  try {
+    const { data, error, count } = await supabase
+      .from('hosts')
+      .select('*', { count: 'exact' })
+      .range(from, to)
+      .order('created_at', { ascending: false });
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data, count };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getHostById = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from('hosts')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const updateHost = async (id, updates) => {
+  try {
+    const { data, error } = await supabase
+      .from('hosts')
+      .update({
+        name: updates.name,
+        date_of_birth: updates.dateOfBirth,
+        gender: updates.gender,
+        partner_id: updates.partnerId || null,
+        domicile: updates.domicile,
+        whatsapp_number: updates.whatsappNumber,
+        email: updates.email || null,
+      })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const deleteHost = async (id) => {
+  try {
+    const { error } = await supabase
+      .from('hosts')
+      .delete()
+      .eq('id', id);
+
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
 export default supabase;
 
 
