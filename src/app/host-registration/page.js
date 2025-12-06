@@ -19,14 +19,13 @@ import {
   CardContent
 } from '@mui/material';
 import { PersonAdd as PersonAddIcon, CheckCircle as SuccessIcon } from '@mui/icons-material';
-import { registerHost, getPartners } from '../../lib/supabase';
+import { registerHost } from '../../lib/supabase';
 
 export default function HostRegistrationPage() {
   const [formData, setFormData] = useState({
     name: '',
     dateOfBirth: '',
     gender: '',
-    partnerId: '',
     domicile: '',
     whatsappNumber: '',
     email: '',
@@ -36,24 +35,10 @@ export default function HostRegistrationPage() {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [loadingPartners, setLoadingPartners] = useState(true);
 
   useEffect(() => {
-    loadPartners();
+    // No need to load partners since we're not using partner dropdown
   }, []);
-
-  const loadPartners = async () => {
-    try {
-      const { data, error } = await getPartners();
-      if (data) {
-        setPartners(data);
-      }
-    } catch (err) {
-      console.error('Failed to load partners:', err);
-    } finally {
-      setLoadingPartners(false);
-    }
-  };
 
   const showAlert = (message, severity = 'success') => {
     setAlert({ message, severity });
@@ -99,7 +84,6 @@ export default function HostRegistrationPage() {
       name: formData.name,
       dateOfBirth: formData.dateOfBirth,
       gender: formData.gender,
-      partnerId: formData.partnerId || null,
       domicile: formData.domicile,
       whatsappNumber: formData.whatsappNumber,
       email: formData.email || null,
@@ -112,7 +96,6 @@ export default function HostRegistrationPage() {
         name: '',
         dateOfBirth: '',
         gender: '',
-        partnerId: '',
         domicile: '',
         whatsappNumber: '',
         email: '',
@@ -205,27 +188,6 @@ export default function HostRegistrationPage() {
                 >
                   <MenuItem value="male">Male</MenuItem>
                   <MenuItem value="female">Female</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            {/* Platform/Partner */}
-            <Grid item xs={12}>
-              <FormControl fullWidth disabled={loading || loadingPartners}>
-                <InputLabel>Platform (Optional)</InputLabel>
-                <Select
-                  value={formData.partnerId}
-                  onChange={(e) => handleInputChange('partnerId', e.target.value)}
-                  label="Platform (Optional)"
-                >
-                  <MenuItem value="">
-                    <em>Select a platform...</em>
-                  </MenuItem>
-                  {partners.map((partner) => (
-                    <MenuItem key={partner.id} value={partner.id}>
-                      {partner.name}
-                    </MenuItem>
-                  ))}
                 </Select>
               </FormControl>
             </Grid>

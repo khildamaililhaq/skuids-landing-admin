@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS hosts (
   name VARCHAR(255) NOT NULL,
   date_of_birth DATE NOT NULL,
   gender VARCHAR(10) NOT NULL CHECK (gender IN ('male', 'female')),
-  partner_id UUID REFERENCES partners(id) ON DELETE SET NULL,
   domicile VARCHAR(255) NOT NULL,
   whatsapp_number VARCHAR(20) NOT NULL,
   email VARCHAR(255),
@@ -13,7 +12,6 @@ CREATE TABLE IF NOT EXISTS hosts (
 );
 
 -- Create indexes
-CREATE INDEX IF NOT EXISTS idx_hosts_partner_id ON hosts(partner_id);
 CREATE INDEX IF NOT EXISTS idx_hosts_email ON hosts(email);
 CREATE INDEX IF NOT EXISTS idx_hosts_whatsapp ON hosts(whatsapp_number);
 

@@ -1004,7 +1004,6 @@ export const registerHost = async (hostData) => {
         name: hostData.name,
         date_of_birth: hostData.dateOfBirth,
         gender: hostData.gender,
-        partner_id: hostData.partnerId || null,
         domicile: hostData.domicile,
         whatsapp_number: hostData.whatsappNumber,
         email: hostData.email || null,
@@ -1013,6 +1012,39 @@ export const registerHost = async (hostData) => {
       .single();
 
     if (error) return { success: false, error: error.message };
+
+    // Automatically create host-partner entries for all platforms
+    if (data && data.id) {
+      try {
+        const { data: partners, error: partnersError } = await supabase
+          .from('partners')
+          .select('id');
+
+        if (!partnersError && partners && partners.length > 0) {
+          // Create host-partner entry for each platform
+          const hostPartnerInserts = partners.map(partner => ({
+            host_id: data.id,
+            partner_id: partner.id,
+            is_proceeded: false,
+            is_banned: false,
+            register_date: new Date().toISOString()
+          }));
+
+          const { error: insertError } = await supabase
+            .from('hosts_partners')
+            .insert(hostPartnerInserts);
+
+          if (insertError) {
+            console.warn('Warning: Could not create host-partner entries:', insertError);
+            // Don't fail the registration, just warn
+          }
+        }
+      } catch (err) {
+        console.warn('Warning: Error creating host-partner entries:', err);
+        // Don't fail the registration, just warn
+      }
+    }
+
     return { success: true, data };
   } catch (err) {
     return { success: false, error: err.message };
@@ -1057,7 +1089,6 @@ export const updateHost = async (id, updates) => {
         name: updates.name,
         date_of_birth: updates.dateOfBirth,
         gender: updates.gender,
-        partner_id: updates.partnerId || null,
         domicile: updates.domicile,
         whatsapp_number: updates.whatsappNumber,
         email: updates.email || null,
@@ -1077,6 +1108,92 @@ export const deleteHost = async (id) => {
   try {
     const { error } = await supabase
       .from('hosts')
+      .delete()
+      .eq('id', id);
+
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+// Hosts-Partners junction table CRUD functions
+export const createHostPartner = async (hostId, partnerId, registerDate = new Date()) => {
+  try {
+    const { data, error } = await supabase
+      .from('hosts_partners')
+      .insert({
+        host_id: hostId,
+        partner_id: partnerId,
+        register_date: registerDate,
+        is_proceeded: false,
+        is_banned: false,
+      })
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getHostPartners = async (hostId) => {
+  try {
+    const { data, error } = await supabase
+      .from('hosts_partners')
+      .select('id, partner_id, is_proceeded, is_banned, register_date, created_at')
+      .eq('host_id', hostId)
+      .order('register_date', { ascending: false });
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data: data || [] };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const getPartnerHosts = async (partnerId) => {
+  try {
+    const { data, error } = await supabase
+      .from('hosts_partners')
+      .select('id, host_id, is_proceeded, is_banned, register_date, created_at')
+      .eq('partner_id', partnerId)
+      .order('register_date', { ascending: false });
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data: data || [] };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const updateHostPartner = async (id, updates) => {
+  try {
+    const updateData = {};
+    if (updates.isProceed !== undefined) updateData.is_proceeded = updates.isProceed;
+    if (updates.isBanned !== undefined) updateData.is_banned = updates.isBanned;
+
+    const { data, error } = await supabase
+      .from('hosts_partners')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const deleteHostPartner = async (id) => {
+  try {
+    const { error } = await supabase
+      .from('hosts_partners')
       .delete()
       .eq('id', id);
 
