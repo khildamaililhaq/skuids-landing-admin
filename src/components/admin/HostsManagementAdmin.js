@@ -757,9 +757,9 @@ export default function HostsManagementAdmin() {
             required
             sx={{ mb: 2 }}
           >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <MenuItem value="">Select Gender</MenuItem>
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
           </TextField>
 
           <TextField
