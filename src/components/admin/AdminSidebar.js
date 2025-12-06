@@ -22,7 +22,6 @@ import {
   People as AgentsIcon,
   Link as AgentPartnersIcon,
   VideoCall as PoppoHostIcon,
-  PersonAdd as HostIcon,
   Person as PersonIcon
 } from '@mui/icons-material';
 import Link from 'next/link';
@@ -71,12 +70,6 @@ const menuItems = [
     icon: <PoppoHostIcon />,
     path: '/admin/poppo-hosts',
     description: 'Manage Poppo host registrations'
-  },
-  {
-    text: 'Hosts & Partners',
-    icon: <HostIcon />,
-    path: '/admin/hosts-partners',
-    description: 'Manage host-partner relationships'
   },
   {
     text: 'admin.settings',

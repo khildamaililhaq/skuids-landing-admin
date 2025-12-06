@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, CircularProgress } from '@mui/material';
 import AdminLayout from '../../../components/admin/AdminLayout';
-import HostsAdmin from '../../../components/admin/HostsAdmin';
+import HostsManagementAdmin from '../../../components/admin/HostsManagementAdmin';
 import { subscribeToAuthChanges, signOutUser } from '../../../lib/supabase';
 
 export default function HostsPage() {
@@ -47,7 +47,7 @@ export default function HostsPage() {
 
   return (
     <AdminLayout>
-      <HostsAdmin />
+      <HostsManagementAdmin />
     </AdminLayout>
   );
 }
