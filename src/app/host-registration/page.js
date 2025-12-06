@@ -45,7 +45,35 @@ export default function HostRegistrationPage() {
     setTimeout(() => setAlert(null), 5000);
   };
 
+  const formatDOB = (ddmmyyyy) => {
+    // Convert dd-mm-yyyy to yyyy-mm-dd for storage
+    if (!ddmmyyyy || ddmmyyyy.length !== 10) return '';
+    const [dd, mm, yyyy] = ddmmyyyy.split('-');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const displayDOB = (yyyymmdd) => {
+    // Convert yyyy-mm-dd to dd-mm-yyyy for display
+    if (!yyyymmdd) return '';
+    const [yyyy, mm, dd] = yyyymmdd.split('-');
+    return `${dd}-${mm}-${yyyy}`;
+  };
+
   const handleInputChange = (field, value) => {
+    if (field === 'dateOfBirth') {
+      // Accept only digits and hyphens
+      value = value.replace(/[^\d-]/g, '');
+      
+      // Auto-format as user types: dd-mm-yyyy
+      if (value.length === 2 && !value.includes('-')) {
+        value = value + '-';
+      } else if (value.length === 5 && (value.match(/-/g) || []).length === 1) {
+        value = value + '-';
+      } else if (value.length > 10) {
+        // Keep only valid format
+        value = value.substring(0, 10);
+      }
+    }
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -56,6 +84,19 @@ export default function HostRegistrationPage() {
     }
     if (!formData.dateOfBirth) {
       showAlert('Date of birth is required', 'error');
+      return false;
+    }
+    // Validate dd-mm-yyyy format
+    const dobRegex = /^\d{2}-\d{2}-\d{4}$/;
+    if (!dobRegex.test(formData.dateOfBirth)) {
+      showAlert('Date of birth must be in dd-mm-yyyy format', 'error');
+      return false;
+    }
+    // Validate actual date
+    const [dd, mm, yyyy] = formData.dateOfBirth.split('-');
+    const dob = new Date(`${yyyy}-${mm}-${dd}`);
+    if (isNaN(dob.getTime())) {
+      showAlert('Please enter a valid date', 'error');
       return false;
     }
     if (!formData.gender) {
@@ -82,7 +123,7 @@ export default function HostRegistrationPage() {
 
     const result = await registerHost({
       name: formData.name,
-      dateOfBirth: formData.dateOfBirth,
+      dateOfBirth: formatDOB(formData.dateOfBirth),
       gender: formData.gender,
       domicile: formData.domicile,
       whatsappNumber: formData.whatsappNumber,
@@ -167,13 +208,17 @@ export default function HostRegistrationPage() {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="Date of Birth"
-                type="date"
+                label="Date of Birth (dd-mm-yyyy)"
                 value={formData.dateOfBirth}
                 onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
                 required
                 disabled={loading}
-                InputLabelProps={{ shrink: true }}
+                placeholder="dd-mm-yyyy"
+                inputProps={{
+                  maxLength: 10,
+                  pattern: '\\d{2}-\\d{2}-\\d{4}'
+                }}
+                helperText="Format: dd-mm-yyyy (e.g., 15-03-1990)"
               />
             </Grid>
 

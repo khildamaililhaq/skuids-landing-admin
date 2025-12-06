@@ -142,6 +142,36 @@ export default function HostsManagementAdmin() {
     setTimeout(() => setAlert(null), 5000);
   };
 
+  const formatDOB = (ddmmyyyy) => {
+    // Convert dd-mm-yyyy to yyyy-mm-dd for storage
+    if (!ddmmyyyy || ddmmyyyy.length !== 10) return '';
+    const [dd, mm, yyyy] = ddmmyyyy.split('-');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const displayDOB = (yyyymmdd) => {
+    // Convert yyyy-mm-dd to dd-mm-yyyy for display
+    if (!yyyymmdd) return '';
+    const [yyyy, mm, dd] = yyyymmdd.split('-');
+    return `${dd}-${mm}-${yyyy}`;
+  };
+
+  const handleDOBChange = (value) => {
+    // Accept only digits and hyphens
+    value = value.replace(/[^\d-]/g, '');
+    
+    // Auto-format as user types: dd-mm-yyyy
+    if (value.length === 2 && !value.includes('-')) {
+      value = value + '-';
+    } else if (value.length === 5 && (value.match(/-/g) || []).length === 1) {
+      value = value + '-';
+    } else if (value.length > 10) {
+      value = value.substring(0, 10);
+    }
+    
+    setFormData({ ...formData, dateOfBirth: value });
+  };
+
   const handleExpandClick = (hostId) => {
     if (expandedHostId === hostId) {
       setExpandedHostId(null);
@@ -157,7 +187,7 @@ export default function HostsManagementAdmin() {
     setEditingHost(host);
     setFormData({
       name: host.name || '',
-      dateOfBirth: host.date_of_birth || '',
+      dateOfBirth: displayDOB(host.date_of_birth) || '',
       gender: host.gender || '',
       domicile: host.domicile || '',
       whatsappNumber: host.whatsapp_number || '',
@@ -257,7 +287,7 @@ export default function HostsManagementAdmin() {
       } else {
         const result = await registerHost({
           name: formData.name,
-          dateOfBirth: formData.dateOfBirth,
+          dateOfBirth: formatDOB(formData.dateOfBirth),
           gender: formData.gender,
           domicile: formData.domicile,
           whatsappNumber: formData.whatsappNumber,
@@ -705,13 +735,17 @@ export default function HostsManagementAdmin() {
 
           <TextField
             fullWidth
-            type="date"
-            label="Date of Birth"
+            label="Date of Birth (dd-mm-yyyy)"
             value={formData.dateOfBirth}
-            onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+            onChange={(e) => handleDOBChange(e.target.value)}
             required
-            InputLabelProps={{ shrink: true }}
             sx={{ mb: 2 }}
+            placeholder="dd-mm-yyyy"
+            inputProps={{
+              maxLength: 10,
+              pattern: '\\d{2}-\\d{2}-\\d{4}'
+            }}
+            helperText="Format: dd-mm-yyyy (e.g., 15-03-1990)"
           />
 
           <TextField
